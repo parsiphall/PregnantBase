@@ -12,15 +12,15 @@ data class DataModel(
     @ColumnInfo var birthday: String = "",
     @ColumnInfo var phone: String = "",
     @ColumnInfo var pm: String = "",
-    @ColumnInfo var fScrS: String = "-",
-    @ColumnInfo var fScrE: String = "-",
-    @ColumnInfo var sScrS: String = "-",
-    @ColumnInfo var sScrE: String = "-",
-    @ColumnInfo var tScrS: String = "-",
-    @ColumnInfo var tScrE: String = "-",
+    @ColumnInfo var fScrS: Long = 0L,
+    @ColumnInfo var fScrE: Long = 0L,
+    @ColumnInfo var sScrS: Long = 0L,
+    @ColumnInfo var sScrE: Long = 0L,
+    @ColumnInfo var tScrS: Long = 0L,
+    @ColumnInfo var tScrE: Long = 0L,
     @ColumnInfo var fScrC: Boolean = false,
     @ColumnInfo var sScrC: Boolean = false,
     @ColumnInfo var tScrC: Boolean = false,
-    @ColumnInfo var thirtyWeeks: String = "-",
-    @ColumnInfo var fortyWeeks: String = "-"
+    @ColumnInfo var thirtyWeeks: Long = 0L,
+    @ColumnInfo var fortyWeeks: Long = 0L
 ) : Serializable

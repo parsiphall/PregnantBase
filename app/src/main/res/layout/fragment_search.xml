@@ -11,19 +11,46 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/button_search"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/search_buttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_editText"
-        android:layout_centerHorizontal="true"
-        android:text="@string/search_button" />
+        android:layout_below="@id/search_editText">
+
+        <Button
+            android:id="@+id/button_search_fio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_button" />
+
+        <Button
+            android:id="@+id/button_search_fScr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_button_fScr" />
+
+        <Button
+            android:id="@+id/button_search_sScr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_button_sScr" />
+
+        <Button
+            android:id="@+id/button_search_tScr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_button_tScr" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_search"
+        android:layout_below="@id/search_buttons"
         android:layout_centerHorizontal="true">
 
     </android.support.v7.widget.RecyclerView>

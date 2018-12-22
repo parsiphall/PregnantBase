@@ -29,6 +29,9 @@
     <string name="detail_13weeks">13 недель</string>
     <string name="detail_corrSave">Записать</string>
     <string name="detail_Scr_uncheck">Не проведён</string>
-    <string name="search_button">Поиск</string>
+    <string name="search_button">ФИО</string>
     <string name="action_search">Поиск</string>
+    <string name="search_button_fScr">I скр</string>
+    <string name="search_button_sScr">II скр</string>
+    <string name="search_button_tScr">III скр</string>
 </resources>

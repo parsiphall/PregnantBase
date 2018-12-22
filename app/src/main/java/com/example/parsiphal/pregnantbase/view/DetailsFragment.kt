@@ -48,6 +48,7 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
         if (!newData) {
             detail_fioEditText.isEnabled = false
             detail_birthdayEditText.isEnabled = false
@@ -71,17 +72,17 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_birthdayEditText.setText(dataModel.birthday)
         detail_phoneEditText.setText(dataModel.phone)
         detail_pmEditText.setText(dataModel.pm)
-        detail_fScrS_TextView.text = dataModel.fScrS
-        detail_fScrF_TextView.text = dataModel.fScrE
+        detail_fScrS_TextView.text = sdf.format(dataModel.fScrS)
+        detail_fScrF_TextView.text = sdf.format(dataModel.fScrE)
         detail_fScrCheck.isChecked = dataModel.fScrC
-        detail_sScrS_TextView.text = dataModel.sScrS
-        detail_sScrF_TextView.text = dataModel.sScrE
+        detail_sScrS_TextView.text = sdf.format(dataModel.sScrS)
+        detail_sScrF_TextView.text = sdf.format(dataModel.sScrE)
         detail_sScrCheck.isChecked = dataModel.sScrC
-        detail_tScrS_TextView.text = dataModel.tScrS
-        detail_tScrF_TextView.text = dataModel.tScrE
+        detail_tScrS_TextView.text = sdf.format(dataModel.tScrS)
+        detail_tScrF_TextView.text = sdf.format(dataModel.tScrE)
         detail_tScrCheck.isChecked = dataModel.tScrC
-        detail_thirtyWeeksTextView.text = dataModel.thirtyWeeks
-        detail_fortyWeeksTextView.text = dataModel.fortyWeeks
+        detail_thirtyWeeksTextView.text = sdf.format(dataModel.thirtyWeeks)
+        detail_fortyWeeksTextView.text = sdf.format(dataModel.fortyWeeks)
         if (detail_fScrCheck.isChecked) {
             detail_fScrCheck.setText(R.string.detail_Scr_check)
         } else {
@@ -126,29 +127,21 @@ class DetailsFragment : MvpAppCompatFragment() {
             cal.set(Calendar.YEAR, pmYear)
             cal.set(Calendar.MONTH, pmMonth)
             cal.set(Calendar.DAY_OF_MONTH, pmDay)
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
             cal.add(Calendar.DAY_OF_YEAR, 77)
-            var date = cal.time
-            dataModel.fScrS = sdf.format(date).toString()
+            dataModel.fScrS = cal.timeInMillis
             cal.add(Calendar.DAY_OF_YEAR, 20)
-            date = cal.time
-            dataModel.fScrE = sdf.format(date).toString()
+            dataModel.fScrE = cal.timeInMillis
             cal.add(Calendar.DAY_OF_YEAR, 29)
-            date = cal.time
-            dataModel.sScrS = sdf.format(date).toString()
+            dataModel.sScrS = cal.timeInMillis
             cal.add(Calendar.DAY_OF_YEAR, 20)
-            date = cal.time
-            dataModel.sScrE = sdf.format(date).toString()
+            dataModel.sScrE = cal.timeInMillis
             cal.add(Calendar.DAY_OF_YEAR, 64)
-            date = cal.time
-            dataModel.tScrS = sdf.format(date).toString()
+            dataModel.tScrS = cal.timeInMillis
             dataModel.thirtyWeeks = dataModel.tScrS
             cal.add(Calendar.DAY_OF_YEAR, 28)
-            date = cal.time
-            dataModel.tScrE = sdf.format(date).toString()
+            dataModel.tScrE = cal.timeInMillis
             cal.add(Calendar.DAY_OF_YEAR, 42)
-            date = cal.time
-            dataModel.fortyWeeks = sdf.format(date).toString()
+            dataModel.fortyWeeks = cal.timeInMillis
             DB.getDao().addData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         }
@@ -167,23 +160,17 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
         cal.set(Calendar.DAY_OF_MONTH, twDay)
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
         cal.add(Calendar.DAY_OF_YEAR, 36)
-        var date = cal.time
-        dataModel.sScrS = sdf.format(date).toString()
+        dataModel.sScrS = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 20)
-        date = cal.time
-        dataModel.sScrE = sdf.format(date).toString()
+        dataModel.sScrE = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 64)
-        date = cal.time
-        dataModel.tScrS = sdf.format(date).toString()
+        dataModel.tScrS = cal.timeInMillis
         dataModel.thirtyWeeks = dataModel.tScrS
         cal.add(Calendar.DAY_OF_YEAR, 28)
-        date = cal.time
-        dataModel.tScrE = sdf.format(date).toString()
+        dataModel.tScrE = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 42)
-        date = cal.time
-        dataModel.fortyWeeks = sdf.format(date).toString()
+        dataModel.fortyWeeks = cal.timeInMillis
         DB.getDao().updateData(dataModel)
         callBackActivity.fragmentPlace(ListFragment())
     }

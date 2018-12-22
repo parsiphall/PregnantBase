@@ -16,6 +16,7 @@ import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
 import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import java.text.SimpleDateFormat
 
 class SearchFragment : MvpAppCompatFragment() {
 
@@ -41,10 +42,26 @@ class SearchFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        button_search.setOnClickListener {
+        val sdf = SimpleDateFormat("ddMMyy")
+        button_search_fio.setOnClickListener {
             val search = "%${search_editText.text}%"
             items = DB.getDao().getCurrentData(search)
             Toast.makeText(activity?.applicationContext, "${items.size}", Toast.LENGTH_LONG).show()
+            adapter.dataChanged(items)
+        }
+        button_search_fScr.setOnClickListener {
+            val date = sdf.parse(search_editText.text.toString())
+            items = DB.getDao().getFScr(date.time)
+            adapter.dataChanged(items)
+        }
+        button_search_sScr.setOnClickListener {
+            val date = sdf.parse(search_editText.text.toString())
+            items = DB.getDao().getSScr(date.time)
+            adapter.dataChanged(items)
+        }
+        button_search_tScr.setOnClickListener {
+            val date = sdf.parse(search_editText.text.toString())
+            items = DB.getDao().getTScr(date.time)
             adapter.dataChanged(items)
         }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
