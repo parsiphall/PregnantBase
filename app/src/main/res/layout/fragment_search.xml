@@ -25,6 +25,13 @@
             android:text="@string/search_button" />
 
         <Button
+            android:id="@+id/button_search_Scr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/search_button_scr" />
+
+        <Button
             android:id="@+id/button_search_fScr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

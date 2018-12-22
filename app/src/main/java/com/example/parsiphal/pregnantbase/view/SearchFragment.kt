@@ -49,6 +49,11 @@ class SearchFragment : MvpAppCompatFragment() {
             Toast.makeText(activity?.applicationContext, "${items.size}", Toast.LENGTH_LONG).show()
             adapter.dataChanged(items)
         }
+        button_search_Scr.setOnClickListener {
+            val date = sdf.parse(search_editText.text.toString())
+            items = DB.getDao().getScr(date.time)
+            adapter.dataChanged(items)
+        }
         button_search_fScr.setOnClickListener {
             val date = sdf.parse(search_editText.text.toString())
             items = DB.getDao().getFScr(date.time)

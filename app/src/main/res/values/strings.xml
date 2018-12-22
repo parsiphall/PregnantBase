@@ -34,4 +34,5 @@
     <string name="search_button_fScr">I скр</string>
     <string name="search_button_sScr">II скр</string>
     <string name="search_button_tScr">III скр</string>
+    <string name="search_button_scr">Скр</string>
 </resources>
