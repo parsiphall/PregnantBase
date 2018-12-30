@@ -20,6 +20,7 @@ class ListViewAdapter(private var items: List<DataModel>,
         holder.name.text = items[position].name
         holder.release.isChecked = items[position].release
         holder.multiplicity.isChecked = items[position].multiplicity
+        holder.risk.text = items[position].riskText
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

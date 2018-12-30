@@ -37,4 +37,9 @@
     <string name="multiplicity">Многоплодность</string>
     <string name="release">Родила</string>
     <string name="notRelease">Не родила</string>
+    <string-array name="risks">
+        <item>низкий</item>
+        <item>средний</item>
+        <item>высокий</item>
+    </string-array>
 </resources>

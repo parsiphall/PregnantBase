@@ -100,6 +100,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
         detail_releaseCheckBox.isChecked = dataModel.release
         detail_multiplicityCheckBox.isChecked = dataModel.multiplicity
+        detail_riskSpinner.setSelection(dataModel.risk)
 
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
@@ -135,6 +136,10 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private fun saveToBase() {
+        dataModel.release = detail_releaseCheckBox.isChecked
+        dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
+        dataModel.risk = detail_riskSpinner.selectedItemPosition
+        dataModel.riskText = detail_riskSpinner.selectedItem.toString()
         if (!newData) {
             if (dataModel.corr) {
                 dataModel.sScrC = detail_sScrCCheck.isChecked
@@ -144,8 +149,6 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.sScrC = detail_sScrCheck.isChecked
                 dataModel.tScrC = detail_tScrCheck.isChecked
             }
-            dataModel.release = detail_releaseCheckBox.isChecked
-            dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
             DB.getDao().updateData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         } else {

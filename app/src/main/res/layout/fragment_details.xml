@@ -99,7 +99,17 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" />
+            android:layout_weight="2"
+            android:textAlignment="viewEnd"
+            android:text="@string/risk" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:id="@+id/detail_riskSpinner"
+            android:layout_gravity="center"
+            android:entries="@array/risks"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
 
 
     </LinearLayout>
