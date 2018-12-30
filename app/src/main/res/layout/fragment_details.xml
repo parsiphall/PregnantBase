@@ -100,16 +100,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:textAlignment="viewEnd"
-            android:text="@string/risk" />
+            android:text="@string/risk"
+            android:textAlignment="viewEnd" />
 
         <Spinner
-            android:layout_width="0dp"
             android:id="@+id/detail_riskSpinner"
-            android:layout_gravity="center"
-            android:entries="@array/risks"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:entries="@array/risks" />
 
 
     </LinearLayout>
@@ -279,11 +279,59 @@
             android:textAlignment="center" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/detail_todayTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detail_weeks">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="@string/todayTime"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/detail_todayTimeWeeksTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/weeks"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:id="@+id/detail_todayTimeDaysTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/days"
+            android:textAlignment="viewEnd" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/detail_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detail_weeks"
+        android:layout_below="@id/detail_todayTime"
         android:layout_centerHorizontal="true"
         android:text="@string/detail_save" />
 
@@ -291,7 +339,7 @@
         android:id="@+id/detail_corrButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/detail_weeks"
+        android:layout_below="@id/detail_todayTime"
         android:layout_toEndOf="@id/detail_button"
         android:text="@string/detail_correct"
         android:visibility="gone" />
@@ -309,7 +357,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="@string/detail_13weeks" />
+            android:text="@string/date" />
 
         <EditText
             android:id="@+id/detail_corrEditText"
@@ -317,6 +365,38 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/srok" />
+
+        <EditText
+            android:id="@+id/detail_corrEditTextWeeks"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/weeks" />
+
+        <EditText
+            android:id="@+id/detail_corrEditTextDays"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:inputType="number" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/days" />
 
         <Button
             android:id="@+id/detail_corrSaveButton"

@@ -24,7 +24,6 @@
     <string name="detail_fortyWeeks">40 недель</string>
     <string name="detail_back">Назад</string>
     <string name="detail_correct">Скорректировать</string>
-    <string name="detail_13weeks">13 недель</string>
     <string name="detail_corrSave">Записать</string>
     <string name="detail_Scr_uncheck">Не проведён</string>
     <string name="search_button">ФИО</string>
@@ -37,6 +36,11 @@
     <string name="multiplicity">Многоплодность</string>
     <string name="release">Родила</string>
     <string name="notRelease">Не родила</string>
+    <string name="todayTime">Срок на сегодня</string>
+    <string name="weeks">нед.</string>
+    <string name="days">дн.</string>
+    <string name="date">Дата</string>
+    <string name="srok">Срок</string>
     <string-array name="risks">
         <item>низкий</item>
         <item>средний</item>

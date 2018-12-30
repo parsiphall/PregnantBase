@@ -28,7 +28,7 @@ data class DataModel(
     @ColumnInfo var multiplicity: Boolean = false,
     @ColumnInfo var release: Boolean = false,
     @ColumnInfo var corr: Boolean = false,
-    @ColumnInfo var fScrDate: Long = 0L,
+    @ColumnInfo var fScrDate: String = "",
     @ColumnInfo var fScrTimeWeeks: String = "",
     @ColumnInfo var fScrTimeDays: String = "",
     @ColumnInfo var sScrSC: Long = 0L,

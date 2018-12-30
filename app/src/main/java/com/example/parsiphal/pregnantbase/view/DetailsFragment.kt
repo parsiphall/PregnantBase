@@ -60,6 +60,9 @@ class DetailsFragment : MvpAppCompatFragment() {
                     .duration(100)
                     .repeat(1)
                     .playOn(detail_corrButton)
+                detail_fioEditText.isEnabled = true
+                detail_birthdayEditText.isEnabled = true
+                detail_phoneEditText.isEnabled = true
                 detail_13weeksLinear.visibility = View.VISIBLE
                 detail_corrSaveButton.setOnClickListener {
                     corrData()
@@ -73,6 +76,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 detail_sScrCheck.isClickable = false
                 detail_tScrCheck.isClickable = false
             }
+            todayTime(dataModel)
         }
         detail_fioEditText.setText(dataModel.name)
         detail_birthdayEditText.setText(dataModel.birthday)
@@ -126,6 +130,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_tScrCheck.setText(R.string.detail_Scr_uncheck)
             detail_tScrCCheck.setText(R.string.detail_Scr_uncheck)
         }
+
         detail_button.setOnClickListener {
             YoYo.with(Techniques.Landing)
                 .duration(100)
@@ -198,8 +203,13 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
         cal.set(Calendar.DAY_OF_MONTH, twDay)
-        dataModel.fScrDate = cal.timeInMillis
-        cal.add(Calendar.DAY_OF_YEAR, 35)
+        dataModel.fScrDate = tw
+        val editWeeks = Integer.valueOf(detail_corrEditTextWeeks.text.toString())
+        dataModel.fScrTimeWeeks = editWeeks.toString()
+        val editDays = Integer.valueOf(detail_corrEditTextDays.text.toString())
+        dataModel.fScrTimeDays = editDays.toString()
+        val edit = 126 - (editWeeks * 7 + editDays)
+        cal.add(Calendar.DAY_OF_YEAR, edit)
         dataModel.sScrSC = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 20)
         dataModel.sScrEC = cal.timeInMillis
@@ -212,5 +222,31 @@ class DetailsFragment : MvpAppCompatFragment() {
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
         callBackActivity.fragmentPlace(ListFragment())
+    }
+
+    private fun todayTime(dataModel: DataModel) {
+        val calNow = Calendar.getInstance()
+        val calComp = Calendar.getInstance()
+        val comp = if (dataModel.corr) {
+            dataModel.fScrDate
+        } else {
+            dataModel.pm
+        }
+        calComp.set(Calendar.YEAR, Integer.valueOf("20${comp[4]}${comp[5]}"))
+        calComp.set(Calendar.MONTH, Integer.valueOf("${comp[2]}${comp[3]}") - 1)
+        calComp.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${comp[0]}${comp[1]}"))
+        val diff = ((calNow.timeInMillis - calComp.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
+        var diffWeeks = diff / 7
+        var diffDays = diff % 7
+        if (dataModel.corr) {
+            diffWeeks += dataModel.fScrTimeWeeks.toInt()
+            diffDays += dataModel.fScrTimeDays.toInt()
+        }
+        if (diffDays > 6) {
+            diffWeeks++
+            diffDays -= 7
+        }
+        detail_todayTimeWeeksTextView.text = diffWeeks.toString()
+        detail_todayTimeDaysTextView.text = diffDays.toString()
     }
 }
