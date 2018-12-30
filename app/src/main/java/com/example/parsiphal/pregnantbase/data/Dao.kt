@@ -14,16 +14,16 @@ interface Dao {
     @Query("SELECT * FROM DataModel WHERE name LIKE :name")
     fun getCurrentData(name: String): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE :date BETWEEN fScrS AND fScrE OR :date BETWEEN sScrS AND sScrE OR :date BETWEEN tScrS AND tScrE")
+    @Query("SELECT * FROM DataModel WHERE :date BETWEEN fScrS AND fScrE AND fScrC <> 1 OR :date BETWEEN sScrS AND sScrE AND sScrC <> 1 OR :date BETWEEN tScrS AND tScrE AND tScrC <> 1")
     fun getScr(date: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE :date BETWEEN fScrS AND fScrE")
+    @Query("SELECT * FROM DataModel WHERE :date BETWEEN fScrS AND fScrE AND fScrC <> 1")
     fun getFScr(date: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE :date BETWEEN sScrS AND sScrE")
+    @Query("SELECT * FROM DataModel WHERE :date BETWEEN sScrS AND sScrE AND sScrC <> 1")
     fun getSScr(date: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE :date BETWEEN tScrS AND tScrE")
+    @Query("SELECT * FROM DataModel WHERE :date BETWEEN tScrS AND tScrE AND tScrC <> 1")
     fun getTScr(date: Long): List<DataModel>
 
     @Update

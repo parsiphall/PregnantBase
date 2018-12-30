@@ -17,6 +17,7 @@ import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.text.SimpleDateFormat
+import java.util.*
 
 class SearchFragment : MvpAppCompatFragment() {
 
@@ -46,27 +47,31 @@ class SearchFragment : MvpAppCompatFragment() {
         button_search_fio.setOnClickListener {
             val search = "%${search_editText.text}%"
             items = DB.getDao().getCurrentData(search)
-            Toast.makeText(activity?.applicationContext, "${items.size}", Toast.LENGTH_LONG).show()
+            Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
         }
         button_search_Scr.setOnClickListener {
             val date = sdf.parse(search_editText.text.toString())
             items = DB.getDao().getScr(date.time)
+            Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
         }
         button_search_fScr.setOnClickListener {
             val date = sdf.parse(search_editText.text.toString())
             items = DB.getDao().getFScr(date.time)
+            Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
             adapter.dataChanged(items)
         }
         button_search_sScr.setOnClickListener {
             val date = sdf.parse(search_editText.text.toString())
             items = DB.getDao().getSScr(date.time)
+            Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
             adapter.dataChanged(items)
         }
         button_search_tScr.setOnClickListener {
             val date = sdf.parse(search_editText.text.toString())
             items = DB.getDao().getTScr(date.time)
+            Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
             adapter.dataChanged(items)
         }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
