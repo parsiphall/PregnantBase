@@ -19,6 +19,7 @@ class ListViewAdapter(private var items: List<DataModel>,
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.name.text = items[position].name
         holder.release.isChecked = items[position].release
+        holder.multiplicity.isChecked = items[position].multiplicity
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

@@ -99,6 +99,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_thirtyWeeksCTextView.text = sdf.format(dataModel.thirtyWeeksC)
         detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
         detail_releaseCheckBox.isChecked = dataModel.release
+        detail_multiplicityCheckBox.isChecked = dataModel.multiplicity
 
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
@@ -144,6 +145,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.tScrC = detail_tScrCheck.isChecked
             }
             dataModel.release = detail_releaseCheckBox.isChecked
+            dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
             DB.getDao().updateData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         } else {
