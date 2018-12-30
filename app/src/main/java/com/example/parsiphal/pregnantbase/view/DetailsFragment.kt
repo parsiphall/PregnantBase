@@ -20,7 +20,7 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private var newData = false
     private lateinit var dataModel: DataModel
-    lateinit var callBackActivity: MainView
+    private lateinit var callBackActivity: MainView
 
 
     override fun onAttach(context: Context?) {
@@ -60,12 +60,18 @@ class DetailsFragment : MvpAppCompatFragment() {
                     .duration(100)
                     .repeat(1)
                     .playOn(detail_corrButton)
-                detail_13weeksTextView.visibility = View.VISIBLE
-                detail_corrEditText.visibility = View.VISIBLE
-                detail_corrSaveButton.visibility = View.VISIBLE
+                detail_13weeksLinear.visibility = View.VISIBLE
                 detail_corrSaveButton.setOnClickListener {
                     corrData()
                 }
+            }
+            if (dataModel.corr) {
+                detail_sScrC.visibility = View.VISIBLE
+                detail_tScrC.visibility = View.VISIBLE
+                detail_weeksC.visibility = View.VISIBLE
+                detail_fScrCheck.isClickable = false
+                detail_sScrCheck.isClickable = false
+                detail_tScrCheck.isClickable = false
             }
         }
         detail_fioEditText.setText(dataModel.name)
@@ -78,11 +84,21 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_sScrS_TextView.text = sdf.format(dataModel.sScrS)
         detail_sScrF_TextView.text = sdf.format(dataModel.sScrE)
         detail_sScrCheck.isChecked = dataModel.sScrC
+        detail_sScrCCheck.isChecked = detail_sScrCheck.isChecked
         detail_tScrS_TextView.text = sdf.format(dataModel.tScrS)
         detail_tScrF_TextView.text = sdf.format(dataModel.tScrE)
         detail_tScrCheck.isChecked = dataModel.tScrC
+        detail_tScrCCheck.isChecked = detail_tScrCheck.isChecked
         detail_thirtyWeeksTextView.text = sdf.format(dataModel.thirtyWeeks)
         detail_fortyWeeksTextView.text = sdf.format(dataModel.fortyWeeks)
+
+        detail_sScrSC_TextView.text = sdf.format(dataModel.sScrSC)
+        detail_sScrFC_TextView.text = sdf.format(dataModel.sScrEC)
+        detail_tScrSC_TextView.text = sdf.format(dataModel.tScrSC)
+        detail_tScrFC_TextView.text = sdf.format(dataModel.tScrEC)
+        detail_thirtyWeeksCTextView.text = sdf.format(dataModel.thirtyWeeksC)
+        detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
+
         if (detail_fScrCheck.isChecked) {
             detail_fScrCheck.setText(R.string.detail_Scr_check)
         } else {
@@ -90,13 +106,17 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
         if (detail_sScrCheck.isChecked) {
             detail_sScrCheck.setText(R.string.detail_Scr_check)
+            detail_sScrCCheck.setText(R.string.detail_Scr_check)
         } else {
             detail_sScrCheck.setText(R.string.detail_Scr_uncheck)
+            detail_sScrCCheck.setText(R.string.detail_Scr_uncheck)
         }
         if (detail_tScrCheck.isChecked) {
             detail_tScrCheck.setText(R.string.detail_Scr_check)
+            detail_tScrCCheck.setText(R.string.detail_Scr_check)
         } else {
             detail_tScrCheck.setText(R.string.detail_Scr_uncheck)
+            detail_tScrCCheck.setText(R.string.detail_Scr_uncheck)
         }
         detail_button.setOnClickListener {
             YoYo.with(Techniques.Landing)
@@ -109,9 +129,14 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private fun saveToBase() {
         if (!newData) {
-            dataModel.fScrC = detail_fScrCheck.isChecked
-            dataModel.sScrC = detail_sScrCheck.isChecked
-            dataModel.tScrC = detail_tScrCheck.isChecked
+            if (dataModel.corr) {
+                dataModel.sScrC = detail_sScrCCheck.isChecked
+                dataModel.tScrC = detail_tScrCCheck.isChecked
+            } else {
+                dataModel.fScrC = detail_fScrCheck.isChecked
+                dataModel.sScrC = detail_sScrCheck.isChecked
+                dataModel.tScrC = detail_tScrCheck.isChecked
+            }
             DB.getDao().updateData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         } else {
@@ -148,6 +173,7 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private fun corrData() {
+        dataModel.corr = true
         dataModel.fScrC = detail_fScrCheck.isChecked
         dataModel.sScrC = detail_sScrCheck.isChecked
         dataModel.tScrC = detail_tScrCheck.isChecked
@@ -160,17 +186,18 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
         cal.set(Calendar.DAY_OF_MONTH, twDay)
-        cal.add(Calendar.DAY_OF_YEAR, 36)
-        dataModel.sScrS = cal.timeInMillis
+        dataModel.fScrDate = cal.timeInMillis
+        cal.add(Calendar.DAY_OF_YEAR, 35)
+        dataModel.sScrSC = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 20)
-        dataModel.sScrE = cal.timeInMillis
+        dataModel.sScrEC = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 64)
-        dataModel.tScrS = cal.timeInMillis
-        dataModel.thirtyWeeks = dataModel.tScrS
+        dataModel.tScrSC = cal.timeInMillis
+        dataModel.thirtyWeeksC = dataModel.tScrSC
         cal.add(Calendar.DAY_OF_YEAR, 28)
-        dataModel.tScrE = cal.timeInMillis
+        dataModel.tScrEC = cal.timeInMillis
         cal.add(Calendar.DAY_OF_YEAR, 42)
-        dataModel.fortyWeeks = cal.timeInMillis
+        dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
         callBackActivity.fragmentPlace(ListFragment())
     }

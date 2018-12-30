@@ -6,8 +6,6 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_list">Список</string>
     <string name="nav_search">Поиск</string>
@@ -35,4 +33,7 @@
     <string name="search_button_sScr">II скр</string>
     <string name="search_button_tScr">III скр</string>
     <string name="search_button_scr">Скр</string>
+    <string name="risk">Риск</string>
+    <string name="multiplicity">Многоплодность</string>
+    <string name="release">Родила</string>
 </resources>

@@ -1,12 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.ListFragment">
+
+    <LinearLayout
+        android:id="@+id/list_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.ListFragment"
-        android:orientation="vertical"
-        android:id="@+id/list_recycler_view">
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/list_tab_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/detail_fioTextView"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_risk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/risk"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_multiplicity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/multiplicity"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_release"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/release"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_header">
+
+    </android.support.v7.widget.RecyclerView>
 
 
-</android.support.v7.widget.RecyclerView>
+</RelativeLayout>

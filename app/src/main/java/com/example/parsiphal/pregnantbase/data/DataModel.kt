@@ -22,5 +22,18 @@ data class DataModel(
     @ColumnInfo var sScrC: Boolean = false,
     @ColumnInfo var tScrC: Boolean = false,
     @ColumnInfo var thirtyWeeks: Long = 0L,
-    @ColumnInfo var fortyWeeks: Long = 0L
+    @ColumnInfo var fortyWeeks: Long = 0L,
+    @ColumnInfo var risk: String = "",
+    @ColumnInfo var multiplicity: Boolean = false,
+    @ColumnInfo var release: Boolean = false,
+    @ColumnInfo var corr: Boolean = false,
+    @ColumnInfo var fScrDate: Long = 0L,
+    @ColumnInfo var fScrTimeWeeks: String = "",
+    @ColumnInfo var fScrTimeDays: String = "",
+    @ColumnInfo var sScrSC: Long = 0L,
+    @ColumnInfo var sScrEC: Long = 0L,
+    @ColumnInfo var tScrSC: Long = 0L,
+    @ColumnInfo var tScrEC: Long = 0L,
+    @ColumnInfo var thirtyWeeksC: Long = 0L,
+    @ColumnInfo var fortyWeeksC: Long = 0L
 ) : Serializable

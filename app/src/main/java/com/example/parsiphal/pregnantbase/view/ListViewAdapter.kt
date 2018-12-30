@@ -18,7 +18,6 @@ class ListViewAdapter(private var items: List<DataModel>,
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.name.text = items[position].name
-        holder.birthday.text = items[position].birthday
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

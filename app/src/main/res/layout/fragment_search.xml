@@ -53,11 +53,51 @@
             android:text="@string/search_button_tScr" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/search_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_buttons">
+
+        <TextView
+            android:id="@+id/list_tab_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/detail_fioTextView"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_risk"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/risk"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_multiplicity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/multiplicity"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/list_tab_release"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/release"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_buttons"
+        android:layout_below="@id/search_header"
         android:layout_centerHorizontal="true">
 
     </android.support.v7.widget.RecyclerView>
