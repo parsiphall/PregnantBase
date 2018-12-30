@@ -98,7 +98,13 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_tScrFC_TextView.text = sdf.format(dataModel.tScrEC)
         detail_thirtyWeeksCTextView.text = sdf.format(dataModel.thirtyWeeksC)
         detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
+        detail_releaseCheckBox.isChecked = dataModel.release
 
+        if (detail_releaseCheckBox.isChecked) {
+            detail_releaseCheckBox.setText(R.string.release)
+        } else {
+            detail_releaseCheckBox.setText(R.string.notRelease)
+        }
         if (detail_fScrCheck.isChecked) {
             detail_fScrCheck.setText(R.string.detail_Scr_check)
         } else {
@@ -137,6 +143,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.sScrC = detail_sScrCheck.isChecked
                 dataModel.tScrC = detail_tScrCheck.isChecked
             }
+            dataModel.release = detail_releaseCheckBox.isChecked
             DB.getDao().updateData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         } else {

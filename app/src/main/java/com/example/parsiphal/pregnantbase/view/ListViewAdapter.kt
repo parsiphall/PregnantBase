@@ -18,6 +18,7 @@ class ListViewAdapter(private var items: List<DataModel>,
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         holder.name.text = items[position].name
+        holder.release.isChecked = items[position].release
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {

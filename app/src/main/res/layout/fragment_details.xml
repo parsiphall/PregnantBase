@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:text="@string/detail_fioTextView"
             android:textAlignment="center" />
 
@@ -22,8 +22,14 @@
             android:id="@+id/detail_fioEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:inputType="text" />
+
+        <CheckBox
+            android:id="@+id/detail_releaseCheckBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -100,9 +106,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/detail_fScr"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/detail_fScrS_TextView"
@@ -143,9 +149,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/detail_sScr"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/detail_sScrS_TextView"
@@ -186,9 +192,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/detail_tScr"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/detail_tScrS_TextView"
@@ -270,11 +276,11 @@
         android:layout_below="@id/detail_weeks"
         android:layout_toEndOf="@id/detail_button"
         android:text="@string/detail_correct"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
         android:id="@+id/detail_13weeksLinear"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/detail_button"
         android:layout_centerHorizontal="true"
@@ -285,24 +291,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="@string/detail_13weeks"
-             />
+            android:text="@string/detail_13weeks" />
 
         <EditText
             android:id="@+id/detail_corrEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:inputType="number"
-             />
+            android:inputType="number" />
 
         <Button
             android:id="@+id/detail_corrSaveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/detail_corrSave"
-             />
+            android:text="@string/detail_corrSave" />
     </LinearLayout>
 
     <LinearLayout
@@ -316,9 +319,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/detail_sScr"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/detail_sScrSC_TextView"
@@ -360,9 +363,9 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/detail_tScr"
-            android:textAlignment="center"
-            android:layout_weight="1"/>
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/detail_tScrSC_TextView"
