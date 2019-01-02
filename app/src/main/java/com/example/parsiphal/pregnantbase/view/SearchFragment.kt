@@ -122,7 +122,6 @@ class SearchFragment : MvpAppCompatFragment() {
         cal.set(Calendar.MINUTE, 0)
         cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.MILLISECOND, 0)
-        Toast.makeText(context, "Start - ${cal.time}", Toast.LENGTH_LONG).show()
         return cal.timeInMillis
     }
 
@@ -136,7 +135,6 @@ class SearchFragment : MvpAppCompatFragment() {
         cal.set(Calendar.MINUTE, 59)
         cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.MILLISECOND, 0)
-        Toast.makeText(context, "End - ${cal.time}", Toast.LENGTH_LONG).show()
         return cal.timeInMillis
     }
 }

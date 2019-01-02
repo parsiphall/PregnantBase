@@ -1,534 +1,551 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.DetailsFragment">
 
-    <LinearLayout
-        android:id="@+id/detail_fio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/detail_fioTextView"
-            android:textAlignment="center" />
-
-        <EditText
-            android:id="@+id/detail_fioEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:inputType="text" />
-
-        <CheckBox
-            android:id="@+id/detail_releaseCheckBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_birthdayAndPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_fio"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_birthdayTextView"
-            android:textAlignment="center" />
-
-        <EditText
-            android:id="@+id/detail_birthdayEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="number" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_phoneTextView"
-            android:textAlignment="center" />
-
-        <EditText
-            android:id="@+id/detail_phoneEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:inputType="phone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_pm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_birthdayAndPhone"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/detail_pmTextView"
-            android:textAlignment="center" />
-
-        <EditText
-            android:id="@+id/detail_pmEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="number" />
-
-        <CheckBox
-            android:id="@+id/detail_multiplicityCheckBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/multiplicity" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/risk"
-            android:textAlignment="viewEnd" />
-
-        <Spinner
-            android:id="@+id/detail_riskSpinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="2"
-            android:entries="@array/risks" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_fScr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_pm"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_fScr"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_fScrS_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tire"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_fScrF_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <CheckBox
-            android:id="@+id/detail_fScrCheck"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_sScr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_fScr"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_sScr"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_sScrS_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tire"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_sScrF_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <CheckBox
-            android:id="@+id/detail_sScrCheck"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_tScr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_sScr"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tScr"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_tScrS_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tire"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_tScrF_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <CheckBox
-            android:id="@+id/detail_tScrCheck"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_weeks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_tScr"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_thirtyWeeks"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_thirtyWeeksTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_fortyWeeks"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_fortyWeeksTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_todayTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/detail_weeks">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:text="@string/todayTime"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_todayTimeWeeksTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="viewEnd" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/weeks"
-            android:textAlignment="viewEnd" />
-
-        <TextView
-            android:id="@+id/detail_todayTimeDaysTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="viewEnd" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/days"
-            android:textAlignment="viewEnd" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8" />
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/detail_button"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_todayTime"
-        android:layout_centerHorizontal="true"
-        android:text="@string/detail_save" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/detail_corrButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_todayTime"
-        android:layout_toEndOf="@id/detail_button"
-        android:text="@string/detail_correct"
-        android:visibility="gone" />
+        <LinearLayout
+            android:id="@+id/detail_fio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/detail_13weeksLinear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_button"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/detail_fioTextView"
+                android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/detail_13weeksTextView"
+            <EditText
+                android:id="@+id/detail_fioEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:inputType="text" />
+
+            <CheckBox
+                android:id="@+id/detail_releaseCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_birthdayAndPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_fio"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_birthdayTextView"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_birthdayEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_phoneTextView"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_phoneEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="phone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_pm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_birthdayAndPhone"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/detail_pmTextView"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_pmEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="number" />
+
+            <CheckBox
+                android:id="@+id/detail_multiplicityCheckBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/multiplicity" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/risk"
+                android:textAlignment="viewEnd" />
+
+            <Spinner
+                android:id="@+id/detail_riskSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:entries="@array/risks" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_fScr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_pm"
+            android:orientation="horizontal"
+            android:background="@color/colorMyGrayLight">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_fScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_fScrS_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_fScrF_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/detail_fScrCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_sScr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_fScr"
+            android:orientation="horizontal"
+            android:background="@color/colorMyGrayDark">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_sScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_sScrS_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_sScrF_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/detail_sScrCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_tScr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_sScr"
+            android:orientation="horizontal"
+            android:background="@color/colorMyGrayLight">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_tScrS_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_tScrF_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/detail_tScrCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_weeks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_tScr"
+            android:orientation="horizontal"
+            android:background="@color/colorMyGrayDark">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_thirtyWeeks"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_thirtyWeeksTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_fortyWeeks"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_fortyWeeksTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_todayTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/detail_weeks"
+            android:background="@android:color/holo_green_light">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:text="@string/todayTime"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_todayTimeWeeksTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/weeks"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:id="@+id/detail_todayTimeDaysTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/days"
+                android:textAlignment="viewEnd" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="8" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_todayTime"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/detail_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_save" />
+
+            <Button
+                android:id="@+id/detail_corrButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_correct"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_13weeksLinear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/date" />
+            android:layout_below="@id/detail_buttons"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone">
 
-        <EditText
-            android:id="@+id/detail_corrEditText"
-            android:layout_width="200dp"
+            <TextView
+                android:id="@+id/detail_13weeksTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/date" />
+
+            <EditText
+                android:id="@+id/detail_corrEditText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/srok" />
+
+            <EditText
+                android:id="@+id/detail_corrEditTextWeeks"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/weeks" />
+
+            <EditText
+                android:id="@+id/detail_corrEditTextDays"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/days" />
+
+            <Button
+                android:id="@+id/detail_corrSaveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_corrSave" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_sScrC"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="number" />
+            android:layout_below="@id/detail_13weeksLinear"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/colorMyGrayDark">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_sScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_sScrSC_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_sScrFC_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/detail_sScrCCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_tScrC"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/srok" />
+            android:layout_below="@id/detail_sScrC"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/colorMyGrayLight">
 
-        <EditText
-            android:id="@+id/detail_corrEditTextWeeks"
-            android:layout_width="50dp"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_tScrSC_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_tScrFC_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAlignment="center" />
+
+            <CheckBox
+                android:id="@+id/detail_tScrCCheck"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_weeksC"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="number" />
+            android:layout_below="@id/detail_tScrC"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:background="@color/colorMyGrayDark">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/weeks" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_thirtyWeeks"
+                android:textAlignment="center" />
 
-        <EditText
-            android:id="@+id/detail_corrEditTextDays"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="number" />
+            <TextView
+                android:id="@+id/detail_thirtyWeeksCTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/days" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_fortyWeeks"
+                android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/detail_corrSaveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_corrSave" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_sScrC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_13weeksLinear"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_sScr"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_sScrSC_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tire"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_sScrFC_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <CheckBox
-            android:id="@+id/detail_sScrCCheck"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_tScrC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_sScrC"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tScr"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_tScrSC_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_tire"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_tScrFC_TextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:textAlignment="center" />
-
-        <CheckBox
-            android:id="@+id/detail_tScrCCheck"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/detail_weeksC"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/detail_tScrC"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_thirtyWeeks"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_thirtyWeeksCTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/detail_fortyWeeks"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/detail_fortyWeeksCTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAlignment="center" />
-    </LinearLayout>
-
-</RelativeLayout>
+            <TextView
+                android:id="@+id/detail_fortyWeeksCTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
