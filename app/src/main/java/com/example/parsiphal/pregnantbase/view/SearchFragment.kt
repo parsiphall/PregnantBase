@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class SearchFragment : MvpAppCompatFragment() {
 
@@ -51,26 +52,54 @@ class SearchFragment : MvpAppCompatFragment() {
             adapter.dataChanged(items)
         }
         button_search_Scr.setOnClickListener {
-            val date = sdf.parse(search_editText.text.toString())
-            items = DB.getDao().getScr(date.time)
+            val field = search_editText.text.toString()
+            if (field.length == 6) {
+                val date = sdf.parse(field)
+                items = DB.getDao().getScr(date.time)
+            } else if (field.length == 4) {
+                val week = Integer.valueOf("${field[0]}${field[1]}")
+                val year = Integer.valueOf("20${field[2]}${field[3]}")
+                items = DB.getDao().getScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            }
             Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
         }
         button_search_fScr.setOnClickListener {
-            val date = sdf.parse(search_editText.text.toString())
-            items = DB.getDao().getFScr(date.time)
+            val field = search_editText.text.toString()
+            if (field.length == 6) {
+                val date = sdf.parse(field)
+                items = DB.getDao().getFScr(date.time)
+            } else if (field.length == 4) {
+                val week = Integer.valueOf("${field[0]}${field[1]}")
+                val year = Integer.valueOf("20${field[2]}${field[3]}")
+                items = DB.getDao().getFScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            }
             Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
             adapter.dataChanged(items)
         }
         button_search_sScr.setOnClickListener {
-            val date = sdf.parse(search_editText.text.toString())
-            items = DB.getDao().getSScr(date.time)
+            val field = search_editText.text.toString()
+            if (field.length == 6) {
+                val date = sdf.parse(field)
+                items = DB.getDao().getSScr(date.time)
+            } else if (field.length == 4) {
+                val week = Integer.valueOf("${field[0]}${field[1]}")
+                val year = Integer.valueOf("20${field[2]}${field[3]}")
+                items = DB.getDao().getSScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            }
             Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
             adapter.dataChanged(items)
         }
         button_search_tScr.setOnClickListener {
-            val date = sdf.parse(search_editText.text.toString())
-            items = DB.getDao().getTScr(date.time)
+            val field = search_editText.text.toString()
+            if (field.length == 6) {
+                val date = sdf.parse(field)
+                items = DB.getDao().getTScr(date.time)
+            } else if (field.length == 4) {
+                val week = Integer.valueOf("${field[0]}${field[1]}")
+                val year = Integer.valueOf("20${field[2]}${field[3]}")
+                items = DB.getDao().getTScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            }
             Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
             adapter.dataChanged(items)
         }
@@ -81,5 +110,33 @@ class SearchFragment : MvpAppCompatFragment() {
                 callBackActivity.fragmentPlaceWithArgs(DetailsFragment(), bundle)
             }
         })
+    }
+
+    private fun startOfWeek(week: Int, year: Int): Long {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.WEEK_OF_YEAR, week)
+        cal.get(Calendar.WEEK_OF_YEAR)
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        Toast.makeText(context, "Start - ${cal.time}", Toast.LENGTH_LONG).show()
+        return cal.timeInMillis
+    }
+
+    private fun endOfWeek(week: Int, year: Int): Long {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.WEEK_OF_YEAR, week)
+        cal.get(Calendar.WEEK_OF_YEAR)
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+        cal.set(Calendar.HOUR_OF_DAY, 23)
+        cal.set(Calendar.MINUTE, 59)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
+        Toast.makeText(context, "End - ${cal.time}", Toast.LENGTH_LONG).show()
+        return cal.timeInMillis
     }
 }
