@@ -41,9 +41,22 @@
     <string name="days">дн.</string>
     <string name="date">Дата</string>
     <string name="srok">Срок</string>
+    <string name="release_date">Дата родов</string>
+    <string name="baby">Ребёнок</string>
+    <string name="gender">пол</string>
+    <string name="weight">вес</string>
+    <string name="height">рост</string>
+    <string name="fioEx">Фамилия, имя и отчество</string>
+    <string name="inputFormatDate">ДДММГГ</string>
+    <string name="inputFormatWeeks">НН</string>
+    <string name="inputFormatDays">ДД</string>
     <string-array name="risks">
         <item>низкий</item>
         <item>средний</item>
         <item>высокий</item>
+    </string-array>
+    <string-array name="gender">
+        <item>М</item>
+        <item>Ж</item>
     </string-array>
 </resources>

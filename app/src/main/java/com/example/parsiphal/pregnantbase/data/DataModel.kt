@@ -36,5 +36,9 @@ data class DataModel(
     @ColumnInfo var tScrSC: Long = 0L,
     @ColumnInfo var tScrEC: Long = 0L,
     @ColumnInfo var thirtyWeeksC: Long = 0L,
-    @ColumnInfo var fortyWeeksC: Long = 0L
+    @ColumnInfo var fortyWeeksC: Long = 0L,
+    @ColumnInfo var releaseDate: String = "",
+    @ColumnInfo var babyGender: Int = 0,
+    @ColumnInfo var babyWeight: String = "",
+    @ColumnInfo var babyHeight: String = ""
 ) : Serializable

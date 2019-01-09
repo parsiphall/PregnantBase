@@ -63,18 +63,54 @@ class DetailsFragment : MvpAppCompatFragment() {
                 detail_fioEditText.isEnabled = true
                 detail_birthdayEditText.isEnabled = true
                 detail_phoneEditText.isEnabled = true
-                detail_13weeksLinear.visibility = View.VISIBLE
-                detail_corrSaveButton.setOnClickListener {
-                    corrData()
+                detail_releaseDateEditText.isEnabled = true
+                detail_babyGenderSpinner.isEnabled = true
+                detail_babyWeightEditText.isEnabled = true
+                detail_babyHeightEditText.isEnabled = true
+                if (!dataModel.corr) {
+                    detail_13weeksLinear.visibility = View.VISIBLE
+                    detail_corrSaveButton.setOnClickListener {
+                        corrData()
+                    }
                 }
             }
             if (dataModel.corr) {
+                detail_fScrC.visibility = View.VISIBLE
                 detail_sScrC.visibility = View.VISIBLE
                 detail_tScrC.visibility = View.VISIBLE
                 detail_weeksC.visibility = View.VISIBLE
                 detail_fScrCheck.isClickable = false
                 detail_sScrCheck.isClickable = false
                 detail_tScrCheck.isClickable = false
+
+                val fScrDate = dataModel.fScrDate
+                val calFScr = Calendar.getInstance()
+                val fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
+                val fScrMonth = Integer.valueOf("${fScrDate[2]}${fScrDate[3]}") - 1
+                val fScrYear = Integer.valueOf("20${fScrDate[4]}${fScrDate[5]}")
+                calFScr.set(Calendar.YEAR, fScrYear)
+                calFScr.set(Calendar.MONTH, fScrMonth)
+                calFScr.set(Calendar.DAY_OF_MONTH, fScrDay)
+                val format = calFScr.timeInMillis
+                detail_fScrDate_TextView.text = sdf.format(format)
+                detail_sScrSC_TextView.text = sdf.format(dataModel.sScrSC)
+                detail_sScrFC_TextView.text = sdf.format(dataModel.sScrEC)
+                detail_tScrSC_TextView.text = sdf.format(dataModel.tScrSC)
+                detail_tScrFC_TextView.text = sdf.format(dataModel.tScrEC)
+                detail_thirtyWeeksCTextView.text = sdf.format(dataModel.thirtyWeeksC)
+                detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
+            }
+            if (dataModel.release) {
+                detail_baby.visibility = View.VISIBLE
+                detail_releaseDateEditText.isEnabled = false
+                detail_babyGenderSpinner.isEnabled = false
+                detail_babyWeightEditText.isEnabled = false
+                detail_babyHeightEditText.isEnabled = false
+
+                detail_releaseDateEditText.setText(dataModel.releaseDate)
+                detail_babyGenderSpinner.setSelection(dataModel.babyGender)
+                detail_babyWeightEditText.setText(dataModel.babyWeight)
+                detail_babyHeightEditText.setText(dataModel.babyHeight)
             }
             todayTime(dataModel)
         }
@@ -96,12 +132,6 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_thirtyWeeksTextView.text = sdf.format(dataModel.thirtyWeeks)
         detail_fortyWeeksTextView.text = sdf.format(dataModel.fortyWeeks)
 
-        detail_sScrSC_TextView.text = sdf.format(dataModel.sScrSC)
-        detail_sScrFC_TextView.text = sdf.format(dataModel.sScrEC)
-        detail_tScrSC_TextView.text = sdf.format(dataModel.tScrSC)
-        detail_tScrFC_TextView.text = sdf.format(dataModel.tScrEC)
-        detail_thirtyWeeksCTextView.text = sdf.format(dataModel.thirtyWeeksC)
-        detail_fortyWeeksCTextView.text = sdf.format(dataModel.fortyWeeksC)
         detail_releaseCheckBox.isChecked = dataModel.release
         detail_multiplicityCheckBox.isChecked = dataModel.multiplicity
         detail_riskSpinner.setSelection(dataModel.risk)
@@ -138,6 +168,10 @@ class DetailsFragment : MvpAppCompatFragment() {
                 .playOn(detail_button)
             saveToBase()
         }
+
+        detail_releaseCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+            detail_baby.visibility = View.VISIBLE
+        }
     }
 
     private fun saveToBase() {
@@ -145,6 +179,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
         dataModel.risk = detail_riskSpinner.selectedItemPosition
         dataModel.riskText = detail_riskSpinner.selectedItem.toString()
+        dataModel.releaseDate = detail_releaseDateEditText.text.toString()
+        dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
+        dataModel.babyWeight = detail_babyWeightEditText.text.toString()
+        dataModel.babyHeight = detail_babyHeightEditText.text.toString()
         if (!newData) {
             if (dataModel.corr) {
                 dataModel.sScrC = detail_sScrCCheck.isChecked

@@ -27,6 +27,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
+                android:hint="@string/fioEx"
                 android:inputType="text" />
 
             <CheckBox
@@ -55,6 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/detail_birthdayTextView"
                 android:inputType="number" />
 
             <TextView
@@ -69,14 +71,91 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/detail_phoneTextView"
                 android:inputType="phone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_baby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_birthdayAndPhone"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/release_date"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_releaseDateEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/release_date"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/baby"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gender"
+                android:textAlignment="center" />
+
+            <Spinner
+                android:id="@+id/detail_babyGenderSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/gender"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/weight"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_babyWeightEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/weight"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/height"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/detail_babyHeightEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/height"
+                android:inputType="number" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/detail_pm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/detail_birthdayAndPhone"
+            android:layout_below="@id/detail_baby"
             android:orientation="horizontal">
 
             <TextView
@@ -91,6 +170,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:hint="@string/inputFormatDate"
                 android:inputType="number" />
 
             <CheckBox
@@ -123,8 +203,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_pm"
-            android:orientation="horizontal"
-            android:background="@color/colorMyGrayLight">
+            android:background="@color/colorMyGrayLight"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -167,8 +247,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_fScr"
-            android:orientation="horizontal"
-            android:background="@color/colorMyGrayDark">
+            android:background="@color/colorMyGrayDark"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -211,8 +291,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_sScr"
-            android:orientation="horizontal"
-            android:background="@color/colorMyGrayLight">
+            android:background="@color/colorMyGrayLight"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -255,8 +335,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_tScr"
-            android:orientation="horizontal"
-            android:background="@color/colorMyGrayDark">
+            android:background="@color/colorMyGrayDark"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
@@ -378,6 +458,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:hint="@string/inputFormatDate"
                 android:inputType="number" />
 
             <TextView
@@ -391,6 +472,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:hint="@string/inputFormatWeeks"
                 android:inputType="number" />
 
             <TextView
@@ -404,6 +486,7 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:hint="@string/inputFormatDays"
                 android:inputType="number" />
 
             <TextView
@@ -421,13 +504,38 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/detail_sScrC"
+            android:id="@+id/detail_fScrC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_13weeksLinear"
+            android:background="@color/colorMyGrayLight"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:background="@color/colorMyGrayDark">
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/detail_fScr"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/detail_fScrDate_TextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_sScrC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/detail_fScrC"
+            android:background="@color/colorMyGrayDark"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
@@ -470,9 +578,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_sScrC"
+            android:background="@color/colorMyGrayLight"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:background="@color/colorMyGrayLight">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
@@ -515,9 +623,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/detail_tScrC"
+            android:background="@color/colorMyGrayDark"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:background="@color/colorMyGrayDark">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
