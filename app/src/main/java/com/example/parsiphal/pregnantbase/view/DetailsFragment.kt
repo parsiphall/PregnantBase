@@ -175,6 +175,9 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private fun saveToBase() {
+        dataModel.name = detail_fioEditText.text.toString()
+        dataModel.birthday = detail_birthdayEditText.text.toString()
+        dataModel.phone = detail_phoneEditText.text.toString()
         dataModel.release = detail_releaseCheckBox.isChecked
         dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
         dataModel.risk = detail_riskSpinner.selectedItemPosition
@@ -195,9 +198,6 @@ class DetailsFragment : MvpAppCompatFragment() {
             DB.getDao().updateData(dataModel)
             callBackActivity.fragmentPlace(ListFragment())
         } else {
-            dataModel.name = detail_fioEditText.text.toString()
-            dataModel.birthday = detail_birthdayEditText.text.toString()
-            dataModel.phone = detail_phoneEditText.text.toString()
             dataModel.pm = detail_pmEditText.text.toString()
             val pm = detail_pmEditText.text.toString()
             val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")

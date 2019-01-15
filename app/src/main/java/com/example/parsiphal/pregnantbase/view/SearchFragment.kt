@@ -50,6 +50,7 @@ class SearchFragment : MvpAppCompatFragment() {
             items = DB.getDao().getCurrentData(search)
             Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
         }
         button_search_Scr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -63,6 +64,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
         }
         button_search_fScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -76,6 +78,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
             adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
         }
         button_search_sScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -89,6 +92,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
             adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
         }
         button_search_tScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -102,6 +106,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
             adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
         }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
