@@ -15,6 +15,7 @@ import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
 import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.android.synthetic.main.list_tab.*
 import java.util.Collections.sort
 
 class ListReleasedFragment : MvpAppCompatFragment() {
@@ -47,6 +48,7 @@ class ListReleasedFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list_tab_count.text = items.size.toString()
+        list_tab_released_screening.visibility = View.INVISIBLE
         list_recycler_view.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val bundle = Bundle()
