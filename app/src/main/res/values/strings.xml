@@ -51,6 +51,7 @@
     <string name="inputFormatWeeks">НН</string>
     <string name="inputFormatDays">ДД</string>
     <string-array name="risks">
+        <item>-</item>
         <item>низкий</item>
         <item>средний</item>
         <item>высокий</item>

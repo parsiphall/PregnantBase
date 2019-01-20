@@ -59,6 +59,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
             .beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .replace(R.id.content_main, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -70,5 +71,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
             .replace(R.id.content_main, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    override fun prevousFragment() {
+        supportFragmentManager.popBackStack()
     }
 }

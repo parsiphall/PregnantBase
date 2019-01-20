@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 
 import com.example.parsiphal.pregnantbase.R
@@ -62,7 +61,22 @@ class SearchFragment : MvpAppCompatFragment() {
                 val year = Integer.valueOf("20${field[2]}${field[3]}")
                 items = DB.getDao().getScrWeek(startOfWeek(week, year), endOfWeek(week, year))
             }
-            Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
+            Collections.sort(items) { object1, object2 ->
+                var x1 = object1.fScrE
+                if (object1.fScrC) {
+                    x1 = object1.sScrE
+                }
+                if (object1.sScrC) {
+                    x1 = object1.tScrE
+                }
+                var x2 = object2.fScrE
+                if (object2.fScrC) {
+                    x2 = object2.sScrE
+                }
+                if (object1.sScrC) {
+                    x2 = object2.tScrE
+                }
+                x1.compareTo(x2) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
         }

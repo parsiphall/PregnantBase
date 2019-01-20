@@ -6,4 +6,5 @@ import android.support.v4.app.Fragment
 interface MainView: BaseView {
     fun fragmentPlace(fragment: Fragment)
     fun fragmentPlaceWithArgs(fragment: Fragment, args: Bundle)
+    fun prevousFragment()
 }

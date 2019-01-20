@@ -92,7 +92,11 @@ class DetailsFragment : MvpAppCompatFragment() {
                 calFScr.set(Calendar.MONTH, fScrMonth)
                 calFScr.set(Calendar.DAY_OF_MONTH, fScrDay)
                 val format = calFScr.timeInMillis
-                detail_fScrDate_TextView.text = sdf.format(format)
+                val fScrCD = sdf.format(format)
+                val fScrCW = "${dataModel.fScrTimeWeeks} ${resources.getString(R.string.weeks)}"
+                val fScrCd = "${dataModel.fScrTimeDays} ${resources.getString(R.string.days)}"
+                val fScrC = "$fScrCD $fScrCW $fScrCd"
+                detail_fScrDate_TextView.text = fScrC
                 detail_sScrSC_TextView.text = sdf.format(dataModel.sScrSC)
                 detail_sScrFC_TextView.text = sdf.format(dataModel.sScrEC)
                 detail_tScrSC_TextView.text = sdf.format(dataModel.tScrSC)
@@ -223,7 +227,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             cal.add(Calendar.DAY_OF_YEAR, 42)
             dataModel.fortyWeeks = cal.timeInMillis
             DB.getDao().addData(dataModel)
-            callBackActivity.fragmentPlace(ListFragment())
+            callBackActivity.prevousFragment()
         }
     }
 
