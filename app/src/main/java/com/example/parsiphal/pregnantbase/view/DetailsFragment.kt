@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -70,6 +71,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 if (!dataModel.corr) {
                     detail_13weeksLinear.visibility = View.VISIBLE
                     detail_corrSaveButton.setOnClickListener {
+                        hideKeyboard(it)
                         corrData()
                     }
                 }
@@ -170,6 +172,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 .duration(100)
                 .repeat(1)
                 .playOn(detail_button)
+            hideKeyboard(it)
             saveToBase()
         }
 
@@ -200,7 +203,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.tScrC = detail_tScrCheck.isChecked
             }
             DB.getDao().updateData(dataModel)
-            callBackActivity.fragmentPlace(ListFragment())
+            callBackActivity.prevousFragment()
         } else {
             dataModel.pm = detail_pmEditText.text.toString()
             val pm = detail_pmEditText.text.toString()
@@ -227,7 +230,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             cal.add(Calendar.DAY_OF_YEAR, 42)
             dataModel.fortyWeeks = cal.timeInMillis
             DB.getDao().addData(dataModel)
-            callBackActivity.prevousFragment()
+            callBackActivity.fragmentPlace(ListFragment())
         }
     }
 
@@ -263,7 +266,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.add(Calendar.DAY_OF_YEAR, 42)
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
-        callBackActivity.fragmentPlace(ListFragment())
+        callBackActivity.prevousFragment()
     }
 
     private fun todayTime(dataModel: DataModel) {
@@ -290,5 +293,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
         detail_todayTimeWeeksTextView.text = diffWeeks.toString()
         detail_todayTimeDaysTextView.text = diffDays.toString()
+    }
+
+        private fun hideKeyboard(v: View) {
+        val imm: InputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }

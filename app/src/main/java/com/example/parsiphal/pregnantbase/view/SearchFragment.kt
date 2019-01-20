@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 
 import com.example.parsiphal.pregnantbase.R
@@ -50,6 +51,7 @@ class SearchFragment : MvpAppCompatFragment() {
             Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
+            hideKeyboard(it)
         }
         button_search_Scr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -79,6 +81,7 @@ class SearchFragment : MvpAppCompatFragment() {
                 x1.compareTo(x2) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
+            hideKeyboard(it)
         }
         button_search_fScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -93,6 +96,7 @@ class SearchFragment : MvpAppCompatFragment() {
             Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
+            hideKeyboard(it)
         }
         button_search_sScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -107,6 +111,7 @@ class SearchFragment : MvpAppCompatFragment() {
             Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
+            hideKeyboard(it)
         }
         button_search_tScr.setOnClickListener {
             val field = search_editText.text.toString()
@@ -121,6 +126,7 @@ class SearchFragment : MvpAppCompatFragment() {
             Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
+            hideKeyboard(it)
         }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
@@ -155,5 +161,10 @@ class SearchFragment : MvpAppCompatFragment() {
         cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.MILLISECOND, 0)
         return cal.timeInMillis
+    }
+
+    private fun hideKeyboard(v: View) {
+        val imm: InputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }
