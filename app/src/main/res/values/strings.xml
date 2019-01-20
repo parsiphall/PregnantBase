@@ -50,6 +50,12 @@
     <string name="inputFormatDate">ДДММГГ</string>
     <string name="inputFormatWeeks">НН</string>
     <string name="inputFormatDays">ДД</string>
+    <string name="releasedList">Родившие</string>
+    <string name="adTitle">Удаление записи</string>
+    <string name="adMessage">Удалить?</string>
+    <string name="adBtn1">Да</string>
+    <string name="adBtn2">Нет</string>
+    <string name="Screening">Скрининг</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

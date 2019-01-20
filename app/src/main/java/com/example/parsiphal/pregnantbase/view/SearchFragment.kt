@@ -163,8 +163,9 @@ class SearchFragment : MvpAppCompatFragment() {
         return cal.timeInMillis
     }
 
-    private fun hideKeyboard(v: View) {
-        val imm: InputMethodManager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(v.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-    }
+    private fun hideKeyboard(v: View) =
+        (activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+            v.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
 }

@@ -16,6 +16,10 @@
                 android:id="@+id/add"
                 android:icon="@drawable/ic_menu_slideshow"
                 android:title="@string/nav_add"/>
+        <item
+            android:id="@+id/released"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/releasedList"/>
     </group>
 
 </menu>

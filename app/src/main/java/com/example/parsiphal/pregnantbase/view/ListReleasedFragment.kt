@@ -15,10 +15,9 @@ import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
 import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
-import java.util.*
 import java.util.Collections.sort
 
-class ListFragment : MvpAppCompatFragment() {
+class ListReleasedFragment : MvpAppCompatFragment() {
 
     private var items: List<DataModel> = ArrayList()
     private lateinit var callBackActivity: MainView
@@ -40,7 +39,7 @@ class ListFragment : MvpAppCompatFragment() {
     }
 
     private fun getDataList(): List<DataModel> {
-        items = DB.getDao().getDataPregnant()
+        items = DB.getDao().getDataReleased()
         sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         return items
     }

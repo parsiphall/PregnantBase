@@ -8,8 +8,11 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addData(dataModel: DataModel)
 
-    @Query("SELECT * FROM DataModel")
-    fun getData(): List<DataModel>
+    @Query("SELECT * FROM DataModel WHERE `release` <> 1")
+    fun getDataPregnant(): List<DataModel>
+
+    @Query("SELECT * FROM DataModel WHERE `release` = 1")
+    fun getDataReleased(): List<DataModel>
 
     @Query("SELECT * FROM DataModel WHERE name LIKE :name")
     fun getCurrentData(name: String): List<DataModel>

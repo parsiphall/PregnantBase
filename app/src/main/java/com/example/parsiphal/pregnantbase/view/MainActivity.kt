@@ -48,6 +48,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
             R.id.list -> fragmentPlace(ListFragment())
             R.id.search -> fragmentPlace(SearchFragment())
             R.id.add -> fragmentPlace(DetailsFragment())
+            R.id.released -> fragmentPlace(ListReleasedFragment())
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
