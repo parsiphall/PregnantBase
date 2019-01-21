@@ -29,8 +29,14 @@ class ListViewAdapter(
             screening = "${context!!.resources.getString(R.string.detail_fScr)} ${sdf.format(items[position].fScrS)} - ${sdf.format(items[position].fScrE)}"
         } else if (!items[position].sScrC) {
             screening = "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrS)} - ${sdf.format(items[position].sScrE)}"
+            if (items[position].corr) {
+                screening = "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrSC)} - ${sdf.format(items[position].sScrEC)}"
+            }
         } else if (!items[position].tScrC) {
             screening = "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrS)} - ${sdf.format(items[position].tScrE)}"
+            if (items[position].corr) {
+                screening = "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrSC)} - ${sdf.format(items[position].tScrEC)}"
+            }
         }
         holder.number.text = numberText
         holder.name.text = items[position].name
@@ -38,7 +44,7 @@ class ListViewAdapter(
         holder.risk.text = risk.toString().toUpperCase()
         holder.multiplicity.isChecked = items[position].multiplicity
         holder.delete.setOnClickListener {
-            ad.setTitle(context!!.getString(R.string.adTitle))
+            ad.setTitle(items[position].name)
             ad.setMessage(context!!.getString(R.string.adMessage))
             val btn1 = context!!.getString(R.string.adBtn1)
             val btn2 = context!!.getString(R.string.adBtn2)
