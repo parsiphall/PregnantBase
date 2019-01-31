@@ -423,8 +423,7 @@
             android:id="@+id/detail_todayTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/detail_weeks"
-            android:background="@android:color/holo_green_light">
+            android:layout_below="@+id/detail_weeks">
 
             <TextView
                 android:layout_width="0dp"

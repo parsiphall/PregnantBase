@@ -1,6 +1,7 @@
 package com.example.parsiphal.pregnantbase.view
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -351,6 +352,12 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
         detail_todayTimeWeeksTextView.text = diffWeeks.toString()
         detail_todayTimeDaysTextView.text = diffDays.toString()
+        when {
+            diffWeeks < 20 -> detail_todayTime.setBackgroundColor(Color.LTGRAY)
+            diffWeeks < 30 -> detail_todayTime.setBackgroundColor(Color.GRAY)
+            diffWeeks < 40 -> detail_todayTime.setBackgroundColor(Color.GREEN)
+            else -> detail_todayTime.setBackgroundColor(Color.RED)
+        }
     }
 
     private fun hideKeyboard(v: View) =
