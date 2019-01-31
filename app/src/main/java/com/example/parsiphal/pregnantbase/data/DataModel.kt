@@ -40,5 +40,6 @@ data class DataModel(
     @ColumnInfo var releaseDate: String = "",
     @ColumnInfo var babyGender: Int = 0,
     @ColumnInfo var babyWeight: String = "",
-    @ColumnInfo var babyHeight: String = ""
+    @ColumnInfo var babyHeight: String = "",
+    @ColumnInfo var comment: String = ""
 ) : Serializable

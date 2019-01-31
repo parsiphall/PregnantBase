@@ -1,23 +1,55 @@
 package com.example.parsiphal.pregnantbase.view
 
 import android.content.Context
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
 import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
+import android.os.Environment
+import android.view.*
+import android.widget.Toast
 
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.fragment_details.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DetailsFragment : MvpAppCompatFragment() {
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.findItem(R.id.menu_detail_save).isVisible = true
+        if (!newData) {
+            menu.findItem(R.id.menu_detail_pdf).isVisible = true
+            menu.findItem(R.id.menu_detail_edit).isVisible = true
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_detail_pdf -> {
+                generatePDF(dataModel.name)
+                return true
+            }
+            R.id.menu_detail_save -> {
+                saveToBase()
+                hideKeyboard(detail_root_R)
+                return true
+            }
+            R.id.menu_detail_edit -> {
+                correctData()
+                hideKeyboard(detail_root_R)
+                return true
+            }
+        }
+        return false
+    }
 
     private var newData = false
     private lateinit var dataModel: DataModel
@@ -31,6 +63,7 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         val bundle = this.arguments
         if (bundle != null) {
             dataModel = bundle.getSerializable("ITEM") as DataModel
@@ -55,28 +88,9 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_birthdayEditText.isEnabled = false
             detail_phoneEditText.isEnabled = false
             detail_pmEditText.isEnabled = false
-            detail_corrButton.visibility = View.VISIBLE
-            detail_corrButton.setOnClickListener {
-                YoYo.with(Techniques.Landing)
-                    .duration(100)
-                    .repeat(1)
-                    .playOn(detail_corrButton)
-                detail_fioEditText.isEnabled = true
-                detail_birthdayEditText.isEnabled = true
-                detail_phoneEditText.isEnabled = true
-                detail_releaseDateEditText.isEnabled = true
-                detail_babyGenderSpinner.isEnabled = true
-                detail_babyWeightEditText.isEnabled = true
-                detail_babyHeightEditText.isEnabled = true
-                if (!dataModel.corr) {
-                    detail_13weeksLinear.visibility = View.VISIBLE
-                    detail_corrSaveButton.setOnClickListener {
-                        hideKeyboard(it)
-                        corrData()
-                    }
-                }
-            }
+            detail_commentEditText.isEnabled = false
             if (dataModel.corr) {
+                detail_corrTextView.visibility = View.VISIBLE
                 detail_fScrC.visibility = View.VISIBLE
                 detail_sScrC.visibility = View.VISIBLE
                 detail_tScrC.visibility = View.VISIBLE
@@ -142,43 +156,62 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_multiplicityCheckBox.isChecked = dataModel.multiplicity
         detail_riskSpinner.setSelection(dataModel.risk)
 
+        detail_commentEditText.setText(dataModel.comment)
+
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
         } else {
             detail_releaseCheckBox.setText(R.string.notRelease)
         }
-        if (detail_fScrCheck.isChecked) {
-            detail_fScrCheck.setText(R.string.detail_Scr_check)
-        } else {
-            detail_fScrCheck.setText(R.string.detail_Scr_uncheck)
-        }
-        if (detail_sScrCheck.isChecked) {
-            detail_sScrCheck.setText(R.string.detail_Scr_check)
-            detail_sScrCCheck.setText(R.string.detail_Scr_check)
-        } else {
-            detail_sScrCheck.setText(R.string.detail_Scr_uncheck)
-            detail_sScrCCheck.setText(R.string.detail_Scr_uncheck)
-        }
-        if (detail_tScrCheck.isChecked) {
-            detail_tScrCheck.setText(R.string.detail_Scr_check)
-            detail_tScrCCheck.setText(R.string.detail_Scr_check)
-        } else {
-            detail_tScrCheck.setText(R.string.detail_Scr_uncheck)
-            detail_tScrCCheck.setText(R.string.detail_Scr_uncheck)
-        }
-
-        detail_button.setOnClickListener {
-            YoYo.with(Techniques.Landing)
-                .duration(100)
-                .repeat(1)
-                .playOn(detail_button)
-            hideKeyboard(it)
-            saveToBase()
-        }
 
         detail_releaseCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
             detail_baby.visibility = View.VISIBLE
         }
+    }
+
+    private fun correctData() {
+        detail_fioEditText.isEnabled = true
+        detail_birthdayEditText.isEnabled = true
+        detail_phoneEditText.isEnabled = true
+        detail_releaseDateEditText.isEnabled = true
+        detail_babyGenderSpinner.isEnabled = true
+        detail_babyWeightEditText.isEnabled = true
+        detail_babyHeightEditText.isEnabled = true
+        detail_commentEditText.isEnabled = true
+        if (!dataModel.corr) {
+            detail_13weeksLinear.visibility = View.VISIBLE
+            detail_corrSaveButton.setOnClickListener {
+                hideKeyboard(it)
+                corrData()
+            }
+        }
+    }
+
+    private fun generatePDF(name: String) {
+        val displayMetrics = DisplayMetrics()
+        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
+        val document = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
+        val page = document.startPage(pageInfo)
+        detail_root_S.draw(page.canvas)
+        document.finishPage(page)
+        val dir = File(Environment.getExternalStorageDirectory().absolutePath + "/PregnantBase")
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val targetPDF = "${dir.absolutePath}/$name.pdf"
+        val filePath = File(targetPDF)
+        try {
+            val outputStream = FileOutputStream(filePath)
+            document.writeTo(outputStream)
+            Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show()
+        }
+        document.close()
     }
 
     private fun saveToBase() {
@@ -193,6 +226,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
         dataModel.babyWeight = detail_babyWeightEditText.text.toString()
         dataModel.babyHeight = detail_babyHeightEditText.text.toString()
+        dataModel.comment = detail_commentEditText.text.toString()
         if (!newData) {
             if (dataModel.corr) {
                 dataModel.sScrC = detail_sScrCCheck.isChecked

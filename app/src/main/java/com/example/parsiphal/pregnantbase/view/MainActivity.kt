@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.example.parsiphal.pregnantbase.R
@@ -15,6 +16,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu!!)
+        menu.findItem(R.id.menu_detail_pdf).isVisible = false
+        menu.findItem(R.id.menu_detail_save).isVisible = false
+        menu.findItem(R.id.menu_detail_edit).isVisible = false
+        menu.findItem(R.id.menu_detail_add).isVisible = false
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

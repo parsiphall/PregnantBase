@@ -56,6 +56,9 @@
     <string name="adBtn1">Да</string>
     <string name="adBtn2">Нет</string>
     <string name="Screening">Скрининг</string>
+    <string name="pdf">PDF</string>
+    <string name="comment">Комментарий</string>
+    <string name="correction">Корректировка</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

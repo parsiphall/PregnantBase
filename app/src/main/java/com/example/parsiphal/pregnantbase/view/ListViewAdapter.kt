@@ -30,12 +30,12 @@ class ListViewAdapter(
         } else if (!items[position].sScrC) {
             screening = "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrS)} - ${sdf.format(items[position].sScrE)}"
             if (items[position].corr) {
-                screening = "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrSC)} - ${sdf.format(items[position].sScrEC)}"
+                screening = "${context.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrSC)} - ${sdf.format(items[position].sScrEC)}"
             }
         } else if (!items[position].tScrC) {
             screening = "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrS)} - ${sdf.format(items[position].tScrE)}"
             if (items[position].corr) {
-                screening = "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrSC)} - ${sdf.format(items[position].tScrEC)}"
+                screening = "${context.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrSC)} - ${sdf.format(items[position].tScrEC)}"
             }
         }
         holder.number.text = numberText
@@ -46,8 +46,8 @@ class ListViewAdapter(
         holder.delete.setOnClickListener {
             ad.setTitle(items[position].name)
             ad.setMessage(context!!.getString(R.string.adMessage))
-            val btn1 = context!!.getString(R.string.adBtn1)
-            val btn2 = context!!.getString(R.string.adBtn2)
+            val btn1 = context.getString(R.string.adBtn1)
+            val btn2 = context.getString(R.string.adBtn2)
             ad.setPositiveButton(btn1) { dialog, arg1 ->
                 DB.getDao().deleteData(items[position])
                 items = DB.getDao().getDataPregnant()

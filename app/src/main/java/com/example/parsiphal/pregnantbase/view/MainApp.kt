@@ -28,9 +28,15 @@ class MainApp : Application() {
             }
         }
 
+        val migration23 = object : Migration(2,3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN comment TEXT DEFAULT '' NOT NULL")
+            }
+        }
+
         mDataBase = Room
             .databaseBuilder(applicationContext, db::class.java, "pregnant_DB")
-            .addMigrations(migration12)
+            .addMigrations(migration12, migration23)
             .allowMainThreadQueries()
             .build()
     }
@@ -40,15 +46,19 @@ class MainApp : Application() {
     }
 }
 
+//TODO убрать проведён/не проведён
+//TODO PDF -> список поиска(ФИО, даты, №скр)
+//TODO PDF -> карточка
+//TODO поиск всех по скринингу
+//TODO поле комментарий, скрытое поле, цветовая идентификация на наличие записи
+
 //TODO экспорт/импорт БД
 //TODO перевод БД на Rx
 
+//TODO поиск по периоду скрининга
 //TODO перехват отсутствия ПМ при добавлении
-//TODO PDF -> список поиска(ФИО, даты, №скр)
-//TODO PDF -> карточка
 //TODO риски в списке сократить до буквы
 //TODO рассчитать срок родов от даты
-//TODO поле комментарий, скрытое поле, цветовая идентификация на наличие записи
 //TODO кнопка "+"
 //TODO EditText ярче
 //TODO поиск по >= 38 недель
@@ -58,7 +68,6 @@ class MainApp : Application() {
 //TODO корректировка п/м и I скрининга
 //TODO перехват отсутствия ПМ при добавлении
 //TODO кнопки "сохранить", "корректировать" и "закрыть" в OptionsMenu
-//TODO убрать проведён/не проведён
 //TODO в корректировке переход по Enter
 //TODO переходы по первым EditText
 //TODO не один ребёнок(4)
@@ -66,4 +75,4 @@ class MainApp : Application() {
 //TODO синхронизация БД на 2х устр.
 //TODO 2 участка на 1м компе
 //TODO иногда нужна корректировка от II скр.
-
+//TODO возраст рядом с датой рождения

@@ -53,11 +53,15 @@
             android:text="@string/search_button_tScr" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/search_header"
+    <RelativeLayout
+        android:id="@+id/search_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_buttons">
+    <LinearLayout
+        android:id="@+id/search_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/list_tab_name"
@@ -65,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4.5"
             android:text="@string/detail_fioTextView"
-            android:textAlignment="textEnd" />
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/list_tab_count"
@@ -116,5 +120,6 @@
         android:layout_centerHorizontal="true">
 
     </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
 </RelativeLayout>

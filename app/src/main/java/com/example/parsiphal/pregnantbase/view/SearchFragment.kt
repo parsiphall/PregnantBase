@@ -1,12 +1,14 @@
 package com.example.parsiphal.pregnantbase.view
 
 import android.content.Context
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.os.Environment
 import android.support.v7.widget.LinearLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 
 import com.example.parsiphal.pregnantbase.R
@@ -14,13 +16,32 @@ import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
 import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
+import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class SearchFragment : MvpAppCompatFragment() {
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        menu.findItem(R.id.menu_detail_pdf).isVisible = true
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_detail_pdf -> {
+                generatePDF()
+                return true
+            }
+        }
+        return false
+    }
 
     private var items: List<DataModel> = ArrayList()
     lateinit var callBackActivity: MainView
@@ -29,6 +50,11 @@ class SearchFragment : MvpAppCompatFragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         callBackActivity = context as MainView
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -55,43 +81,64 @@ class SearchFragment : MvpAppCompatFragment() {
         }
         button_search_Scr.setOnClickListener {
             val field = search_editText.text.toString()
-            if (field.length == 6) {
-                val date = sdf.parse(field)
-                items = DB.getDao().getScr(date.time)
-            } else if (field.length == 4) {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                items = DB.getDao().getScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            items = when {
+                field.length == 6 -> {
+                    val date = sdf.parse(field)
+                    DB.getDao().getScr(date.time)
+                }
+                field.length == 4 -> {
+                    val week = Integer.valueOf("${field[0]}${field[1]}")
+                    val year = Integer.valueOf("20${field[2]}${field[3]}")
+                    DB.getDao().getScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+                }
+                else -> DB.getDao().getScrAll()
             }
             Collections.sort(items) { object1, object2 ->
                 var x1 = object1.fScrE
                 if (object1.fScrC) {
                     x1 = object1.sScrE
+                    if (object1.corr) {
+                        x1 = object1.sScrEC
+                    }
                 }
                 if (object1.sScrC) {
                     x1 = object1.tScrE
+                    if (object1.corr) {
+                        x1 = object1.tScrEC
+                    }
                 }
                 var x2 = object2.fScrE
                 if (object2.fScrC) {
                     x2 = object2.sScrE
+                    if (object2.corr) {
+                        x2 = object2.sScrEC
+                    }
                 }
                 if (object1.sScrC) {
                     x2 = object2.tScrE
+                    if (object2.corr) {
+                        x2 = object2.tScrEC
+                    }
                 }
-                x1.compareTo(x2) }
+                x1.compareTo(x2)
+            }
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
             hideKeyboard(it)
         }
         button_search_fScr.setOnClickListener {
             val field = search_editText.text.toString()
-            if (field.length == 6) {
-                val date = sdf.parse(field)
-                items = DB.getDao().getFScr(date.time)
-            } else if (field.length == 4) {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                items = DB.getDao().getFScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            items = when {
+                field.length == 6 -> {
+                    val date = sdf.parse(field)
+                    DB.getDao().getFScr(date.time)
+                }
+                field.length == 4 -> {
+                    val week = Integer.valueOf("${field[0]}${field[1]}")
+                    val year = Integer.valueOf("20${field[2]}${field[3]}")
+                    DB.getDao().getFScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+                }
+                else -> DB.getDao().getFScrAll()
             }
             Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
             adapter.dataChanged(items)
@@ -100,13 +147,17 @@ class SearchFragment : MvpAppCompatFragment() {
         }
         button_search_sScr.setOnClickListener {
             val field = search_editText.text.toString()
-            if (field.length == 6) {
-                val date = sdf.parse(field)
-                items = DB.getDao().getSScr(date.time)
-            } else if (field.length == 4) {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                items = DB.getDao().getSScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            items = when {
+                field.length == 6 -> {
+                    val date = sdf.parse(field)
+                    DB.getDao().getSScr(date.time)
+                }
+                field.length == 4 -> {
+                    val week = Integer.valueOf("${field[0]}${field[1]}")
+                    val year = Integer.valueOf("20${field[2]}${field[3]}")
+                    DB.getDao().getSScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+                }
+                else -> DB.getDao().getSScrAll()
             }
             Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
             adapter.dataChanged(items)
@@ -115,13 +166,17 @@ class SearchFragment : MvpAppCompatFragment() {
         }
         button_search_tScr.setOnClickListener {
             val field = search_editText.text.toString()
-            if (field.length == 6) {
-                val date = sdf.parse(field)
-                items = DB.getDao().getTScr(date.time)
-            } else if (field.length == 4) {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                items = DB.getDao().getTScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            items = when {
+                field.length == 6 -> {
+                    val date = sdf.parse(field)
+                    DB.getDao().getTScr(date.time)
+                }
+                field.length == 4 -> {
+                    val week = Integer.valueOf("${field[0]}${field[1]}")
+                    val year = Integer.valueOf("20${field[2]}${field[3]}")
+                    DB.getDao().getTScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+                }
+                else -> DB.getDao().getTScrAll()
             }
             Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
             adapter.dataChanged(items)
@@ -168,4 +223,31 @@ class SearchFragment : MvpAppCompatFragment() {
             v.windowToken,
             InputMethodManager.HIDE_NOT_ALWAYS
         )
+
+    private fun generatePDF() {
+        val displayMetrics = DisplayMetrics()
+        activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val height = displayMetrics.heightPixels
+        val width = displayMetrics.widthPixels
+        val document = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
+        val page = document.startPage(pageInfo)
+        search_relative.draw(page.canvas)
+        document.finishPage(page)
+        val dir = File(Environment.getExternalStorageDirectory().absolutePath + "/PregnantBase")
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        val targetPDF = "${dir.absolutePath}/list.pdf"
+        val filePath = File(targetPDF)
+        try {
+            val outputStream = FileOutputStream(filePath)
+            document.writeTo(outputStream)
+            Toast.makeText(context, "Файл list.pdf сохранён", Toast.LENGTH_LONG).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show()
+        }
+        document.close()
+    }
 }
