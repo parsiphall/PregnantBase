@@ -23,6 +23,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         menu.findItem(R.id.menu_detail_save).isVisible = false
         menu.findItem(R.id.menu_detail_edit).isVisible = false
         menu.findItem(R.id.menu_detail_add).isVisible = false
+        menu.findItem(R.id.menu_detail_back).isVisible = false
         return true
     }
 

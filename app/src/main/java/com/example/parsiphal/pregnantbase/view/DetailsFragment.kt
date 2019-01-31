@@ -24,6 +24,7 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.findItem(R.id.menu_detail_save).isVisible = true
+        menu.findItem(R.id.menu_detail_back).isVisible = true
         if (!newData) {
             menu.findItem(R.id.menu_detail_pdf).isVisible = true
             menu.findItem(R.id.menu_detail_edit).isVisible = true
@@ -46,6 +47,9 @@ class DetailsFragment : MvpAppCompatFragment() {
                 correctData()
                 hideKeyboard(detail_root_R)
                 return true
+            }
+            R.id.menu_detail_back -> {
+                fragmentManager?.popBackStackImmediate()
             }
         }
         return false
@@ -215,57 +219,75 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private fun saveToBase() {
-        dataModel.name = detail_fioEditText.text.toString()
-        dataModel.birthday = detail_birthdayEditText.text.toString()
-        dataModel.phone = detail_phoneEditText.text.toString()
-        dataModel.release = detail_releaseCheckBox.isChecked
-        dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
-        dataModel.risk = detail_riskSpinner.selectedItemPosition
-        dataModel.riskText = detail_riskSpinner.selectedItem.toString()
-        dataModel.releaseDate = detail_releaseDateEditText.text.toString()
-        dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
-        dataModel.babyWeight = detail_babyWeightEditText.text.toString()
-        dataModel.babyHeight = detail_babyHeightEditText.text.toString()
-        dataModel.comment = detail_commentEditText.text.toString()
-        if (!newData) {
-            if (dataModel.corr) {
-                dataModel.sScrC = detail_sScrCCheck.isChecked
-                dataModel.tScrC = detail_tScrCCheck.isChecked
+        if (detail_pmEditText.text.toString().length == 6) {
+            dataModel.name = detail_fioEditText.text.toString()
+            dataModel.birthday = detail_birthdayEditText.text.toString()
+            dataModel.phone = detail_phoneEditText.text.toString()
+            dataModel.release = detail_releaseCheckBox.isChecked
+            dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
+            dataModel.risk = detail_riskSpinner.selectedItemPosition
+            dataModel.riskText = detail_riskSpinner.selectedItem.toString()
+            dataModel.releaseDate = detail_releaseDateEditText.text.toString()
+            dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
+            dataModel.babyWeight = detail_babyWeightEditText.text.toString()
+            dataModel.babyHeight = detail_babyHeightEditText.text.toString()
+            dataModel.comment = detail_commentEditText.text.toString()
+            if (!newData) {
+                if (dataModel.corr) {
+                    dataModel.sScrC = detail_sScrCCheck.isChecked
+                    dataModel.tScrC = detail_tScrCCheck.isChecked
+                } else {
+                    dataModel.fScrC = detail_fScrCheck.isChecked
+                    dataModel.sScrC = detail_sScrCheck.isChecked
+                    dataModel.tScrC = detail_tScrCheck.isChecked
+                }
+                DB.getDao().updateData(dataModel)
             } else {
-                dataModel.fScrC = detail_fScrCheck.isChecked
-                dataModel.sScrC = detail_sScrCheck.isChecked
-                dataModel.tScrC = detail_tScrCheck.isChecked
+                dataModel.pm = detail_pmEditText.text.toString()
+                val pm = detail_pmEditText.text.toString()
+                val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
+                val pmMonth = Integer.valueOf("${pm[2]}${pm[3]}") - 1
+                val pmYear = Integer.valueOf("20${pm[4]}${pm[5]}")
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.YEAR, pmYear)
+                cal.set(Calendar.MONTH, pmMonth)
+                cal.set(Calendar.DAY_OF_MONTH, pmDay)
+                cal.add(Calendar.DAY_OF_YEAR, 77)
+                dataModel.fScrS = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR, 20)
+                dataModel.fScrE = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR, 29)
+                dataModel.sScrS = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR, 20)
+                dataModel.sScrE = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR, 64)
+                dataModel.tScrS = cal.timeInMillis
+                dataModel.thirtyWeeks = dataModel.tScrS
+                cal.add(Calendar.DAY_OF_YEAR, 28)
+                dataModel.tScrE = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR, 42)
+                dataModel.fortyWeeks = cal.timeInMillis
+                DB.getDao().addData(dataModel)
             }
-            DB.getDao().updateData(dataModel)
-            callBackActivity.prevousFragment()
+            Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show()
+            lockEditTexts()
         } else {
-            dataModel.pm = detail_pmEditText.text.toString()
-            val pm = detail_pmEditText.text.toString()
-            val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
-            val pmMonth = Integer.valueOf("${pm[2]}${pm[3]}") - 1
-            val pmYear = Integer.valueOf("20${pm[4]}${pm[5]}")
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.YEAR, pmYear)
-            cal.set(Calendar.MONTH, pmMonth)
-            cal.set(Calendar.DAY_OF_MONTH, pmDay)
-            cal.add(Calendar.DAY_OF_YEAR, 77)
-            dataModel.fScrS = cal.timeInMillis
-            cal.add(Calendar.DAY_OF_YEAR, 20)
-            dataModel.fScrE = cal.timeInMillis
-            cal.add(Calendar.DAY_OF_YEAR, 29)
-            dataModel.sScrS = cal.timeInMillis
-            cal.add(Calendar.DAY_OF_YEAR, 20)
-            dataModel.sScrE = cal.timeInMillis
-            cal.add(Calendar.DAY_OF_YEAR, 64)
-            dataModel.tScrS = cal.timeInMillis
-            dataModel.thirtyWeeks = dataModel.tScrS
-            cal.add(Calendar.DAY_OF_YEAR, 28)
-            dataModel.tScrE = cal.timeInMillis
-            cal.add(Calendar.DAY_OF_YEAR, 42)
-            dataModel.fortyWeeks = cal.timeInMillis
-            DB.getDao().addData(dataModel)
-            callBackActivity.fragmentPlace(ListFragment())
+            Toast.makeText(context, "Введите ПМ", Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun lockEditTexts() {
+        detail_fioEditText.isEnabled = false
+        detail_birthdayEditText.isEnabled = false
+        detail_phoneEditText.isEnabled = false
+        detail_releaseDateEditText.isEnabled = false
+        detail_babyGenderSpinner.isEnabled = false
+        detail_babyWeightEditText.isEnabled = false
+        detail_babyHeightEditText.isEnabled = false
+        detail_commentEditText.isEnabled = false
+        detail_pmEditText.isEnabled = false
+        detail_13weeksLinear.visibility = View.GONE
+        fragmentManager!!.beginTransaction().detach(this).attach(this).commit()
     }
 
     private fun corrData() {
@@ -300,7 +322,8 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.add(Calendar.DAY_OF_YEAR, 42)
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
-        callBackActivity.prevousFragment()
+        Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show()
+        lockEditTexts()
     }
 
     private fun todayTime(dataModel: DataModel) {

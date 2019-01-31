@@ -30,7 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
                 android:hint="@string/fioEx"
-                android:inputType="text" />
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:nextFocusForward="@id/detail_birthdayEditText"
+                android:textColor="@drawable/edit_text_selector" />
 
             <CheckBox
                 android:id="@+id/detail_releaseCheckBox"
@@ -59,7 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/detail_birthdayTextView"
-                android:inputType="number" />
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:nextFocusRight="@id/detail_phoneEditText"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="0dp"
@@ -74,7 +80,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/detail_phoneTextView"
-                android:inputType="phone" />
+                android:imeOptions="actionNext"
+                android:inputType="phone"
+                android:nextFocusForward="@id/detail_pmEditText"
+                android:textColor="@drawable/edit_text_selector" />
         </LinearLayout>
 
         <LinearLayout
@@ -97,7 +106,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/release_date"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="0dp"
@@ -134,7 +144,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/weight"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="0dp"
@@ -149,7 +160,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/height"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="@drawable/edit_text_selector" />
 
         </LinearLayout>
 
@@ -173,7 +185,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="@string/inputFormatDate"
-                android:inputType="number" />
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="@drawable/edit_text_selector" />
 
             <CheckBox
                 android:id="@+id/detail_multiplicityCheckBox"
@@ -211,14 +225,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textAlignment="center"
-                android:text="@string/comment" />
+                android:text="@string/comment"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/detail_commentEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5" />
+                android:layout_weight="5"
+                android:imeOptions="actionDone"
+                android:textColor="@drawable/edit_text_selector" />
 
         </LinearLayout>
 
@@ -458,7 +474,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="@string/inputFormatDate"
-                android:inputType="number" />
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:nextFocusForward="@id/detail_corrEditTextWeeks"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -472,7 +491,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="@string/inputFormatWeeks"
-                android:inputType="number" />
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:nextFocusForward="@id/detail_corrEditTextDays"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -486,7 +508,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:hint="@string/inputFormatDays"
-                android:inputType="number" />
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:textColor="@drawable/edit_text_selector" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -504,12 +528,12 @@
 
         <TextView
             android:id="@+id/detail_corrTextView"
-            android:layout_below="@id/detail_13weeksLinear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/detail_13weeksLinear"
+            android:text="@string/correction"
             android:textAlignment="center"
-            android:visibility="gone"
-            android:text="@string/correction"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/detail_fScrC"

@@ -37,6 +37,7 @@ class SearchFragment : MvpAppCompatFragment() {
         when (item?.itemId) {
             R.id.menu_detail_pdf -> {
                 generatePDF()
+                search_recyclerView.layoutManager?.scrollToPosition(8)
                 return true
             }
         }
@@ -225,6 +226,8 @@ class SearchFragment : MvpAppCompatFragment() {
         )
 
     private fun generatePDF() {
+        val size = items.size
+        var itemCounter = 0
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels

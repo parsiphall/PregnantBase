@@ -30,4 +30,10 @@
         android:title="@string/nav_add"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/menu_detail_back"
+        android:icon="@drawable/ic_back"
+        android:orderInCategory="5"
+        android:title="@string/back"
+        app:showAsAction="ifRoom" />
 </menu>

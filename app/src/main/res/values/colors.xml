@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorMyGrayLight">#D3D3D3</color>
     <color name="colorMyGrayDark">#C0C0C0</color>
+    <color name="colorMyBlack">#000000</color>
 </resources>
