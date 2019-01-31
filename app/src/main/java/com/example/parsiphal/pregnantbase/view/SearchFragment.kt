@@ -226,8 +226,8 @@ class SearchFragment : MvpAppCompatFragment() {
         )
 
     private fun generatePDF() {
-        val size = items.size
-        var itemCounter = 0
+//        val size = items.size
+//        var itemCounter = 0
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels

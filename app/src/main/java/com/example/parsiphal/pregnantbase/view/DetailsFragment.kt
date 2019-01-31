@@ -161,6 +161,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_riskSpinner.setSelection(dataModel.risk)
 
         detail_commentEditText.setText(dataModel.comment)
+        detail_age.text = calculateAge(dataModel.birthday)
 
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
@@ -168,7 +169,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_releaseCheckBox.setText(R.string.notRelease)
         }
 
-        detail_releaseCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
+        detail_releaseCheckBox.setOnCheckedChangeListener { _, _ ->
             detail_baby.visibility = View.VISIBLE
         }
     }
@@ -213,7 +214,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG).show()
         }
         document.close()
     }
@@ -269,10 +270,10 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.fortyWeeks = cal.timeInMillis
                 DB.getDao().addData(dataModel)
             }
-            Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
             lockEditTexts()
         } else {
-            Toast.makeText(context, "Введите ПМ", Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
         }
     }
 
@@ -322,7 +323,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.add(Calendar.DAY_OF_YEAR, 42)
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
-        Toast.makeText(context, "Сохранено", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
         lockEditTexts()
     }
 
@@ -357,4 +358,22 @@ class DetailsFragment : MvpAppCompatFragment() {
             v.windowToken,
             InputMethodManager.HIDE_NOT_ALWAYS
         )
+
+    private fun calculateAge(dateOfBirth: String): String {
+        return if (dateOfBirth.length == 6) {
+            val calNow = Calendar.getInstance()
+            val calBirth = Calendar.getInstance()
+            if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
+            } else {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
+            }
+            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
+            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+            "~$diff"
+        } else {
+            getString(R.string.incorrectBirthdayDate)
+        }
+    }
 }

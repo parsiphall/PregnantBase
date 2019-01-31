@@ -52,7 +52,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:text="@string/detail_birthdayTextView"
                 android:textAlignment="center" />
 
@@ -60,12 +60,27 @@
                 android:id="@+id/detail_birthdayEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:hint="@string/detail_birthdayTextView"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:nextFocusRight="@id/detail_phoneEditText"
                 android:textColor="@drawable/edit_text_selector" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/age"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:id="@+id/detail_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textAlignment="center"
+                android:textColor="@color/colorMyBlack"/>
 
             <TextView
                 android:layout_width="0dp"

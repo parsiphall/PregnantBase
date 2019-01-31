@@ -48,12 +48,12 @@ class ListViewAdapter(
             ad.setMessage(context!!.getString(R.string.adMessage))
             val btn1 = context.getString(R.string.adBtn1)
             val btn2 = context.getString(R.string.adBtn2)
-            ad.setPositiveButton(btn1) { dialog, arg1 ->
+            ad.setPositiveButton(btn1) { _, _ ->
                 DB.getDao().deleteData(items[position])
                 items = DB.getDao().getDataPregnant()
                 dataChanged(items)
             }
-            ad.setNegativeButton(btn2) { dialog, arg1 ->
+            ad.setNegativeButton(btn2) { dialog, _ ->
                 dialog.cancel()
             }
             ad.show()
