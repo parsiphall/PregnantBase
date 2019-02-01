@@ -66,6 +66,7 @@
     <string name="age">Возраст:</string>
     <string name="maintanance">В разработке</string>
     <string name="incorrectBirthdayDate">ДР не верна</string>
+    <string name="phoneHint">89991234567</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

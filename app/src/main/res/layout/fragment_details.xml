@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:textAlignment="center"
-                android:textColor="@color/colorMyBlack"/>
+                android:textColor="@color/colorMyBlack" />
 
             <TextView
                 android:layout_width="0dp"
@@ -94,7 +94,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/detail_phoneTextView"
+                android:hint="@string/phoneHint"
                 android:imeOptions="actionNext"
                 android:inputType="phone"
                 android:nextFocusForward="@id/detail_pmEditText"
@@ -144,7 +144,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:entries="@array/gender"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/colorMyBlack" />
 
             <TextView
                 android:layout_width="0dp"

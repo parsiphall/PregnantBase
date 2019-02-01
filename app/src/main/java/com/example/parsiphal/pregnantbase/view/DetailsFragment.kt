@@ -128,11 +128,16 @@ class DetailsFragment : MvpAppCompatFragment() {
             if (dataModel.release) {
                 detail_baby.visibility = View.VISIBLE
                 detail_releaseDateEditText.isEnabled = false
-                detail_babyGenderSpinner.isEnabled = false
                 detail_babyWeightEditText.isEnabled = false
                 detail_babyHeightEditText.isEnabled = false
 
-                detail_releaseDateEditText.setText(dataModel.releaseDate)
+                if (dataModel.releaseDate.length == 6) {
+                    var rd = dataModel.releaseDate
+                    rd = "${rd[0]}${rd[1]}/${rd[2]}${rd[3]}/${rd[4]}${rd[5]}"
+                    detail_releaseDateEditText.setText(rd)
+                } else {
+                    detail_releaseDateEditText.setText(dataModel.releaseDate)
+                }
                 detail_babyGenderSpinner.setSelection(dataModel.babyGender)
                 detail_babyWeightEditText.setText(dataModel.babyWeight)
                 detail_babyHeightEditText.setText(dataModel.babyHeight)
@@ -140,9 +145,25 @@ class DetailsFragment : MvpAppCompatFragment() {
             todayTime(dataModel)
         }
         detail_fioEditText.setText(dataModel.name)
-        detail_birthdayEditText.setText(dataModel.birthday)
-        detail_phoneEditText.setText(dataModel.phone)
-        detail_pmEditText.setText(dataModel.pm)
+        if (dataModel.birthday.length == 6) {
+            var bd = dataModel.birthday
+            bd = "${bd[0]}${bd[1]}/${bd[2]}${bd[3]}/${bd[4]}${bd[5]}"
+            detail_birthdayEditText.setText(bd)
+        } else {
+            detail_birthdayEditText.setText(dataModel.birthday)
+        }
+        if (dataModel.phone.length == 11) {
+            var p = dataModel.phone
+            p = "+7(${p[1]}${p[2]}${p[3]})${p[4]}${p[5]}${p[6]}-${p[7]}${p[8]}-${p[9]}${p[10]}"
+            detail_phoneEditText.setText(p)
+        } else {
+            detail_phoneEditText.setText(dataModel.phone)
+        }
+        if (dataModel.pm.length == 6) {
+            var pm = dataModel.pm
+            pm = "${pm[0]}${pm[1]}/${pm[2]}${pm[3]}/${pm[4]}${pm[5]}"
+            detail_pmEditText.setText(pm)
+        }
         detail_fScrS_TextView.text = sdf.format(dataModel.fScrS)
         detail_fScrF_TextView.text = sdf.format(dataModel.fScrE)
         detail_fScrCheck.isChecked = dataModel.fScrC
@@ -221,30 +242,30 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private fun saveToBase() {
-        if (detail_pmEditText.text.toString().length == 6) {
-            dataModel.name = detail_fioEditText.text.toString()
-            dataModel.birthday = detail_birthdayEditText.text.toString()
-            dataModel.phone = detail_phoneEditText.text.toString()
-            dataModel.release = detail_releaseCheckBox.isChecked
-            dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
-            dataModel.risk = detail_riskSpinner.selectedItemPosition
-            dataModel.riskText = detail_riskSpinner.selectedItem.toString()
-            dataModel.releaseDate = detail_releaseDateEditText.text.toString()
-            dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
-            dataModel.babyWeight = detail_babyWeightEditText.text.toString()
-            dataModel.babyHeight = detail_babyHeightEditText.text.toString()
-            dataModel.comment = detail_commentEditText.text.toString()
-            if (!newData) {
-                if (dataModel.corr) {
-                    dataModel.sScrC = detail_sScrCCheck.isChecked
-                    dataModel.tScrC = detail_tScrCCheck.isChecked
-                } else {
-                    dataModel.fScrC = detail_fScrCheck.isChecked
-                    dataModel.sScrC = detail_sScrCheck.isChecked
-                    dataModel.tScrC = detail_tScrCheck.isChecked
-                }
-                DB.getDao().updateData(dataModel)
+        dataModel.name = detail_fioEditText.text.toString()
+        dataModel.birthday = detail_birthdayEditText.text.toString()
+        dataModel.phone = detail_phoneEditText.text.toString()
+        dataModel.release = detail_releaseCheckBox.isChecked
+        dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
+        dataModel.risk = detail_riskSpinner.selectedItemPosition
+        dataModel.riskText = detail_riskSpinner.selectedItem.toString()
+        dataModel.releaseDate = detail_releaseDateEditText.text.toString()
+        dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
+        dataModel.babyWeight = detail_babyWeightEditText.text.toString()
+        dataModel.babyHeight = detail_babyHeightEditText.text.toString()
+        dataModel.comment = detail_commentEditText.text.toString()
+        if (!newData) {
+            if (dataModel.corr) {
+                dataModel.sScrC = detail_sScrCCheck.isChecked
+                dataModel.tScrC = detail_tScrCCheck.isChecked
             } else {
+                dataModel.fScrC = detail_fScrCheck.isChecked
+                dataModel.sScrC = detail_sScrCheck.isChecked
+                dataModel.tScrC = detail_tScrCheck.isChecked
+            }
+            DB.getDao().updateData(dataModel)
+        } else {
+            if (detail_pmEditText.text.toString().length == 6) {
                 dataModel.pm = detail_pmEditText.text.toString()
                 val pm = detail_pmEditText.text.toString()
                 val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
@@ -270,12 +291,13 @@ class DetailsFragment : MvpAppCompatFragment() {
                 cal.add(Calendar.DAY_OF_YEAR, 42)
                 dataModel.fortyWeeks = cal.timeInMillis
                 DB.getDao().addData(dataModel)
+            } else {
+                Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
             }
-            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
-            lockEditTexts()
-        } else {
-            Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
         }
+        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
+        lockEditTexts()
+
     }
 
     private fun lockEditTexts() {
@@ -283,7 +305,6 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_birthdayEditText.isEnabled = false
         detail_phoneEditText.isEnabled = false
         detail_releaseDateEditText.isEnabled = false
-        detail_babyGenderSpinner.isEnabled = false
         detail_babyWeightEditText.isEnabled = false
         detail_babyHeightEditText.isEnabled = false
         detail_commentEditText.isEnabled = false
@@ -367,20 +388,34 @@ class DetailsFragment : MvpAppCompatFragment() {
         )
 
     private fun calculateAge(dateOfBirth: String): String {
-        return if (dateOfBirth.length == 6) {
-            val calNow = Calendar.getInstance()
-            val calBirth = Calendar.getInstance()
-            if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
-            } else {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
+        return when {
+            dateOfBirth.length == 8 -> {
+                val calNow = Calendar.getInstance()
+                val calBirth = Calendar.getInstance()
+                if ("${dateOfBirth[6]}${dateOfBirth[7]}".toInt() < 50) {
+                    calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[6]}${dateOfBirth[7]}"))
+                } else {
+                    calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[6]}${dateOfBirth[7]}"))
+                }
+                calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
+                calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+                val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+                "~$diff"
             }
-            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
-            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-            "~$diff"
-        } else {
-            getString(R.string.incorrectBirthdayDate)
+            dateOfBirth.length == 6 -> {
+                val calNow = Calendar.getInstance()
+                val calBirth = Calendar.getInstance()
+                if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
+                    calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
+                } else {
+                    calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
+                }
+                calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
+                calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+                val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+                "~$diff"
+            }
+            else -> getString(R.string.incorrectBirthdayDate)
         }
     }
 }
