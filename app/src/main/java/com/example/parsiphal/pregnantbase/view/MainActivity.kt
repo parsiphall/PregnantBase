@@ -61,7 +61,6 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
             R.id.add -> fragmentPlace(DetailsFragment())
             R.id.released -> fragmentPlace(ListReleasedFragment())
         }
-
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }

@@ -40,10 +40,6 @@ class MainApp : Application() {
             .allowMainThreadQueries()
             .build()
     }
-
-    fun getDataBase(): db {
-        return mDataBase!!
-    }
 }
 
 //TODO экспорт/импорт БД

@@ -1,5 +1,6 @@
 package com.example.parsiphal.pregnantbase.view
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.pdf.PdfDocument
@@ -21,7 +22,25 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val DIALOG_DATE = 1
+
 class DetailsFragment : MvpAppCompatFragment() {
+
+    private var newData = false
+    private lateinit var dataModel: DataModel
+    private lateinit var callBackActivity: MainView
+    private var birthdayDatePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        var myMonth = (month + 1).toString()
+        var myDay = dayOfMonth.toString()
+        if (month < 10) {
+            myMonth = "0$myMonth"
+        }
+        if (dayOfMonth < 10) {
+            myDay = "0$myDay"
+        }
+        val date = "$myDay/$myMonth/$year"
+        detail_birthdayEditText.text = date
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.findItem(R.id.menu_detail_save).isVisible = true
@@ -51,15 +70,11 @@ class DetailsFragment : MvpAppCompatFragment() {
             }
             R.id.menu_detail_back -> {
                 fragmentManager?.popBackStackImmediate()
+                return true
             }
         }
         return false
     }
-
-    private var newData = false
-    private lateinit var dataModel: DataModel
-    private lateinit var callBackActivity: MainView
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -78,12 +93,9 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_details, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_details, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -148,9 +160,9 @@ class DetailsFragment : MvpAppCompatFragment() {
         if (dataModel.birthday.length == 6) {
             var bd = dataModel.birthday
             bd = "${bd[0]}${bd[1]}/${bd[2]}${bd[3]}/${bd[4]}${bd[5]}"
-            detail_birthdayEditText.setText(bd)
+            detail_birthdayEditText.text = bd
         } else {
-            detail_birthdayEditText.setText(dataModel.birthday)
+            detail_birthdayEditText.text = dataModel.birthday
         }
         if (dataModel.phone.length == 11) {
             var p = dataModel.phone
@@ -193,6 +205,17 @@ class DetailsFragment : MvpAppCompatFragment() {
 
         detail_releaseCheckBox.setOnCheckedChangeListener { _, _ ->
             detail_baby.visibility = View.VISIBLE
+        }
+
+        detail_birthdayEditText.setOnClickListener {
+            val cal = Calendar.getInstance()
+            DatePickerDialog(
+                context!!,
+                birthdayDatePicker,
+                1990,
+                0,
+                1
+            ).show()
         }
     }
 
@@ -374,8 +397,8 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_todayTimeWeeksTextView.text = diffWeeks.toString()
         detail_todayTimeDaysTextView.text = diffDays.toString()
         when {
-            diffWeeks < 20 -> detail_todayTime.setBackgroundColor(Color.LTGRAY)
-            diffWeeks < 30 -> detail_todayTime.setBackgroundColor(Color.GRAY)
+            diffWeeks < 20 -> detail_todayTime.setBackgroundColor(Color.CYAN)
+            diffWeeks < 30 -> detail_todayTime.setBackgroundColor(Color.YELLOW)
             diffWeeks < 40 -> detail_todayTime.setBackgroundColor(Color.GREEN)
             else -> detail_todayTime.setBackgroundColor(Color.RED)
         }
@@ -387,35 +410,46 @@ class DetailsFragment : MvpAppCompatFragment() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
 
-    private fun calculateAge(dateOfBirth: String): String {
-        return when {
-            dateOfBirth.length == 8 -> {
-                val calNow = Calendar.getInstance()
-                val calBirth = Calendar.getInstance()
-                if ("${dateOfBirth[6]}${dateOfBirth[7]}".toInt() < 50) {
-                    calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[6]}${dateOfBirth[7]}"))
-                } else {
-                    calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[6]}${dateOfBirth[7]}"))
-                }
-                calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
-                calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-                val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-                "~$diff"
-            }
-            dateOfBirth.length == 6 -> {
-                val calNow = Calendar.getInstance()
-                val calBirth = Calendar.getInstance()
-                if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
-                    calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
-                } else {
-                    calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
-                }
-                calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
-                calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-                val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-                "~$diff"
-            }
-            else -> getString(R.string.incorrectBirthdayDate)
+    private fun calculateAge(dateOfBirth: String): String = when {
+        dateOfBirth.length == 10 -> {
+            val calNow = Calendar.getInstance()
+            val calBirth = Calendar.getInstance()
+            calBirth.set(
+                Calendar.YEAR,
+                Integer.valueOf("${dateOfBirth[6]}${dateOfBirth[7]}${dateOfBirth[8]}${dateOfBirth[9]}")
+            )
+            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
+            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+            "~$diff"
         }
+        dateOfBirth.length == 8 -> {
+            val calNow = Calendar.getInstance()
+            val calBirth = Calendar.getInstance()
+            if ("${dateOfBirth[6]}${dateOfBirth[7]}".toInt() < 50) {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[6]}${dateOfBirth[7]}"))
+            } else {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[6]}${dateOfBirth[7]}"))
+            }
+            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
+            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+            "~$diff"
+        }
+        dateOfBirth.length == 6 -> {
+            val calNow = Calendar.getInstance()
+            val calBirth = Calendar.getInstance()
+            if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
+            } else {
+                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
+            }
+            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
+            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
+            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
+            "~$diff"
+        }
+        else -> getString(R.string.incorrectBirthdayDate)
     }
+
 }
