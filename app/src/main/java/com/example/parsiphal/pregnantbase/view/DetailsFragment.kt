@@ -29,7 +29,7 @@ class DetailsFragment : MvpAppCompatFragment() {
     private var newData = false
     private lateinit var dataModel: DataModel
     private lateinit var callBackActivity: MainView
-    private var birthdayDatePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+    private var birthdayDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
         var myMonth = (month + 1).toString()
         var myDay = dayOfMonth.toString()
         if (month < 10) {
@@ -39,7 +39,43 @@ class DetailsFragment : MvpAppCompatFragment() {
             myDay = "0$myDay"
         }
         val date = "$myDay/$myMonth/$year"
-        detail_birthdayEditText.text = date
+        detail_birthdayEdit.text = date
+    }
+    private var releaseDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        var myMonth = (month + 1).toString()
+        var myDay = dayOfMonth.toString()
+        if (month < 10) {
+            myMonth = "0$myMonth"
+        }
+        if (dayOfMonth < 10) {
+            myDay = "0$myDay"
+        }
+        val date = "$myDay/$myMonth/$year"
+        detail_releaseDateEdit.text = date
+    }
+    private var corrDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        var myMonth = (month + 1).toString()
+        var myDay = dayOfMonth.toString()
+        if (month < 10) {
+            myMonth = "0$myMonth"
+        }
+        if (dayOfMonth < 10) {
+            myDay = "0$myDay"
+        }
+        val date = "$myDay/$myMonth/$year"
+        detail_corrEdit.text = date
+    }
+     private var pmDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+        var myMonth = (month + 1).toString()
+        var myDay = dayOfMonth.toString()
+        if (month < 10) {
+            myMonth = "0$myMonth"
+        }
+        if (dayOfMonth < 10) {
+            myDay = "0$myDay"
+        }
+        val date = "$myDay/$myMonth/$year"
+        detail_pmEdit.text = date
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
@@ -102,9 +138,9 @@ class DetailsFragment : MvpAppCompatFragment() {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         if (!newData) {
             detail_fioEditText.isEnabled = false
-            detail_birthdayEditText.isEnabled = false
+            detail_birthdayEdit.isEnabled = false
             detail_phoneEditText.isEnabled = false
-            detail_pmEditText.isEnabled = false
+            detail_pmEdit.isEnabled = false
             detail_commentEditText.isEnabled = false
             if (dataModel.corr) {
                 detail_corrTextView.visibility = View.VISIBLE
@@ -118,9 +154,18 @@ class DetailsFragment : MvpAppCompatFragment() {
 
                 val fScrDate = dataModel.fScrDate
                 val calFScr = Calendar.getInstance()
-                val fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
-                val fScrMonth = Integer.valueOf("${fScrDate[2]}${fScrDate[3]}") - 1
-                val fScrYear = Integer.valueOf("20${fScrDate[4]}${fScrDate[5]}")
+                val fScrDay: Int
+                val fScrMonth: Int
+                val fScrYear: Int
+                if (dataModel.fScrDate.length == 10) {
+                    fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
+                    fScrMonth = Integer.valueOf("${fScrDate[3]}${fScrDate[4]}") - 1
+                    fScrYear = Integer.valueOf("${fScrDate[6]}${fScrDate[7]}${fScrDate[8]}${fScrDate[9]}")
+                } else {
+                    fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
+                    fScrMonth = Integer.valueOf("${fScrDate[2]}${fScrDate[3]}") - 1
+                    fScrYear = Integer.valueOf("20${fScrDate[4]}${fScrDate[5]}")
+                }
                 calFScr.set(Calendar.YEAR, fScrYear)
                 calFScr.set(Calendar.MONTH, fScrMonth)
                 calFScr.set(Calendar.DAY_OF_MONTH, fScrDay)
@@ -139,16 +184,16 @@ class DetailsFragment : MvpAppCompatFragment() {
             }
             if (dataModel.release) {
                 detail_baby.visibility = View.VISIBLE
-                detail_releaseDateEditText.isEnabled = false
+                detail_releaseDateEdit.isEnabled = false
                 detail_babyWeightEditText.isEnabled = false
                 detail_babyHeightEditText.isEnabled = false
 
                 if (dataModel.releaseDate.length == 6) {
                     var rd = dataModel.releaseDate
                     rd = "${rd[0]}${rd[1]}/${rd[2]}${rd[3]}/${rd[4]}${rd[5]}"
-                    detail_releaseDateEditText.setText(rd)
+                    detail_releaseDateEdit.text = rd
                 } else {
-                    detail_releaseDateEditText.setText(dataModel.releaseDate)
+                    detail_releaseDateEdit.text = dataModel.releaseDate
                 }
                 detail_babyGenderSpinner.setSelection(dataModel.babyGender)
                 detail_babyWeightEditText.setText(dataModel.babyWeight)
@@ -160,9 +205,9 @@ class DetailsFragment : MvpAppCompatFragment() {
         if (dataModel.birthday.length == 6) {
             var bd = dataModel.birthday
             bd = "${bd[0]}${bd[1]}/${bd[2]}${bd[3]}/${bd[4]}${bd[5]}"
-            detail_birthdayEditText.text = bd
+            detail_birthdayEdit.text = bd
         } else {
-            detail_birthdayEditText.text = dataModel.birthday
+            detail_birthdayEdit.text = dataModel.birthday
         }
         if (dataModel.phone.length == 11) {
             var p = dataModel.phone
@@ -174,7 +219,9 @@ class DetailsFragment : MvpAppCompatFragment() {
         if (dataModel.pm.length == 6) {
             var pm = dataModel.pm
             pm = "${pm[0]}${pm[1]}/${pm[2]}${pm[3]}/${pm[4]}${pm[5]}"
-            detail_pmEditText.setText(pm)
+            detail_pmEdit.text = pm
+        } else {
+            detail_pmEdit.text = dataModel.pm
         }
         detail_fScrS_TextView.text = sdf.format(dataModel.fScrS)
         detail_fScrF_TextView.text = sdf.format(dataModel.fScrE)
@@ -207,8 +254,7 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_baby.visibility = View.VISIBLE
         }
 
-        detail_birthdayEditText.setOnClickListener {
-            val cal = Calendar.getInstance()
+        detail_birthdayEdit.setOnClickListener {
             DatePickerDialog(
                 context!!,
                 birthdayDatePicker,
@@ -217,13 +263,46 @@ class DetailsFragment : MvpAppCompatFragment() {
                 1
             ).show()
         }
+
+        detail_releaseDateEdit.setOnClickListener {
+            val cal = Calendar.getInstance()
+            DatePickerDialog(
+                context!!,
+                releaseDatePicker,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        detail_corrEdit.setOnClickListener {
+            val cal = Calendar.getInstance()
+            DatePickerDialog(
+                context!!,
+                corrDatePicker,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        detail_pmEdit.setOnClickListener {
+            val cal = Calendar.getInstance()
+            DatePickerDialog(
+                context!!,
+                pmDatePicker,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
     }
 
     private fun correctData() {
         detail_fioEditText.isEnabled = true
-        detail_birthdayEditText.isEnabled = true
+        detail_birthdayEdit.isEnabled = true
         detail_phoneEditText.isEnabled = true
-        detail_releaseDateEditText.isEnabled = true
+        detail_releaseDateEdit.isEnabled = true
         detail_babyGenderSpinner.isEnabled = true
         detail_babyWeightEditText.isEnabled = true
         detail_babyHeightEditText.isEnabled = true
@@ -266,13 +345,13 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private fun saveToBase() {
         dataModel.name = detail_fioEditText.text.toString()
-        dataModel.birthday = detail_birthdayEditText.text.toString()
+        dataModel.birthday = detail_birthdayEdit.text.toString()
         dataModel.phone = detail_phoneEditText.text.toString()
         dataModel.release = detail_releaseCheckBox.isChecked
         dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
         dataModel.risk = detail_riskSpinner.selectedItemPosition
         dataModel.riskText = detail_riskSpinner.selectedItem.toString()
-        dataModel.releaseDate = detail_releaseDateEditText.text.toString()
+        dataModel.releaseDate = detail_releaseDateEdit.text.toString()
         dataModel.babyGender = detail_babyGenderSpinner.selectedItemPosition
         dataModel.babyWeight = detail_babyWeightEditText.text.toString()
         dataModel.babyHeight = detail_babyHeightEditText.text.toString()
@@ -288,12 +367,12 @@ class DetailsFragment : MvpAppCompatFragment() {
             }
             DB.getDao().updateData(dataModel)
         } else {
-            if (detail_pmEditText.text.toString().length == 6) {
-                dataModel.pm = detail_pmEditText.text.toString()
-                val pm = detail_pmEditText.text.toString()
+            if (detail_pmEdit.text.toString().length == 10) {
+                dataModel.pm = detail_pmEdit.text.toString()
+                val pm = detail_pmEdit.text.toString()
                 val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
-                val pmMonth = Integer.valueOf("${pm[2]}${pm[3]}") - 1
-                val pmYear = Integer.valueOf("20${pm[4]}${pm[5]}")
+                val pmMonth = Integer.valueOf("${pm[3]}${pm[4]}") - 1
+                val pmYear = Integer.valueOf("${pm[6]}${pm[7]}${pm[8]}${pm[9]}")
                 val cal = Calendar.getInstance()
                 cal.set(Calendar.YEAR, pmYear)
                 cal.set(Calendar.MONTH, pmMonth)
@@ -325,13 +404,13 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private fun lockEditTexts() {
         detail_fioEditText.isEnabled = false
-        detail_birthdayEditText.isEnabled = false
+        detail_birthdayEdit.isEnabled = false
         detail_phoneEditText.isEnabled = false
-        detail_releaseDateEditText.isEnabled = false
+        detail_releaseDateEdit.isEnabled = false
         detail_babyWeightEditText.isEnabled = false
         detail_babyHeightEditText.isEnabled = false
         detail_commentEditText.isEnabled = false
-        detail_pmEditText.isEnabled = false
+        detail_pmEdit.isEnabled = false
         detail_13weeksLinear.visibility = View.GONE
         fragmentManager!!.beginTransaction().detach(this).attach(this).commit()
     }
@@ -342,10 +421,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         dataModel.sScrC = detail_sScrCheck.isChecked
         dataModel.tScrC = detail_tScrCheck.isChecked
         dataModel.fScrC = true
-        val tw = detail_corrEditText.text.toString()
+        val tw = detail_corrEdit.text.toString()
         val twDay = Integer.valueOf("${tw[0]}${tw[1]}")
-        val twMonth = Integer.valueOf("${tw[2]}${tw[3]}") - 1
-        val twYear = Integer.valueOf("20${tw[4]}${tw[5]}")
+        val twMonth = Integer.valueOf("${tw[3]}${tw[4]}") - 1
+        val twYear = Integer.valueOf("${tw[6]}${tw[7]}${tw[8]}${tw[9]}")
         val cal = Calendar.getInstance()
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
@@ -380,8 +459,13 @@ class DetailsFragment : MvpAppCompatFragment() {
         } else {
             dataModel.pm
         }
-        calComp.set(Calendar.YEAR, Integer.valueOf("20${comp[4]}${comp[5]}"))
-        calComp.set(Calendar.MONTH, Integer.valueOf("${comp[2]}${comp[3]}") - 1)
+        if (comp.length == 6) {
+            calComp.set(Calendar.YEAR, Integer.valueOf("20${comp[4]}${comp[5]}"))
+            calComp.set(Calendar.MONTH, Integer.valueOf("${comp[2]}${comp[3]}") - 1)
+        } else {
+            calComp.set(Calendar.YEAR, Integer.valueOf("${comp[6]}${comp[7]}${comp[8]}${comp[9]}"))
+            calComp.set(Calendar.MONTH, Integer.valueOf("${comp[3]}${comp[4]}") - 1)
+        }
         calComp.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${comp[0]}${comp[1]}"))
         val diff = ((calNow.timeInMillis - calComp.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
         var diffWeeks = diff / 7
