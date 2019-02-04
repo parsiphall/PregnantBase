@@ -10,6 +10,8 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
@@ -35,7 +37,7 @@ class SearchFragment : MvpAppCompatFragment() {
     private lateinit var adapter: SearchViewAdapter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        menu.findItem(R.id.menu_detail_pdf).isVisible = true
+//        menu.findItem(R.id.menu_detail_pdf).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -78,6 +80,7 @@ class SearchFragment : MvpAppCompatFragment() {
         super.onViewCreated(view, savedInstanceState)
         val sdf = SimpleDateFormat("ddMMyy")
         button_search_fio.setOnClickListener {
+            animate(it)
             val search = "%${search_editText.text}%"
             GlobalScope.launch {
                 searchFio(search)
@@ -85,6 +88,7 @@ class SearchFragment : MvpAppCompatFragment() {
             hideKeyboard(it)
         }
         button_search_Scr.setOnClickListener {
+            animate(it)
             val field = search_editText.text.toString()
             GlobalScope.launch {
                 searchScr(field, sdf)
@@ -92,6 +96,7 @@ class SearchFragment : MvpAppCompatFragment() {
             hideKeyboard(it)
         }
         button_search_fScr.setOnClickListener {
+            animate(it)
             val field = search_editText.text.toString()
             GlobalScope.launch {
                 searchFScr(field, sdf)
@@ -99,6 +104,7 @@ class SearchFragment : MvpAppCompatFragment() {
             hideKeyboard(it)
         }
         button_search_sScr.setOnClickListener {
+            animate(it)
             val field = search_editText.text.toString()
             GlobalScope.launch {
                 searchSScr(field, sdf)
@@ -106,6 +112,7 @@ class SearchFragment : MvpAppCompatFragment() {
             hideKeyboard(it)
         }
         button_search_tScr.setOnClickListener {
+            animate(it)
             val field = search_editText.text.toString()
             GlobalScope.launch {
                 searchTScr(field, sdf)
@@ -119,6 +126,13 @@ class SearchFragment : MvpAppCompatFragment() {
                 callBackActivity.fragmentPlaceWithArgs(DetailsFragment(), bundle)
             }
         })
+    }
+
+    private fun animate(it: View?) {
+        YoYo.with(Techniques.Landing)
+            .duration(100)
+            .repeat(1)
+            .playOn(it)
     }
 
     private suspend fun searchTScr(field: String, sdf: SimpleDateFormat) {

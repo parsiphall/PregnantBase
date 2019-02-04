@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import android.os.Environment
 import android.view.*
+import android.widget.DatePicker
 import android.widget.Toast
 
 import com.example.parsiphal.pregnantbase.R
@@ -262,47 +263,43 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
 
         detail_birthdayEdit.setOnClickListener {
-            DatePickerDialog(
-                context!!,
-                birthdayDatePicker,
-                1990,
-                0,
-                1
-            ).show()
+            datePickerDialog(birthdayDatePicker)
         }
 
         detail_releaseDateEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                releaseDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(releaseDatePicker)
         }
 
         detail_corrEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                corrDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(corrDatePicker)
         }
 
         detail_pmEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                pmDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(pmDatePicker)
         }
+    }
+
+    private fun datePickerDialog(datePicker: DatePickerDialog.OnDateSetListener) {
+        val cal = Calendar.getInstance()
+        val year: Int
+        val month: Int
+        val dayOfMonth: Int
+        if (datePicker == birthdayDatePicker) {
+            year = 1990
+            month = 0
+            dayOfMonth = 1
+        } else {
+            year = cal.get(Calendar.YEAR)
+            month = cal.get(Calendar.MONTH)
+            dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+        }
+        DatePickerDialog(
+            context!!,
+            datePicker,
+            year,
+            month,
+            dayOfMonth
+        ).show()
     }
 
     private fun correctData() {
