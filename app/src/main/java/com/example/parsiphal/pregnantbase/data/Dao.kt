@@ -26,31 +26,31 @@ interface Dao {
     @Query("SELECT * FROM DataModel WHERE :date BETWEEN fScrS AND fScrE AND fScrC <> 1 AND `release` <> 1")
     fun getFScr(date: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :date BETWEEN sScrS AND sScrE AND sScrC <> 1 ELSE :date BETWEEN sScrSC AND sScrEC AND sScrC <> 1 END AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :date BETWEEN sScrS AND sScrE AND sScrC <> 1 ELSE :date BETWEEN sScrSC AND sScrEC AND fScrC = 1 AND sScrC <> 1 END AND `release` <> 1")
     fun getSScr(date: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :date BETWEEN tScrS AND tScrE AND tScrC <> 1 ELSE :date BETWEEN tScrSC AND tScrEC AND tScrC <> 1 END AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :date BETWEEN tScrS AND tScrE AND tScrC <> 1 ELSE :date BETWEEN tScrSC AND tScrEC AND fScrC = 1 AND sScrC = 1 AND tScrC <> 1 END AND `release` <> 1")
     fun getTScr(date: Long): List<DataModel>
 
     @Query("SELECT * FROM DataModel WHERE fScrC <> 1 AND `release` <> 1")
     fun getFScrAll(): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE sScrC <> 1 AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE fScrC = 1 AND sScrC <> 1 AND `release` <> 1")
     fun getSScrAll(): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE tScrC <> 1 AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE fScrC = 1 AND sScrC = 1 AND tScrC <> 1 AND `release` <> 1")
     fun getTScrAll(): List<DataModel>
 
     @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN (:weekStart BETWEEN fScrS AND fScrE AND fScrC <> 1 OR :weekEnd BETWEEN fScrS AND fScrE AND fScrC <> 1) OR (:weekStart BETWEEN sScrS AND sScrE AND sScrC <> 1 OR :weekEnd BETWEEN sScrS AND sScrE AND sScrC <> 1) OR (:weekStart BETWEEN tScrS AND tScrE AND tScrC <> 1 OR :weekEnd BETWEEN tScrS AND tScrE AND tScrC <> 1) ELSE (:weekStart BETWEEN fScrS AND fScrE AND fScrC <> 1 OR :weekEnd BETWEEN fScrS AND fScrE AND fScrC <> 1) OR (:weekStart BETWEEN sScrSC AND sScrEC AND sScrC <> 1 OR :weekEnd BETWEEN sScrSC AND sScrEC AND sScrC <> 1) OR (:weekStart BETWEEN tScrSC AND tScrEC AND tScrC <> 1 OR :weekEnd BETWEEN tScrSC AND tScrEC AND tScrC <> 1) END AND `release` <> 1")
     fun getScrWeek(weekStart: Long, weekEnd: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE (:weekStart BETWEEN fScrS AND fScrE AND fScrC <> 1) OR (:weekEnd BETWEEN fScrS AND fScrE AND fScrC <> 1) AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE (:weekStart BETWEEN fScrS AND fScrE OR :weekEnd BETWEEN fScrS AND fScrE) AND fScrC <> 1 AND `release` <> 1")
     fun getFScrWeek(weekStart: Long, weekEnd: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :weekStart BETWEEN sScrS AND sScrE AND sScrC <> 1 OR :weekEnd BETWEEN sScrS AND sScrE AND sScrC <> 1 ELSE :weekStart BETWEEN sScrSC AND sScrEC AND sScrC <> 1 OR :weekEnd BETWEEN sScrSC AND sScrEC AND sScrC <> 1 END AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :weekStart BETWEEN sScrS AND sScrE OR :weekEnd BETWEEN sScrS AND sScrE ELSE :weekStart BETWEEN sScrSC AND sScrEC OR :weekEnd BETWEEN sScrSC AND sScrEC END AND fScRC = 1 AND sScrC <> 1 AND `release` <> 1")
     fun getSScrWeek(weekStart: Long, weekEnd: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :weekStart BETWEEN tScrS AND tScrE AND tScrC <> 1 OR :weekEnd BETWEEN tScrS AND tScrE AND tScrC <> 1 ELSE :weekStart BETWEEN tScrSC AND tScrEC AND tScrC <> 1 OR :weekEnd BETWEEN tScrSC AND tScrEC AND tScrC <> 1 END AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN :weekStart BETWEEN tScrS AND tScrE OR :weekEnd BETWEEN tScrS AND tScrE ELSE :weekStart BETWEEN tScrSC AND tScrEC OR :weekEnd BETWEEN tScrSC AND tScrEC END AND fScrC = 1 AND sScrC = 1 AND tScrC <> 1 AND `release` <> 1")
     fun getTScrWeek(weekStart: Long, weekEnd: Long): List<DataModel>
 
     @Update
