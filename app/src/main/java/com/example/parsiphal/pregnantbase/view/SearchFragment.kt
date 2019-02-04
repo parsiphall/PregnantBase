@@ -131,7 +131,6 @@ class SearchFragment : MvpAppCompatFragment() {
     private fun animate(it: View?) {
         YoYo.with(Techniques.Landing)
             .duration(100)
-            .repeat(1)
             .playOn(it)
     }
 
