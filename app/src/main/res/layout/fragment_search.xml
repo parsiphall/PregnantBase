@@ -102,14 +102,6 @@
             android:text="@string/multiplicity"
             android:textAlignment="center" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:layout_weight="0"
-            android:src="@android:drawable/ic_menu_delete"
-            android:visibility="invisible" />
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

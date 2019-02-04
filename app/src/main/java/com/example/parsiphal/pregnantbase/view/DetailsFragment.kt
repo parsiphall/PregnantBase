@@ -16,6 +16,9 @@ import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -65,7 +68,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         val date = "$myDay/$myMonth/$year"
         detail_corrEdit.text = date
     }
-     private var pmDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+    private var pmDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
         var myMonth = (month + 1).toString()
         var myDay = dayOfMonth.toString()
         if (month < 10) {
@@ -91,11 +94,15 @@ class DetailsFragment : MvpAppCompatFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_detail_pdf -> {
-                generatePDF(dataModel.name)
+                GlobalScope.launch {
+                    generatePDF(dataModel.name)
+                }
                 return true
             }
             R.id.menu_detail_save -> {
-                saveToBase()
+                GlobalScope.launch {
+                    saveToBase()
+                }
                 hideKeyboard(detail_root_R)
                 return true
             }
@@ -311,12 +318,14 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_13weeksLinear.visibility = View.VISIBLE
             detail_corrSaveButton.setOnClickListener {
                 hideKeyboard(it)
-                corrData()
+                GlobalScope.launch {
+                    corrData()
+                }
             }
         }
     }
 
-    private fun generatePDF(name: String) {
+    private suspend fun generatePDF(name: String) {
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -335,15 +344,19 @@ class DetailsFragment : MvpAppCompatFragment() {
         try {
             val outputStream = FileOutputStream(filePath)
             document.writeTo(outputStream)
-            Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG).show()
+            }
         }
         document.close()
     }
 
-    private fun saveToBase() {
+    private suspend fun saveToBase() {
         dataModel.name = detail_fioEditText.text.toString()
         dataModel.birthday = detail_birthdayEdit.text.toString()
         dataModel.phone = detail_phoneEditText.text.toString()
@@ -394,11 +407,15 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.fortyWeeks = cal.timeInMillis
                 DB.getDao().addData(dataModel)
             } else {
-                Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
+                MainScope().launch {
+                    Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
+                }
             }
         }
-        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
-        lockEditTexts()
+        MainScope().launch {
+            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
+            lockEditTexts()
+        }
 
     }
 
@@ -415,7 +432,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         fragmentManager!!.beginTransaction().detach(this).attach(this).commit()
     }
 
-    private fun corrData() {
+    private suspend fun corrData() {
         dataModel.corr = true
         dataModel.fScrC = detail_fScrCheck.isChecked
         dataModel.sScrC = detail_sScrCheck.isChecked
@@ -447,8 +464,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.add(Calendar.DAY_OF_YEAR, 42)
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
-        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
-        lockEditTexts()
+        MainScope().launch {
+            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
+            lockEditTexts()
+        }
     }
 
     private fun todayTime(dataModel: DataModel) {

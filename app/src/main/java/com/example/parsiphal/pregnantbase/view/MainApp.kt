@@ -37,7 +37,6 @@ class MainApp : Application() {
         mDataBase = Room
             .databaseBuilder(applicationContext, db::class.java, "pregnant_DB")
             .addMigrations(migration12, migration23)
-            .allowMainThreadQueries()
             .build()
     }
 }
