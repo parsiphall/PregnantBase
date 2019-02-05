@@ -11,6 +11,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import android.os.Environment
 import android.view.*
 import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.Toast
 
 import com.example.parsiphal.pregnantbase.R
@@ -33,54 +34,6 @@ class DetailsFragment : MvpAppCompatFragment() {
     private var newData = false
     private lateinit var dataModel: DataModel
     private lateinit var callBackActivity: MainView
-    private var birthdayDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_birthdayEdit.text = date
-    }
-    private var releaseDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_releaseDateEdit.text = date
-    }
-    private var corrDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_corrEdit.text = date
-    }
-    private var pmDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_pmEdit.text = date
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.findItem(R.id.menu_detail_save).isVisible = true
@@ -263,28 +216,42 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
 
         detail_birthdayEdit.setOnClickListener {
-            datePickerDialog(birthdayDatePicker)
+            datePickerDialog(it as TextView)
         }
 
         detail_releaseDateEdit.setOnClickListener {
-            datePickerDialog(releaseDatePicker)
+            datePickerDialog(it as TextView)
         }
 
         detail_corrEdit.setOnClickListener {
-            datePickerDialog(corrDatePicker)
+            datePickerDialog(it as TextView)
         }
 
         detail_pmEdit.setOnClickListener {
-            datePickerDialog(pmDatePicker)
+            datePickerDialog(it as TextView)
         }
     }
 
-    private fun datePickerDialog(datePicker: DatePickerDialog.OnDateSetListener) {
+    private fun dateListener(v: TextView): DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            var myMonth = (month + 1).toString()
+            var myDay = dayOfMonth.toString()
+            if (month < 10) {
+                myMonth = "0$myMonth"
+            }
+            if (dayOfMonth < 10) {
+                myDay = "0$myDay"
+            }
+            val date = "$myDay/$myMonth/$year"
+            v.text = date
+        }
+
+    private fun datePickerDialog(v: TextView) {
         val cal = Calendar.getInstance()
         val year: Int
         val month: Int
         val dayOfMonth: Int
-        if (datePicker == birthdayDatePicker) {
+        if (v == detail_birthdayEdit) {
             year = 1990
             month = 0
             dayOfMonth = 1
@@ -295,7 +262,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
         DatePickerDialog(
             context!!,
-            datePicker,
+            dateListener(v),
             year,
             month,
             dayOfMonth
