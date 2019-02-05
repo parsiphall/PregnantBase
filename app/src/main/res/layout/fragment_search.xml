@@ -5,17 +5,39 @@
     android:layout_height="match_parent"
     tools:context=".view.SearchFragment">
 
-    <EditText
-        android:id="@+id/search_editText"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:id="@+id/search_upper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/search"
+            android:textAlignment="center"
+            android:textColor="@color/colorMyBlack">
+
+        </Spinner>
+
+        <EditText
+            android:id="@+id/search_editText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/nav_search" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/search_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_editText">
+        android:layout_below="@id/search_upper">
 
         <Button
             android:id="@+id/button_search_fio"

@@ -77,4 +77,11 @@
         <item>М</item>
         <item>Ж</item>
     </string-array>
+    <string-array name="search">
+        <item>ФИО</item>
+        <item>СКР</item>
+        <item>I СКР</item>
+        <item>II СКР</item>
+        <item>III СКР</item>
+    </string-array>
 </resources>
