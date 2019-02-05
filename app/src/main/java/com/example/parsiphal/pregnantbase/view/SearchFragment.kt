@@ -5,9 +5,12 @@ import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.os.Environment
 import android.support.v7.widget.LinearLayoutManager
+import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.daimajia.androidanimations.library.Techniques
@@ -79,46 +82,69 @@ class SearchFragment : MvpAppCompatFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val sdf = SimpleDateFormat("ddMMyy")
-        button_search_fio.setOnClickListener {
-            animate(it)
-            val search = "%${search_editText.text}%"
-            GlobalScope.launch {
-                searchFio(search)
+        search_chooser.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> {
+                        search_editText.visibility = View.VISIBLE
+                        search_dates.visibility = View.GONE
+                        search_editText.inputType = InputType.TYPE_CLASS_TEXT
+                    }
+                    5 -> {
+                        search_editText.visibility = View.VISIBLE
+                        search_dates.visibility = View.GONE
+                        search_editText.inputType = InputType.TYPE_CLASS_NUMBER
+                    }
+                    else -> {
+                        search_editText.visibility = View.GONE
+                        search_dates.visibility = View.VISIBLE
+                        hideKeyboard(search_buttonGlobal)
+                    }
+                }
             }
-            hideKeyboard(it)
         }
-        button_search_Scr.setOnClickListener {
-            animate(it)
-            val field = search_editText.text.toString()
-            GlobalScope.launch {
-                searchScr(field, sdf)
-            }
-            hideKeyboard(it)
-        }
-        button_search_fScr.setOnClickListener {
-            animate(it)
-            val field = search_editText.text.toString()
-            GlobalScope.launch {
-                searchFScr(field, sdf)
-            }
-            hideKeyboard(it)
-        }
-        button_search_sScr.setOnClickListener {
-            animate(it)
-            val field = search_editText.text.toString()
-            GlobalScope.launch {
-                searchSScr(field, sdf)
-            }
-            hideKeyboard(it)
-        }
-        button_search_tScr.setOnClickListener {
-            animate(it)
-            val field = search_editText.text.toString()
-            GlobalScope.launch {
-                searchTScr(field, sdf)
-            }
-            hideKeyboard(it)
-        }
+//        button_search_fio.setOnClickListener {
+//            animate(it)
+//            val search = "%${search_editText.text}%"
+//            GlobalScope.launch {
+//                searchFio(search)
+//            }
+//            hideKeyboard(it)
+//        }
+//        button_search_Scr.setOnClickListener {
+//            animate(it)
+//            val field = search_editText.text.toString()
+//            GlobalScope.launch {
+//                searchScr(field, sdf)
+//            }
+//            hideKeyboard(it)
+//        }
+//        button_search_fScr.setOnClickListener {
+//            animate(it)
+//            val field = search_editText.text.toString()
+//            GlobalScope.launch {
+//                searchFScr(field, sdf)
+//            }
+//            hideKeyboard(it)
+//        }
+//        button_search_sScr.setOnClickListener {
+//            animate(it)
+//            val field = search_editText.text.toString()
+//            GlobalScope.launch {
+//                searchSScr(field, sdf)
+//            }
+//            hideKeyboard(it)
+//        }
+//        button_search_tScr.setOnClickListener {
+//            animate(it)
+//            val field = search_editText.text.toString()
+//            GlobalScope.launch {
+//                searchTScr(field, sdf)
+//            }
+//            hideKeyboard(it)
+//        }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val bundle = Bundle()
@@ -132,6 +158,15 @@ class SearchFragment : MvpAppCompatFragment() {
         YoYo.with(Techniques.Landing)
             .duration(100)
             .playOn(it)
+    }
+
+    private suspend fun searchFio(search: String) {
+        items = DB.getDao().getCurrentData(search)
+        Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
+        MainScope().launch {
+            adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
+        }
     }
 
     private suspend fun searchTScr(field: String, sdf: SimpleDateFormat) {
@@ -188,15 +223,6 @@ class SearchFragment : MvpAppCompatFragment() {
             else -> DB.getDao().getFScrAll()
         }
         Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
-        MainScope().launch {
-            adapter.dataChanged(items)
-            list_tab_count.text = items.size.toString()
-        }
-    }
-
-    private suspend fun searchFio(search: String) {
-        items = DB.getDao().getCurrentData(search)
-        Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()

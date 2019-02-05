@@ -14,6 +14,7 @@
         android:orientation="horizontal">
 
         <Spinner
+            android:id="@+id/search_chooser"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:entries="@array/search"
@@ -27,113 +28,101 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
+        <LinearLayout
+            android:id="@+id/search_dates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/search_textView1"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/date"
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_tire"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/search_textView2"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/date"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
         <Button
+            android:id="@+id/search_buttonGlobal"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/nav_search" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/search_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_upper">
-
-        <Button
-            android:id="@+id/button_search_fio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_button" />
-
-        <Button
-            android:id="@+id/button_search_Scr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_button_scr" />
-
-        <Button
-            android:id="@+id/button_search_fScr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_button_fScr" />
-
-        <Button
-            android:id="@+id/button_search_sScr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_button_sScr" />
-
-        <Button
-            android:id="@+id/button_search_tScr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/search_button_tScr" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/search_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_buttons">
-    <LinearLayout
-        android:id="@+id/search_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_below="@id/search_upper">
 
-        <TextView
-            android:id="@+id/list_tab_name"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/search_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/list_tab_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4.5"
+                android:text="@string/detail_fioTextView"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/list_tab_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textAlignment="center" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/Screening"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/list_tab_risk"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/risk"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/list_tab_multiplicity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/multiplicity"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_recyclerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
-            android:text="@string/detail_fioTextView"
-            android:textAlignment="center" />
+            android:layout_below="@id/search_header"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/list_tab_count"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="@string/Screening"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/list_tab_risk"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/risk"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/list_tab_multiplicity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/multiplicity"
-            android:textAlignment="center" />
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_header"
-        android:layout_centerHorizontal="true">
-
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
     </RelativeLayout>
 
 </RelativeLayout>
