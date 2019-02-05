@@ -147,7 +147,16 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             else -> DB.getDao().getTScrAll()
         }
-        Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
+        Collections.sort(items) { object1, object2 ->
+            var x1 = object1.tScrE
+            if (object1.corr) {
+                x1 = object1.tScrEC
+            }
+            var x2 = object2.tScrE
+            if (object2.corr) {
+                x2 = object2.tScrEC
+            }
+            x1.compareTo(x2) }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -167,7 +176,18 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             else -> DB.getDao().getSScrAll()
         }
-        Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
+        Collections.sort(items) { object1, object2 ->
+            val x1 = if (object1.corr) {
+                object1.sScrEC
+            } else {
+                object1.sScrE
+            }
+            val x2 = if (object2.corr) {
+                object2.sScrEC
+            } else {
+                object2.sScrE
+            }
+            x1.compareTo(x2) }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -237,7 +257,7 @@ class SearchFragment : MvpAppCompatFragment() {
                     x2 = object2.sScrEC
                 }
             }
-            if (object1.sScrC) {
+            if (object2.sScrC) {
                 x2 = object2.tScrE
                 if (object2.corr) {
                     x2 = object2.tScrEC
