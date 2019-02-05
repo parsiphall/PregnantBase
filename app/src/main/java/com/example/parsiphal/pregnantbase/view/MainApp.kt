@@ -37,13 +37,11 @@ class MainApp : Application() {
         mDataBase = Room
             .databaseBuilder(applicationContext, db::class.java, "pregnant_DB")
             .addMigrations(migration12, migration23)
-            .allowMainThreadQueries()
             .build()
     }
 }
 
 //TODO экспорт/импорт БД
-//TODO перевод БД на Rx
 
 //TODO поиск по периоду скрининга
 //TODO рассчитать срок родов от даты

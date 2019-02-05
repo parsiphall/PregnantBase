@@ -10,12 +10,17 @@ import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import android.os.Environment
 import android.view.*
+import android.widget.DatePicker
+import android.widget.TextView
 import android.widget.Toast
 
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -29,54 +34,6 @@ class DetailsFragment : MvpAppCompatFragment() {
     private var newData = false
     private lateinit var dataModel: DataModel
     private lateinit var callBackActivity: MainView
-    private var birthdayDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_birthdayEdit.text = date
-    }
-    private var releaseDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_releaseDateEdit.text = date
-    }
-    private var corrDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_corrEdit.text = date
-    }
-     private var pmDatePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-        var myMonth = (month + 1).toString()
-        var myDay = dayOfMonth.toString()
-        if (month < 10) {
-            myMonth = "0$myMonth"
-        }
-        if (dayOfMonth < 10) {
-            myDay = "0$myDay"
-        }
-        val date = "$myDay/$myMonth/$year"
-        detail_pmEdit.text = date
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
         menu.findItem(R.id.menu_detail_save).isVisible = true
@@ -91,11 +48,15 @@ class DetailsFragment : MvpAppCompatFragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.menu_detail_pdf -> {
-                generatePDF(dataModel.name)
+                GlobalScope.launch {
+                    generatePDF(dataModel.name)
+                }
                 return true
             }
             R.id.menu_detail_save -> {
-                saveToBase()
+                GlobalScope.launch {
+                    saveToBase()
+                }
                 hideKeyboard(detail_root_R)
                 return true
             }
@@ -255,47 +216,57 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
 
         detail_birthdayEdit.setOnClickListener {
-            DatePickerDialog(
-                context!!,
-                birthdayDatePicker,
-                1990,
-                0,
-                1
-            ).show()
+            datePickerDialog(it as TextView)
         }
 
         detail_releaseDateEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                releaseDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(it as TextView)
         }
 
         detail_corrEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                corrDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(it as TextView)
         }
 
         detail_pmEdit.setOnClickListener {
-            val cal = Calendar.getInstance()
-            DatePickerDialog(
-                context!!,
-                pmDatePicker,
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            datePickerDialog(it as TextView)
         }
+    }
+
+    private fun dateListener(v: TextView): DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            var myMonth = (month + 1).toString()
+            var myDay = dayOfMonth.toString()
+            if (month < 10) {
+                myMonth = "0$myMonth"
+            }
+            if (dayOfMonth < 10) {
+                myDay = "0$myDay"
+            }
+            val date = "$myDay/$myMonth/$year"
+            v.text = date
+        }
+
+    private fun datePickerDialog(v: TextView) {
+        val cal = Calendar.getInstance()
+        val year: Int
+        val month: Int
+        val dayOfMonth: Int
+        if (v == detail_birthdayEdit) {
+            year = 1990
+            month = 0
+            dayOfMonth = 1
+        } else {
+            year = cal.get(Calendar.YEAR)
+            month = cal.get(Calendar.MONTH)
+            dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+        }
+        DatePickerDialog(
+            context!!,
+            dateListener(v),
+            year,
+            month,
+            dayOfMonth
+        ).show()
     }
 
     private fun correctData() {
@@ -311,12 +282,14 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_13weeksLinear.visibility = View.VISIBLE
             detail_corrSaveButton.setOnClickListener {
                 hideKeyboard(it)
-                corrData()
+                GlobalScope.launch {
+                    corrData()
+                }
             }
         }
     }
 
-    private fun generatePDF(name: String) {
+    private suspend fun generatePDF(name: String) {
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -335,15 +308,19 @@ class DetailsFragment : MvpAppCompatFragment() {
         try {
             val outputStream = FileOutputStream(filePath)
             document.writeTo(outputStream)
-            Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, "Файл $name.pdf сохранён", Toast.LENGTH_LONG).show()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG).show()
+            }
         }
         document.close()
     }
 
-    private fun saveToBase() {
+    private suspend fun saveToBase() {
         dataModel.name = detail_fioEditText.text.toString()
         dataModel.birthday = detail_birthdayEdit.text.toString()
         dataModel.phone = detail_phoneEditText.text.toString()
@@ -394,11 +371,15 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.fortyWeeks = cal.timeInMillis
                 DB.getDao().addData(dataModel)
             } else {
-                Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
+                MainScope().launch {
+                    Toast.makeText(context, getString(R.string.enterPM), Toast.LENGTH_LONG).show()
+                }
             }
         }
-        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
-        lockEditTexts()
+        MainScope().launch {
+            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
+            lockEditTexts()
+        }
 
     }
 
@@ -415,7 +396,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         fragmentManager!!.beginTransaction().detach(this).attach(this).commit()
     }
 
-    private fun corrData() {
+    private suspend fun corrData() {
         dataModel.corr = true
         dataModel.fScrC = detail_fScrCheck.isChecked
         dataModel.sScrC = detail_sScrCheck.isChecked
@@ -447,8 +428,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.add(Calendar.DAY_OF_YEAR, 42)
         dataModel.fortyWeeksC = cal.timeInMillis
         DB.getDao().updateData(dataModel)
-        Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
-        lockEditTexts()
+        MainScope().launch {
+            Toast.makeText(context, getString(R.string.saved), Toast.LENGTH_LONG).show()
+            lockEditTexts()
+        }
     }
 
     private fun todayTime(dataModel: DataModel) {
