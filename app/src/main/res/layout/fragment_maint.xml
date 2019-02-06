@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
     android:orientation="vertical"
     tools:context=".view.MaintFragment">
 
@@ -11,17 +12,19 @@
         android:id="@+id/maint_birthday"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Birthday"/>
+        android:text="Birthday" />
+
     <Button
         android:id="@+id/maint_pm"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="pm"/>
+        android:text="pm" />
+
     <Button
         android:id="@+id/maint_fScrDate"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="fScrDate"/>
+        android:text="fScrDate" />
 
 
 </LinearLayout>

@@ -79,21 +79,21 @@ class ListViewAdapter(
             }
             ad.show()
         }
-
-        val comp = if (items[position].corr) {
-            items[position].fScrDate
-        } else {
-            items[position].pm
+        if (!items[position].release) {
+            val comp = if (items[position].corr) {
+                items[position].fScrDate
+            } else {
+                items[position].pm
+            }
+            val diff = ((cal.timeInMillis - comp.toLong()) / (24 * 60 * 60 * 1000)).toInt()
+            val diffWeeks = diff / 7
+            when {
+                diffWeeks < 20 -> holder.bg.setBackgroundColor(Color.CYAN)
+                diffWeeks < 30 -> holder.bg.setBackgroundColor(Color.YELLOW)
+                diffWeeks < 40 -> holder.bg.setBackgroundColor(Color.GREEN)
+                else -> holder.bg.setBackgroundColor(Color.RED)
+            }
         }
-        val diff = ((cal.timeInMillis - comp.toLong()) / (24 * 60 * 60 * 1000)).toInt()
-        val diffWeeks = diff / 7
-        when {
-            diffWeeks < 20 -> holder.bg.setBackgroundColor(Color.CYAN)
-            diffWeeks < 30 -> holder.bg.setBackgroundColor(Color.YELLOW)
-            diffWeeks < 40 -> holder.bg.setBackgroundColor(Color.GREEN)
-            else -> holder.bg.setBackgroundColor(Color.RED)
-        }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
