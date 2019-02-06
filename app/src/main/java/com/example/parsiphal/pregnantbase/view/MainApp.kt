@@ -4,7 +4,12 @@ import android.app.Application
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.migration.Migration
+import com.example.parsiphal.pregnantbase.data.Preferences
 import com.example.parsiphal.pregnantbase.data.db
+
+val prefs: Preferences by lazy {
+    MainApp.prefs!!
+}
 
 val DB: db by lazy {
     MainApp.mDataBase!!
@@ -13,11 +18,14 @@ val DB: db by lazy {
 class MainApp : Application() {
 
     companion object {
+        var prefs: Preferences? = null
         var mDataBase: db? = null
     }
 
     override fun onCreate() {
         super.onCreate()
+
+        prefs = Preferences(applicationContext)
 
         val migration12 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
@@ -51,5 +59,5 @@ class MainApp : Application() {
 //TODO не один ребёнок(4)
 //TODO вес, прибавка; календарь
 //TODO синхронизация БД на 2х устр.
-//TODO 2 участка на 1м компе
+//TODO 2 участка на 1м компе(разные БД)
 //TODO иногда нужна корректировка от II скр.

@@ -113,25 +113,8 @@ class DetailsFragment : MvpAppCompatFragment() {
                 detail_sScrCheck.isClickable = false
                 detail_tScrCheck.isClickable = false
 
-                val fScrDate = dataModel.fScrDate
-                val calFScr = Calendar.getInstance()
-                val fScrDay: Int
-                val fScrMonth: Int
-                val fScrYear: Int
-                if (dataModel.fScrDate.length == 10) {
-                    fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
-                    fScrMonth = Integer.valueOf("${fScrDate[3]}${fScrDate[4]}") - 1
-                    fScrYear = Integer.valueOf("${fScrDate[6]}${fScrDate[7]}${fScrDate[8]}${fScrDate[9]}")
-                } else {
-                    fScrDay = Integer.valueOf("${fScrDate[0]}${fScrDate[1]}")
-                    fScrMonth = Integer.valueOf("${fScrDate[2]}${fScrDate[3]}") - 1
-                    fScrYear = Integer.valueOf("20${fScrDate[4]}${fScrDate[5]}")
-                }
-                calFScr.set(Calendar.YEAR, fScrYear)
-                calFScr.set(Calendar.MONTH, fScrMonth)
-                calFScr.set(Calendar.DAY_OF_MONTH, fScrDay)
-                val format = calFScr.timeInMillis
-                val fScrCD = sdf.format(format)
+                val fScrDate = Date(dataModel.fScrDate.toLong())
+                val fScrCD = sdf.format(fScrDate)
                 val fScrCW = "${dataModel.fScrTimeWeeks} ${resources.getString(R.string.weeks)}"
                 val fScrCd = "${dataModel.fScrTimeDays} ${resources.getString(R.string.days)}"
                 val fScrC = "$fScrCD $fScrCW $fScrCd"
@@ -163,13 +146,14 @@ class DetailsFragment : MvpAppCompatFragment() {
             todayTime(dataModel)
         }
         detail_fioEditText.setText(dataModel.name)
-        if (dataModel.birthday.length == 6) {
-            var bd = dataModel.birthday
-            bd = "${bd[0]}${bd[1]}/${bd[2]}${bd[3]}/${bd[4]}${bd[5]}"
-            detail_birthdayEdit.text = bd
-        } else {
-            detail_birthdayEdit.text = dataModel.birthday
+
+        if (dataModel.birthday.isNotEmpty()) {
+            val birthdayDate = Date(dataModel.birthday.toLong())
+            detail_birthdayEdit.text = sdf.format(birthdayDate)
+            detail_age.text = calculateAge(dataModel.birthday)
         }
+
+
         if (dataModel.phone.length == 11) {
             var p = dataModel.phone
             p = "+7(${p[1]}${p[2]}${p[3]})${p[4]}${p[5]}${p[6]}-${p[7]}${p[8]}-${p[9]}${p[10]}"
@@ -177,13 +161,12 @@ class DetailsFragment : MvpAppCompatFragment() {
         } else {
             detail_phoneEditText.setText(dataModel.phone)
         }
-        if (dataModel.pm.length == 6) {
-            var pm = dataModel.pm
-            pm = "${pm[0]}${pm[1]}/${pm[2]}${pm[3]}/${pm[4]}${pm[5]}"
-            detail_pmEdit.text = pm
-        } else {
-            detail_pmEdit.text = dataModel.pm
+
+        if (dataModel.pm.isNotEmpty()) {
+            val pmDate = Date(dataModel.pm.toLong())
+            detail_pmEdit.text = sdf.format(pmDate)
         }
+
         detail_fScrS_TextView.text = sdf.format(dataModel.fScrS)
         detail_fScrF_TextView.text = sdf.format(dataModel.fScrE)
         detail_fScrCheck.isChecked = dataModel.fScrC
@@ -203,7 +186,6 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_riskSpinner.setSelection(dataModel.risk)
 
         detail_commentEditText.setText(dataModel.comment)
-        detail_age.text = calculateAge(dataModel.birthday)
 
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
@@ -236,7 +218,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             var myMonth = (month + 1).toString()
             var myDay = dayOfMonth.toString()
-            if (month < 10) {
+            if (month < 9) {
                 myMonth = "0$myMonth"
             }
             if (dayOfMonth < 10) {
@@ -321,8 +303,19 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun saveToBase() {
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
         dataModel.name = detail_fioEditText.text.toString()
-        dataModel.birthday = detail_birthdayEdit.text.toString()
+        val cal = Calendar.getInstance()
+        if (detail_birthdayEdit.text.isNotEmpty()) {
+            val birthday = detail_birthdayEdit.text.toString()
+            cal.set(
+                Calendar.YEAR,
+                Integer.valueOf("${birthday[6]}${birthday[7]}${birthday[8]}${birthday[9]}")
+            )
+            cal.set(Calendar.MONTH, Integer.valueOf("${birthday[3]}${birthday[4]}") - 1)
+            cal.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${birthday[0]}${birthday[1]}"))
+            dataModel.birthday = cal.timeInMillis.toString()
+        }
         dataModel.phone = detail_phoneEditText.text.toString()
         dataModel.release = detail_releaseCheckBox.isChecked
         dataModel.multiplicity = detail_multiplicityCheckBox.isChecked
@@ -345,7 +338,6 @@ class DetailsFragment : MvpAppCompatFragment() {
             DB.getDao().updateData(dataModel)
         } else {
             if (detail_pmEdit.text.toString().length == 10) {
-                dataModel.pm = detail_pmEdit.text.toString()
                 val pm = detail_pmEdit.text.toString()
                 val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
                 val pmMonth = Integer.valueOf("${pm[3]}${pm[4]}") - 1
@@ -354,6 +346,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 cal.set(Calendar.YEAR, pmYear)
                 cal.set(Calendar.MONTH, pmMonth)
                 cal.set(Calendar.DAY_OF_MONTH, pmDay)
+                dataModel.pm = cal.timeInMillis.toString()
                 cal.add(Calendar.DAY_OF_YEAR, 77)
                 dataModel.fScrS = cal.timeInMillis
                 cal.add(Calendar.DAY_OF_YEAR, 20)
@@ -397,6 +390,7 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun corrData() {
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
         dataModel.corr = true
         dataModel.fScrC = detail_fScrCheck.isChecked
         dataModel.sScrC = detail_sScrCheck.isChecked
@@ -410,7 +404,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
         cal.set(Calendar.DAY_OF_MONTH, twDay)
-        dataModel.fScrDate = tw
+        dataModel.fScrDate = cal.timeInMillis.toString()
         val editWeeks = Integer.valueOf(detail_corrEditTextWeeks.text.toString())
         dataModel.fScrTimeWeeks = editWeeks.toString()
         val editDays = Integer.valueOf(detail_corrEditTextDays.text.toString())
@@ -436,21 +430,12 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private fun todayTime(dataModel: DataModel) {
         val calNow = Calendar.getInstance()
-        val calComp = Calendar.getInstance()
         val comp = if (dataModel.corr) {
             dataModel.fScrDate
         } else {
             dataModel.pm
         }
-        if (comp.length == 6) {
-            calComp.set(Calendar.YEAR, Integer.valueOf("20${comp[4]}${comp[5]}"))
-            calComp.set(Calendar.MONTH, Integer.valueOf("${comp[2]}${comp[3]}") - 1)
-        } else {
-            calComp.set(Calendar.YEAR, Integer.valueOf("${comp[6]}${comp[7]}${comp[8]}${comp[9]}"))
-            calComp.set(Calendar.MONTH, Integer.valueOf("${comp[3]}${comp[4]}") - 1)
-        }
-        calComp.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${comp[0]}${comp[1]}"))
-        val diff = ((calNow.timeInMillis - calComp.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
+        val diff = ((calNow.timeInMillis - comp.toLong()) / (24 * 60 * 60 * 1000)).toInt()
         var diffWeeks = diff / 7
         var diffDays = diff % 7
         if (dataModel.corr) {
@@ -477,46 +462,11 @@ class DetailsFragment : MvpAppCompatFragment() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
 
-    private fun calculateAge(dateOfBirth: String): String = when {
-        dateOfBirth.length == 10 -> {
-            val calNow = Calendar.getInstance()
-            val calBirth = Calendar.getInstance()
-            calBirth.set(
-                Calendar.YEAR,
-                Integer.valueOf("${dateOfBirth[6]}${dateOfBirth[7]}${dateOfBirth[8]}${dateOfBirth[9]}")
-            )
-            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
-            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-            "~$diff"
-        }
-        dateOfBirth.length == 8 -> {
-            val calNow = Calendar.getInstance()
-            val calBirth = Calendar.getInstance()
-            if ("${dateOfBirth[6]}${dateOfBirth[7]}".toInt() < 50) {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[6]}${dateOfBirth[7]}"))
-            } else {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[6]}${dateOfBirth[7]}"))
-            }
-            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[3]}${dateOfBirth[4]}") - 1)
-            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-            "~$diff"
-        }
-        dateOfBirth.length == 6 -> {
-            val calNow = Calendar.getInstance()
-            val calBirth = Calendar.getInstance()
-            if ("${dateOfBirth[4]}${dateOfBirth[5]}".toInt() < 50) {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("20${dateOfBirth[4]}${dateOfBirth[5]}"))
-            } else {
-                calBirth.set(Calendar.YEAR, Integer.valueOf("19${dateOfBirth[4]}${dateOfBirth[5]}"))
-            }
-            calBirth.set(Calendar.MONTH, Integer.valueOf("${dateOfBirth[2]}${dateOfBirth[3]}") - 1)
-            calBirth.set(Calendar.DAY_OF_MONTH, Integer.valueOf("${dateOfBirth[0]}${dateOfBirth[1]}"))
-            val diff = ((calNow.timeInMillis - calBirth.timeInMillis) / 31536000000)
-            "~$diff"
-        }
-        else -> getString(R.string.incorrectBirthdayDate)
+    private fun calculateAge(dateOfBirth: String): String {
+        val calNow = Calendar.getInstance()
+        val diff = ((calNow.timeInMillis - dateOfBirth.toLong()) / 31536000000)
+        return "~$diff"
     }
+
 
 }

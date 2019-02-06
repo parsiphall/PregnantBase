@@ -67,6 +67,7 @@
     <string name="maintanance">В разработке</string>
     <string name="incorrectBirthdayDate">ДР не верна</string>
     <string name="phoneHint">89991234567</string>
+    <string name="reset">Сброс</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

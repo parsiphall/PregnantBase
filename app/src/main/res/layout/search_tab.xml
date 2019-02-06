@@ -8,11 +8,12 @@
     android:layout_marginBottom="8dp">
 
     <LinearLayout
+        android:id="@+id/search_tab_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/list_number"
+            android:id="@+id/search_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -20,14 +21,14 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/list_tab_name"
+            android:id="@+id/search_tab_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="5" />
 
         <TextView
-            android:id="@+id/list_tab_scr"
+            android:id="@+id/search_tab_scr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -35,7 +36,7 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/list_tab_risk"
+            android:id="@+id/search_tab_risk"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -50,7 +51,7 @@
             android:gravity="center">
 
             <CheckBox
-                android:id="@+id/list_tab_multiplicity"
+                android:id="@+id/search_tab_multiplicity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false" />

@@ -1,5 +1,6 @@
 package com.example.parsiphal.pregnantbase.view
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
@@ -10,7 +11,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
-import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.daimajia.androidanimations.library.Techniques
@@ -21,7 +22,6 @@ import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
 import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
-import kotlinx.android.synthetic.main.fragment_details.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.coroutines.GlobalScope
@@ -81,7 +81,7 @@ class SearchFragment : MvpAppCompatFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sdf = SimpleDateFormat("ddMMyy")
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
         search_chooser.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
@@ -91,11 +91,14 @@ class SearchFragment : MvpAppCompatFragment() {
                         search_editText.visibility = View.VISIBLE
                         search_dates.visibility = View.GONE
                         search_editText.inputType = InputType.TYPE_CLASS_TEXT
+                        search_editText.hint = getString(R.string.search_button)
                     }
                     5 -> {
                         search_editText.visibility = View.VISIBLE
                         search_dates.visibility = View.GONE
                         search_editText.inputType = InputType.TYPE_CLASS_NUMBER
+                        search_editText.hint = getString(R.string.inputFormatWeeks)
+                        Toast.makeText(context, "не реализовано", Toast.LENGTH_LONG).show()
                     }
                     else -> {
                         search_editText.visibility = View.GONE
@@ -105,46 +108,59 @@ class SearchFragment : MvpAppCompatFragment() {
                 }
             }
         }
-//        button_search_fio.setOnClickListener {
-//            animate(it)
-//            val search = "%${search_editText.text}%"
-//            GlobalScope.launch {
-//                searchFio(search)
-//            }
-//            hideKeyboard(it)
-//        }
-//        button_search_Scr.setOnClickListener {
-//            animate(it)
-//            val field = search_editText.text.toString()
-//            GlobalScope.launch {
-//                searchScr(field, sdf)
-//            }
-//            hideKeyboard(it)
-//        }
-//        button_search_fScr.setOnClickListener {
-//            animate(it)
-//            val field = search_editText.text.toString()
-//            GlobalScope.launch {
-//                searchFScr(field, sdf)
-//            }
-//            hideKeyboard(it)
-//        }
-//        button_search_sScr.setOnClickListener {
-//            animate(it)
-//            val field = search_editText.text.toString()
-//            GlobalScope.launch {
-//                searchSScr(field, sdf)
-//            }
-//            hideKeyboard(it)
-//        }
-//        button_search_tScr.setOnClickListener {
-//            animate(it)
-//            val field = search_editText.text.toString()
-//            GlobalScope.launch {
-//                searchTScr(field, sdf)
-//            }
-//            hideKeyboard(it)
-//        }
+        search_buttonGlobal.setOnClickListener {
+            animate(it)
+            when (search_chooser.selectedItemPosition) {
+                0 -> {
+                    GlobalScope.launch {
+                        searchFio()
+                    }
+                }
+                1 -> {
+                    GlobalScope.launch {
+                        searchScr(sdf)
+                    }
+                }
+                2 -> {
+                    GlobalScope.launch {
+                        searchFScr(sdf)
+                    }
+                }
+                3 -> {
+                    GlobalScope.launch {
+                        searchSScr(sdf)
+                    }
+                }
+                4 -> {
+                    GlobalScope.launch {
+                        searchTScr(sdf)
+                    }
+                }
+                5 -> {
+                    GlobalScope.launch {
+                        searchWeeks()
+                    }
+                }
+            }
+        }
+        search_buttonReset.setOnClickListener {
+            animate(it)
+            when (search_chooser.selectedItemPosition) {
+                0, 5 -> {
+                    search_editText.setText("")
+                }
+                else -> {
+                    search_textView1.text = ""
+                    search_textView2.text = ""
+                }
+            }
+        }
+        search_textView1.setOnClickListener {
+            datePickerDialog(it as TextView)
+        }
+        search_textView2.setOnClickListener {
+            datePickerDialog(it as TextView)
+        }
         search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val bundle = Bundle()
@@ -154,13 +170,50 @@ class SearchFragment : MvpAppCompatFragment() {
         })
     }
 
+    private fun dateListener(v: TextView): DatePickerDialog.OnDateSetListener =
+        DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            var myMonth = (month + 1).toString()
+            var myDay = dayOfMonth.toString()
+            if (month < 9) {
+                myMonth = "0$myMonth"
+            }
+            if (dayOfMonth < 10) {
+                myDay = "0$myDay"
+            }
+            val date = "$myDay/$myMonth/$year"
+            v.text = date
+        }
+
+    private fun datePickerDialog(v: TextView) {
+        val cal = Calendar.getInstance()
+        DatePickerDialog(
+            context!!,
+            dateListener(v),
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+
     private fun animate(it: View?) {
         YoYo.with(Techniques.Landing)
             .duration(100)
             .playOn(it)
     }
 
-    private suspend fun searchFio(search: String) {
+    private suspend fun searchWeeks() {
+        val cal = Calendar.getInstance().timeInMillis
+        val search = search_editText.text.toString().toInt()
+        items = DB.getDao().getWeeks(search, cal)
+        MainScope().launch {
+            adapter.dataChanged(items)
+            list_tab_count.text = items.size.toString()
+        }
+    }
+
+    private suspend fun searchFio() {
+        val search = "%${search_editText.text}%"
         items = DB.getDao().getCurrentData(search)
         Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
@@ -169,76 +222,110 @@ class SearchFragment : MvpAppCompatFragment() {
         }
     }
 
-    private suspend fun searchTScr(field: String, sdf: SimpleDateFormat) {
+    private suspend fun searchTScr(sdf: SimpleDateFormat) {
+        val field1 = search_textView1.text.toString()
+        val field2 = search_textView2.text.toString()
         items = when {
-            field.length == 6 -> {
-                val date = sdf.parse(field)
-                DB.getDao().getTScr(date.time)
+            field1.length == 10 && field2.length == 10 -> {
+                val date1 = sdf.parse(field1)
+                val date2 = sdf.parse(field2)
+                DB.getDao().getTScrRange(date1.time, date2.time)
             }
-            field.length == 4 -> {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                DB.getDao().getTScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            field1.length == 10 -> {
+                val date = sdf.parse(field1)
+                DB.getDao().getTScr(date.time)
             }
             else -> DB.getDao().getTScrAll()
         }
-        Collections.sort(items) { object1, object2 -> object1.tScrE.compareTo(object2.tScrE) }
+        Collections.sort(items) { object1, object2 ->
+            val x1 = if (object1.corr) {
+                object1.tScrEC
+            } else {
+                object1.tScrE
+            }
+            val x2 = if (object2.corr) {
+                object2.tScrEC
+            } else {
+                object2.tScrE
+            }
+            x1.compareTo(x2)
+        }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
         }
     }
 
-    private suspend fun searchSScr(field: String, sdf: SimpleDateFormat) {
+    private suspend fun searchSScr(sdf: SimpleDateFormat) {
+        val field1 = search_textView1.text.toString()
+        val field2 = search_textView2.text.toString()
         items = when {
-            field.length == 6 -> {
-                val date = sdf.parse(field)
-                DB.getDao().getSScr(date.time)
+            field1.length == 10 && field2.length == 10 -> {
+                val date1 = sdf.parse(field1)
+                val date2 = sdf.parse(field2)
+                DB.getDao().getSScrRange(date1.time, date2.time)
             }
-            field.length == 4 -> {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                DB.getDao().getSScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            field1.length == 10 -> {
+                val date = sdf.parse(field1)
+                DB.getDao().getSScr(date.time)
             }
             else -> DB.getDao().getSScrAll()
         }
-        Collections.sort(items) { object1, object2 -> object1.sScrE.compareTo(object2.sScrE) }
+        Collections.sort(items) { object1, object2 ->
+            val x1 = if (object1.corr) {
+                object1.sScrEC
+            } else {
+                object1.sScrE
+            }
+            val x2 = if (object2.corr) {
+                object2.sScrEC
+            } else {
+                object2.sScrE
+            }
+            x1.compareTo(x2)
+        }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
         }
     }
 
-    private suspend fun searchFScr(field: String, sdf: SimpleDateFormat) {
+    private suspend fun searchFScr(sdf: SimpleDateFormat) {
+        val field1 = search_textView1.text.toString()
+        val field2 = search_textView2.text.toString()
         items = when {
-            field.length == 6 -> {
-                val date = sdf.parse(field)
-                DB.getDao().getFScr(date.time)
+            field1.length == 10 && field2.length == 10 -> {
+                val date1 = sdf.parse(field1)
+                val date2 = sdf.parse(field2)
+                DB.getDao().getFScrRange(date1.time, date2.time)
             }
-            field.length == 4 -> {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                DB.getDao().getFScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            field1.length == 10 -> {
+                val date = sdf.parse(field1)
+                DB.getDao().getFScr(date.time)
             }
             else -> DB.getDao().getFScrAll()
         }
-        Collections.sort(items) { object1, object2 -> object1.fScrE.compareTo(object2.fScrE) }
+        Collections.sort(items) { object1, object2 ->
+            object1.fScrE.compareTo(object2.fScrE)
+        }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
         }
     }
 
-    private suspend fun searchScr(field: String, sdf: SimpleDateFormat) {
+    private suspend fun searchScr(sdf: SimpleDateFormat) {
+        val field1 = search_textView1.text.toString()
+        val field2 = search_textView2.text.toString()
         items = when {
-            field.length == 6 -> {
-                val date = sdf.parse(field)
-                DB.getDao().getScr(date.time)
+            field1.length == 10 && field2.length == 10 -> {
+                val date1 = sdf.parse(field1)
+                val date2 = sdf.parse(field2)
+                DB.getDao().getScrRange(date1.time, date2.time)
             }
-            field.length == 4 -> {
-                val week = Integer.valueOf("${field[0]}${field[1]}")
-                val year = Integer.valueOf("20${field[2]}${field[3]}")
-                DB.getDao().getScrWeek(startOfWeek(week, year), endOfWeek(week, year))
+            field1.length == 10 -> {
+                val date = sdf.parse(field1)
+                DB.getDao().getScr(date.time)
             }
             else -> DB.getDao().getScrAll()
         }
@@ -263,7 +350,7 @@ class SearchFragment : MvpAppCompatFragment() {
                     x2 = object2.sScrEC
                 }
             }
-            if (object1.sScrC) {
+            if (object2.sScrC) {
                 x2 = object2.tScrE
                 if (object2.corr) {
                     x2 = object2.tScrEC
@@ -275,32 +362,6 @@ class SearchFragment : MvpAppCompatFragment() {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
         }
-    }
-
-    private fun startOfWeek(week: Int, year: Int): Long {
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.YEAR, year)
-        cal.set(Calendar.WEEK_OF_YEAR, week)
-        cal.get(Calendar.WEEK_OF_YEAR)
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        return cal.timeInMillis
-    }
-
-    private fun endOfWeek(week: Int, year: Int): Long {
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.YEAR, year)
-        cal.set(Calendar.WEEK_OF_YEAR, week)
-        cal.get(Calendar.WEEK_OF_YEAR)
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        cal.set(Calendar.HOUR_OF_DAY, 23)
-        cal.set(Calendar.MINUTE, 59)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        return cal.timeInMillis
     }
 
     private fun hideKeyboard(v: View) =

@@ -42,8 +42,12 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
-        fragmentPlace(ListFragment())
+        if (prefs.maintanance!!) {
+            fragmentPlace(ListFragment())
+        } else {
+            fragmentPlace(MaintFragment())
+            prefs.maintanance = true
+        }
     }
 
     override fun onBackPressed() {

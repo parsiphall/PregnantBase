@@ -26,7 +26,9 @@
         <EditText
             android:id="@+id/search_editText"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:textAlignment="center" />
 
         <LinearLayout
             android:id="@+id/search_dates"
@@ -61,6 +63,12 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="@string/nav_search" />
+
+        <Button
+            android:id="@+id/search_buttonReset"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reset" />
     </LinearLayout>
 
     <RelativeLayout
