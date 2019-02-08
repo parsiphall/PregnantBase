@@ -11,4 +11,5 @@ class ListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val risk = view.list_tab_risk!!
     val multiplicity = view.list_tab_multiplicity!!
     val delete = view.delete_button!!
+    val bg = view.list_tab_root!!
 }

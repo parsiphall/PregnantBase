@@ -24,5 +24,11 @@
             android:icon="@drawable/ic_child"
             android:title="@string/releasedList" />
     </group>
-
+    <group>
+        <item
+            android:id="@+id/maintenance"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/maintenance">
+        </item>
+    </group>
 </menu>

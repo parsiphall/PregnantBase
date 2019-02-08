@@ -1,12 +1,14 @@
 package com.example.parsiphal.pregnantbase.view
 
 import android.content.Context
+import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import java.text.SimpleDateFormat
+import java.util.*
 
 class SearchViewAdapter(
     private var items: List<DataModel>,
@@ -26,6 +28,7 @@ class SearchViewAdapter(
 
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+        val cal = Calendar.getInstance()
         val numberText = "${(position + 1)}/${items.size}"
         val risk = items[position].riskText[0]
         val sdf = SimpleDateFormat("dd/MM/yyyy")
@@ -63,6 +66,27 @@ class SearchViewAdapter(
         holder.screening.text = screening
         holder.risk.text = risk.toString().toUpperCase()
         holder.multiplicity.isChecked = items[position].multiplicity
+
+        val comp = if (items[position].corr) {
+            items[position].fScrDate
+        } else {
+            items[position].pm
+        }
+        val diff = ((cal.timeInMillis - comp.toLong()) / (24 * 60 * 60 * 1000)).toInt()
+        var diffWeeks = diff / 7
+        val diffDays = diff % 7
+        if (items[position].corr) {
+            diffWeeks += items[position].fScrTimeWeeks.toInt()
+            if (items[position].fScrTimeDays.toInt() + diffDays > 6) {
+                diffWeeks++
+            }
+        }
+        when {
+            diffWeeks < 20 -> holder.bg.setBackgroundColor(Color.CYAN)
+            diffWeeks < 30 -> holder.bg.setBackgroundColor(Color.YELLOW)
+            diffWeeks < 40 -> holder.bg.setBackgroundColor(Color.GREEN)
+            else -> holder.bg.setBackgroundColor(Color.RED)
+        }
     }
 
     fun dataChanged(newItems: List<DataModel>) {
