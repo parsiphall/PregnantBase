@@ -238,6 +238,7 @@ class SearchFragment : MvpAppCompatFragment() {
             else -> DB.getDao().getTScrAll()
         }
         Collections.sort(items) { object1, object2 ->
+
             val x1 = if (object1.corr) {
                 object1.tScrEC
             } else {
@@ -250,6 +251,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             x1.compareTo(x2)
         }
+  
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -282,8 +284,10 @@ class SearchFragment : MvpAppCompatFragment() {
             } else {
                 object2.sScrE
             }
+
             x1.compareTo(x2)
         }
+
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
