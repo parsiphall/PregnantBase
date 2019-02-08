@@ -73,7 +73,14 @@ class SearchViewAdapter(
             items[position].pm
         }
         val diff = ((cal.timeInMillis - comp.toLong()) / (24 * 60 * 60 * 1000)).toInt()
-        val diffWeeks = diff / 7
+        var diffWeeks = diff / 7
+        val diffDays = diff % 7
+        if (items[position].corr) {
+            diffWeeks += items[position].fScrTimeWeeks.toInt()
+            if (items[position].fScrTimeDays.toInt() + diffDays > 6) {
+                diffWeeks++
+            }
+        }
         when {
             diffWeeks < 20 -> holder.bg.setBackgroundColor(Color.CYAN)
             diffWeeks < 30 -> holder.bg.setBackgroundColor(Color.YELLOW)

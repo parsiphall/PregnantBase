@@ -64,7 +64,7 @@
     <string name="enterPM">Введите ПМ</string>
     <string name="error">Ошибка</string>
     <string name="age">Возраст:</string>
-    <string name="maintanance">В разработке</string>
+    <string name="maintenance">Обслуживание</string>
     <string name="incorrectBirthdayDate">ДР не верна</string>
     <string name="phoneHint">89991234567</string>
     <string name="reset">Сброс</string>

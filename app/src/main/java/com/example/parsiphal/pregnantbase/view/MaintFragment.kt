@@ -1,6 +1,9 @@
 package com.example.parsiphal.pregnantbase.view
 
+import android.content.Context
 import android.os.Bundle
+import android.os.Environment
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +16,11 @@ import kotlinx.android.synthetic.main.fragment_maint.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.nio.channels.FileChannel
 import java.util.*
 
 class MaintFragment : MvpAppCompatFragment() {
@@ -48,6 +56,16 @@ class MaintFragment : MvpAppCompatFragment() {
         maint_fScrDate.setOnClickListener {
             GlobalScope.launch {
                 maintFScrDate()
+            }
+        }
+        maint_export.setOnClickListener {
+            GlobalScope.launch {
+                exportDB()
+            }
+        }
+        maint_import.setOnClickListener {
+            GlobalScope.launch {
+                importDB()
             }
         }
     }
@@ -95,7 +113,7 @@ class MaintFragment : MvpAppCompatFragment() {
             DB.getDao().updateData(position)
         }
         MainScope().launch {
-            Toast.makeText(context, "birthday converted",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "birthday converted", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -142,7 +160,7 @@ class MaintFragment : MvpAppCompatFragment() {
             DB.getDao().updateData(position)
         }
         MainScope().launch {
-            Toast.makeText(context, "pm converted",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "pm converted", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -189,7 +207,87 @@ class MaintFragment : MvpAppCompatFragment() {
             DB.getDao().updateData(position)
         }
         MainScope().launch {
-            Toast.makeText(context, "fScrDate converted",Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "fScrDate converted", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private suspend fun exportDB() {
+        val sd = Environment.getExternalStorageDirectory()
+        var source: FileChannel? = null
+        var destination: FileChannel? = null
+        val currentDB = File(context?.getDatabasePath(DB_NAME).toString())
+        val currentSHM = File(context?.getDatabasePath(DB_SHM).toString())
+        val currentWAL = File(context?.getDatabasePath(DB_WAL).toString())
+        val backupDB = File(sd, "/PregnantBase/backupDB")
+        val backupSHM = File(sd, "/PregnantBase/backupSHM")
+        val backupWAL = File(sd, "/PregnantBase/backupWAL")
+        try {
+            source = FileInputStream(currentDB).channel
+            destination = FileOutputStream(backupDB).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "DB Exported!", Toast.LENGTH_LONG).show()
+            }
+            source = FileInputStream(currentSHM).channel
+            destination = FileOutputStream(backupSHM).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "SHM Exported!", Toast.LENGTH_LONG).show()
+            }
+            source = FileInputStream(currentWAL).channel
+            destination = FileOutputStream(backupWAL).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "WAL Exported!", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            MainScope().launch {
+                Toast.makeText(context, "Error!", Toast.LENGTH_LONG).show()
+            }
+        } finally {
+            source?.close()
+            destination?.close()
+        }
+    }
+
+    private suspend fun importDB() {
+        val sd = Environment.getExternalStorageDirectory()
+        var source: FileChannel? = null
+        var destination: FileChannel? = null
+        val newDB = File(sd, "/PregnantBase/backupDB")
+        val newSHM = File(sd, "/PregnantBase/backupSHM")
+        val newWAL = File(sd, "/PregnantBase/backupWAL")
+        val oldDB = File(context?.getDatabasePath(DB_NAME).toString())
+        val oldSHM = File(context?.getDatabasePath(DB_SHM).toString())
+        val oldWAL = File(context?.getDatabasePath(DB_WAL).toString())
+        try {
+            source = FileInputStream(newDB).channel
+            destination = FileOutputStream(oldDB).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "DB Imported!", Toast.LENGTH_LONG).show()
+            }
+            source = FileInputStream(newSHM).channel
+            destination = FileOutputStream(oldSHM).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "SHM Imported!", Toast.LENGTH_LONG).show()
+            }
+            source = FileInputStream(newWAL).channel
+            destination = FileOutputStream(oldWAL).channel
+            destination!!.transferFrom(source, 0, source!!.size())
+            MainScope().launch {
+                Toast.makeText(context, "WAL Imported!", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            MainScope().launch {
+                Toast.makeText(context, "Error!", Toast.LENGTH_LONG).show()
+            }
+        } finally {
+            source?.close()
+            destination?.close()
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -8,23 +8,72 @@
     android:orientation="vertical"
     tools:context=".view.MaintFragment">
 
-    <Button
-        android:id="@+id/maint_birthday"
-        android:layout_width="200dp"
+    <TextView
+        android:id="@+id/maint_convertTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Birthday" />
+        android:text="Convert data"
+        android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/maint_pm"
-        android:layout_width="200dp"
+    <LinearLayout
+        android:id="@+id/maint_DB_Convert"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="pm" />
+        android:layout_below="@id/maint_convertTextView"
+        android:gravity="center_horizontal">
 
-    <Button
-        android:id="@+id/maint_fScrDate"
-        android:layout_width="200dp"
+        <Button
+            android:id="@+id/maint_birthday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Birthday" />
+
+        <Button
+            android:id="@+id/maint_pm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="pm" />
+
+        <Button
+            android:id="@+id/maint_fScrDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="fScrDate" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/maint_importExportTextView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="fScrDate" />
+        android:layout_below="@id/maint_DB_Convert"
+        android:text="Import/Export DB"
+        android:textAlignment="center" />
+
+    <LinearLayout
+        android:id="@+id/maint_DB_Import_Export"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maint_importExportTextView"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/maint_export"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Export" />
+
+        <Button
+            android:id="@+id/maint_import"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Import" />
+
+    </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

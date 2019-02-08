@@ -7,6 +7,10 @@ import android.arch.persistence.room.migration.Migration
 import com.example.parsiphal.pregnantbase.data.Preferences
 import com.example.parsiphal.pregnantbase.data.db
 
+const val DB_NAME = "pregnant_DB"
+const val DB_SHM = "pregnant_DB-shm"
+const val DB_WAL = "pregnant_DB-wal"
+
 val prefs: Preferences by lazy {
     MainApp.prefs!!
 }
@@ -42,18 +46,20 @@ class MainApp : Application() {
             }
         }
 
-        mDataBase = Room
-            .databaseBuilder(applicationContext, db::class.java, "pregnant_DB")
-            .addMigrations(migration12, migration23)
-            .build()
+        mDataBase = if (applicationContext.getDatabasePath(DB_NAME).exists()) {
+            Room
+                .databaseBuilder(applicationContext, db::class.java, DB_NAME)
+                .addMigrations(migration12, migration23)
+                .build()
+        } else {
+            Room
+                .databaseBuilder(applicationContext, db::class.java, DB_NAME)
+                .build()
+        }
     }
 }
 
-//TODO экспорт/импорт БД
-
-//TODO поиск по периоду скрининга
 //TODO рассчитать срок родов от даты
-//TODO поиск по >= 38 недель
 //TODO поиск по рискам
 //TODO корректировка п/м и I скрининга
 //TODO не один ребёнок(4)

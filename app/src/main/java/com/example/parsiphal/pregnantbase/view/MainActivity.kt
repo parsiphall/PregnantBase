@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.arellomobile.mvp.MvpAppCompatActivity
@@ -42,12 +41,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        if (prefs.maintanance!!) {
-            fragmentPlace(ListFragment())
-        } else {
-            fragmentPlace(MaintFragment())
-            prefs.maintanance = true
-        }
+        fragmentPlace(ListFragment())
     }
 
     override fun onBackPressed() {
@@ -64,6 +58,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
             R.id.search -> fragmentPlace(SearchFragment())
             R.id.add -> fragmentPlace(DetailsFragment())
             R.id.released -> fragmentPlace(ListReleasedFragment())
+            R.id.maintenance -> fragmentPlace(MaintFragment())
         }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true

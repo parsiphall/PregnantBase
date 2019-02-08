@@ -98,7 +98,6 @@ class SearchFragment : MvpAppCompatFragment() {
                         search_dates.visibility = View.GONE
                         search_editText.inputType = InputType.TYPE_CLASS_NUMBER
                         search_editText.hint = getString(R.string.inputFormatWeeks)
-                        Toast.makeText(context, "не реализовано", Toast.LENGTH_LONG).show()
                     }
                     else -> {
                         search_editText.visibility = View.GONE
@@ -142,6 +141,7 @@ class SearchFragment : MvpAppCompatFragment() {
                     }
                 }
             }
+            hideKeyboard(it)
         }
         search_buttonReset.setOnClickListener {
             animate(it)
