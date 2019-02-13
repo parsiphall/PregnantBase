@@ -251,7 +251,7 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             x1.compareTo(x2)
         }
-  
+
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()

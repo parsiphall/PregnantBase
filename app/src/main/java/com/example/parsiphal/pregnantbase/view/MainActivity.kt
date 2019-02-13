@@ -1,7 +1,11 @@
 package com.example.parsiphal.pregnantbase.view
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
@@ -42,6 +46,15 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
 
         nav_view.setNavigationItemSelectedListener(this)
         fragmentPlace(ListFragment())
+          if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE),
+                    1
+                )
+            }
+        }
     }
 
     override fun onBackPressed() {
