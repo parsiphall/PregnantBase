@@ -19,9 +19,7 @@ class ListViewAdapter(
     private val context: Context?
 ) : RecyclerView.Adapter<ListViewHolder>() {
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
     private val ad = AlertDialog.Builder(context!!)
 

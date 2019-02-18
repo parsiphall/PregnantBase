@@ -466,11 +466,8 @@ class DetailsFragment : MvpAppCompatFragment() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
 
-    private fun calculateAge(dateOfBirth: String): String {
-        val calNow = Calendar.getInstance()
-        val diff = ((calNow.timeInMillis - dateOfBirth.toLong()) / 31536000000)
-        return "~$diff"
-    }
+    private fun calculateAge(dateOfBirth: String): String =
+        "~${((Calendar.getInstance().timeInMillis - dateOfBirth.toLong()) / 31536000000)}"
 
 
 }

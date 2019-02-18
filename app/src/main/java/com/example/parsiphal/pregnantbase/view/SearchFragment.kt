@@ -240,14 +240,14 @@ class SearchFragment : MvpAppCompatFragment() {
         Collections.sort(items) { object1, object2 ->
 
             val x1 = if (object1.corr) {
-                object1.tScrEC
+                object1.tScrSC
             } else {
-                object1.tScrE
+                object1.tScrS
             }
             val x2 = if (object2.corr) {
-                object2.tScrEC
+                object2.tScrSC
             } else {
-                object2.tScrE
+                object2.tScrS
             }
             x1.compareTo(x2)
         }
@@ -275,14 +275,14 @@ class SearchFragment : MvpAppCompatFragment() {
         }
         Collections.sort(items) { object1, object2 ->
             val x1 = if (object1.corr) {
-                object1.sScrEC
+                object1.sScrSC
             } else {
-                object1.sScrE
+                object1.sScrS
             }
             val x2 = if (object2.corr) {
-                object2.sScrEC
+                object2.sScrSC
             } else {
-                object2.sScrE
+                object2.sScrS
             }
 
             x1.compareTo(x2)
@@ -310,7 +310,7 @@ class SearchFragment : MvpAppCompatFragment() {
             else -> DB.getDao().getFScrAll()
         }
         Collections.sort(items) { object1, object2 ->
-            object1.fScrE.compareTo(object2.fScrE)
+            object1.fScrS.compareTo(object2.fScrS)
         }
         MainScope().launch {
             adapter.dataChanged(items)
@@ -334,30 +334,30 @@ class SearchFragment : MvpAppCompatFragment() {
             else -> DB.getDao().getScrAll()
         }
         Collections.sort(items) { object1, object2 ->
-            var x1 = object1.fScrE
+            var x1 = object1.fScrS
             if (object1.fScrC) {
-                x1 = object1.sScrE
+                x1 = object1.sScrS
                 if (object1.corr) {
-                    x1 = object1.sScrEC
+                    x1 = object1.sScrSC
                 }
             }
             if (object1.sScrC) {
-                x1 = object1.tScrE
+                x1 = object1.tScrS
                 if (object1.corr) {
-                    x1 = object1.tScrEC
+                    x1 = object1.tScrSC
                 }
             }
-            var x2 = object2.fScrE
+            var x2 = object2.fScrS
             if (object2.fScrC) {
-                x2 = object2.sScrE
+                x2 = object2.sScrS
                 if (object2.corr) {
-                    x2 = object2.sScrEC
+                    x2 = object2.sScrSC
                 }
             }
             if (object2.sScrC) {
-                x2 = object2.tScrE
+                x2 = object2.tScrS
                 if (object2.corr) {
-                    x2 = object2.tScrEC
+                    x2 = object2.tScrSC
                 }
             }
             x1.compareTo(x2)
