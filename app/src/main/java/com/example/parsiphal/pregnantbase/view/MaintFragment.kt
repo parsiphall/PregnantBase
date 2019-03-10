@@ -10,6 +10,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import kotlinx.android.synthetic.main.fragment_maint.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
 
+@ExperimentalCoroutinesApi
 class MaintFragment : MvpAppCompatFragment() {
 
     private var items: List<DataModel> = ArrayList()

@@ -10,7 +10,9 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.fragment_district.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class DistrictFragment : MvpAppCompatFragment() {
 
     lateinit var callBackActivity: MainView

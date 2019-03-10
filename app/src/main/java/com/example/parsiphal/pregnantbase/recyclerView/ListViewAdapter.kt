@@ -10,12 +10,14 @@ import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.view.DB
 import com.example.parsiphal.pregnantbase.view.prefs
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class ListViewAdapter(
     private var items: List<DataModel>,
     private val context: Context?

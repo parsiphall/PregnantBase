@@ -16,11 +16,13 @@ import com.example.parsiphal.pregnantbase.recyclerView.OnItemClickListener
 import com.example.parsiphal.pregnantbase.recyclerView.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.util.Collections.sort
 
+@ExperimentalCoroutinesApi
 class ListReleasedFragment : MvpAppCompatFragment() {
 
     private var items: List<DataModel> = ArrayList()

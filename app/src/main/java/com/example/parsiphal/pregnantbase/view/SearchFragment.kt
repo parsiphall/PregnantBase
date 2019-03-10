@@ -25,6 +25,7 @@ import com.example.parsiphal.pregnantbase.recyclerView.SearchViewAdapter
 import com.example.parsiphal.pregnantbase.recyclerView.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -35,6 +36,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+@ExperimentalCoroutinesApi
 class SearchFragment : MvpAppCompatFragment() {
 
     private var items: List<DataModel> = ArrayList()
