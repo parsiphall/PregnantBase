@@ -39,11 +39,13 @@ class DetailsFragment : MvpAppCompatFragment() {
     private lateinit var callBackActivity: MainView
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        menu.findItem(R.id.menu_detail_save).isVisible = true
         menu.findItem(R.id.menu_detail_back).isVisible = true
-        if (!newData) {
-            menu.findItem(R.id.menu_detail_pdf).isVisible = true
-            menu.findItem(R.id.menu_detail_edit).isVisible = true
+        if (prefs.district != 0) {
+            menu.findItem(R.id.menu_detail_save).isVisible = true
+            if (!newData) {
+                menu.findItem(R.id.menu_detail_pdf).isVisible = true
+                menu.findItem(R.id.menu_detail_edit).isVisible = true
+            }
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
