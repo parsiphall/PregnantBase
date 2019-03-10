@@ -46,19 +46,21 @@ class MainApp : Application() {
             }
         }
 
+        val migration34 = object : Migration(3,4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN district INTEGER DEFAULT 0 NOT NULL")
+            }
+        }
+
         prefs = Preferences(applicationContext)
 
         mDataBase = Room
             .databaseBuilder(applicationContext, db::class.java, DB_NAME)
-            .addMigrations(migration12, migration23)
+            .addMigrations(migration12, migration23, migration34)
             .build()
 
     }
 }
-
-//TODO не верный расчет срока
-//TODO 2 участка на 1м компе(разные БД)
-//TODO просмотр всех БД для УЗИ
 
 //TODO рассчитать срок родов от даты
 //TODO поиск по рискам

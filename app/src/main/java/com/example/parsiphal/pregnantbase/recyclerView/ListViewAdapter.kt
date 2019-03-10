@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.view.DB
+import com.example.parsiphal.pregnantbase.view.prefs
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -118,10 +119,13 @@ class ListViewAdapter(
 
     private suspend fun deleteData(position: Int) {
         DB.getDao().deleteData(items[position])
-        items = DB.getDao().getDataPregnant()
+        items = if (prefs.district == 0) {
+            DB.getDao().getDataPregnantAll()
+        } else {
+            DB.getDao().getDataPregnantDistr(prefs.district)
+        }
         MainScope().launch {
             dataChanged(items)
-
         }
     }
 }

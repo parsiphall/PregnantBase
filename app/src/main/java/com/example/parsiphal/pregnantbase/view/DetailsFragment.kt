@@ -39,11 +39,13 @@ class DetailsFragment : MvpAppCompatFragment() {
     private lateinit var callBackActivity: MainView
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        menu.findItem(R.id.menu_detail_save).isVisible = true
         menu.findItem(R.id.menu_detail_back).isVisible = true
-        if (!newData) {
-            menu.findItem(R.id.menu_detail_pdf).isVisible = true
-            menu.findItem(R.id.menu_detail_edit).isVisible = true
+        if (prefs.district != 0) {
+            menu.findItem(R.id.menu_detail_save).isVisible = true
+            if (!newData) {
+                menu.findItem(R.id.menu_detail_pdf).isVisible = true
+                menu.findItem(R.id.menu_detail_edit).isVisible = true
+            }
         }
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -156,7 +158,6 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_age.text = calculateAge(dataModel.birthday)
         }
 
-
         if (dataModel.phone.length == 11) {
             var p = dataModel.phone
             p = "+7(${p[1]}${p[2]}${p[3]})${p[4]}${p[5]}${p[6]}-${p[7]}${p[8]}-${p[9]}${p[10]}"
@@ -183,12 +184,11 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_tScrCCheck.isChecked = detail_tScrCheck.isChecked
         detail_thirtyWeeksTextView.text = sdf.format(dataModel.thirtyWeeks)
         detail_fortyWeeksTextView.text = sdf.format(dataModel.fortyWeeks)
-
         detail_releaseCheckBox.isChecked = dataModel.release
         detail_multiplicityCheckBox.isChecked = dataModel.multiplicity
         detail_riskSpinner.setSelection(dataModel.risk)
-
         detail_commentEditText.setText(dataModel.comment)
+        detail_district.text = dataModel.district.toString()
 
         if (detail_releaseCheckBox.isChecked) {
             detail_releaseCheckBox.setText(R.string.release)
@@ -365,6 +365,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.tScrE = cal.timeInMillis
                 cal.add(Calendar.DAY_OF_YEAR, 42)
                 dataModel.fortyWeeks = cal.timeInMillis
+                dataModel.district = prefs.district
                 DB.getDao().addData(dataModel)
             } else {
                 MainScope().launch {

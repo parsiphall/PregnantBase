@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/navigation_menu_main"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/add"
             android:icon="@drawable/ic_add"
@@ -24,7 +26,13 @@
             android:icon="@drawable/ic_child"
             android:title="@string/releasedList" />
     </group>
-    <group>
+    <group
+        android:id="@+id/navigation_menu_misc">
+        <item
+            android:id="@+id/district"
+            android:icon="@drawable/ic_change"
+            android:title="@string/district_choose">
+        </item>
         <item
             android:id="@+id/maintenance"
             android:icon="@drawable/ic_settings"
