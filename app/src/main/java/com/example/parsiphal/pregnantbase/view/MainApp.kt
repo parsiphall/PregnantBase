@@ -31,11 +31,27 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
 
+        val migration12 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN releaseDate TEXT DEFAULT '' NOT NULL")
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN babyGender INTEGER DEFAULT 0 NOT NULL")
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN babyWeight TEXT DEFAULT '' NOT NULL")
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN babyHeight TEXT DEFAULT '' NOT NULL")
+            }
+        }
+
+        val migration23 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN comment TEXT DEFAULT '' NOT NULL")
+            }
+        }
+
         prefs = Preferences(applicationContext)
 
         mDataBase = Room
-                .databaseBuilder(applicationContext, db::class.java, DB_NAME)
-                .build()
+            .databaseBuilder(applicationContext, db::class.java, DB_NAME)
+            .addMigrations(migration12, migration23)
+            .build()
 
     }
 }
