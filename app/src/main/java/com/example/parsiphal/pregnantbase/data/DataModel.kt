@@ -41,5 +41,6 @@ data class DataModel(
     @ColumnInfo var babyGender: Int = 0,
     @ColumnInfo var babyWeight: String = "",
     @ColumnInfo var babyHeight: String = "",
-    @ColumnInfo var comment: String = ""
+    @ColumnInfo var comment: String = "",
+    @ColumnInfo var district: Int = 0
 ) : Serializable

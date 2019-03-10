@@ -232,7 +232,11 @@ class SearchFragment : MvpAppCompatFragment() {
         } else {
             0
         }
-        items = DB.getDao().getWeeks(search, cal)
+        items = if (prefs.district == 0) {
+            DB.getDao().getWeeksAll(search, cal)
+        } else {
+            DB.getDao().getWeeksDistr(search, cal, prefs.district)
+        }
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -241,7 +245,11 @@ class SearchFragment : MvpAppCompatFragment() {
 
     private suspend fun searchFio() {
         val search = "%${search_editText.text}%"
-        items = DB.getDao().getCurrentData(search)
+        items = if (prefs.district == 0) {
+            DB.getDao().getCurrentDataAll(search)
+        } else {
+            DB.getDao().getCurrentDataDistr(search, prefs.district)
+        }
         Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
             adapter.dataChanged(items)
@@ -256,13 +264,30 @@ class SearchFragment : MvpAppCompatFragment() {
             field1.length == 10 && field2.length == 10 -> {
                 val date1 = sdf.parse(field1)
                 val date2 = sdf.parse(field2)
-                DB.getDao().getTScrRange(date1.time, date2.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getTScrRangeAll(date1.time, date2.time)
+                } else {
+                    DB.getDao().getTScrRangeDistr(
+                        date1.time, date2.time,
+                        prefs.district
+                    )
+                }
             }
             field1.length == 10 -> {
                 val date = sdf.parse(field1)
-                DB.getDao().getTScr(date.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getTScrAll(date.time)
+                } else {
+                    DB.getDao().getTScrDistr(date.time, prefs.district)
+                }
             }
-            else -> DB.getDao().getTScrAll()
+            else -> {
+                if (prefs.district == 0) {
+                    DB.getDao().getTScrAllAll()
+                } else {
+                    DB.getDao().getTScrAllDistr(prefs.district)
+                }
+            }
         }
         Collections.sort(items) { object1, object2 ->
             val x1 = if (object1.corr) {
@@ -290,13 +315,30 @@ class SearchFragment : MvpAppCompatFragment() {
             field1.length == 10 && field2.length == 10 -> {
                 val date1 = sdf.parse(field1)
                 val date2 = sdf.parse(field2)
-                DB.getDao().getSScrRange(date1.time, date2.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getSScrRangeAll(date1.time, date2.time)
+                } else {
+                    DB.getDao().getSScrRangeDistr(
+                        date1.time, date2.time,
+                        prefs.district
+                    )
+                }
             }
             field1.length == 10 -> {
                 val date = sdf.parse(field1)
-                DB.getDao().getSScr(date.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getSScrAll(date.time)
+                } else {
+                    DB.getDao().getSScrDistr(date.time, prefs.district)
+                }
             }
-            else -> DB.getDao().getSScrAll()
+            else -> {
+                if (prefs.district == 0) {
+                    DB.getDao().getSScrAllAll()
+                } else {
+                    DB.getDao().getSScrAllDistr(prefs.district)
+                }
+            }
         }
         Collections.sort(items) { object1, object2 ->
             val x1 = if (object1.corr) {
@@ -325,13 +367,30 @@ class SearchFragment : MvpAppCompatFragment() {
             field1.length == 10 && field2.length == 10 -> {
                 val date1 = sdf.parse(field1)
                 val date2 = sdf.parse(field2)
-                DB.getDao().getFScrRange(date1.time, date2.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getFScrRangeAll(date1.time, date2.time)
+                } else {
+                    DB.getDao().getFScrRangeDistr(
+                        date1.time, date2.time,
+                        prefs.district
+                    )
+                }
             }
             field1.length == 10 -> {
                 val date = sdf.parse(field1)
-                DB.getDao().getFScr(date.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getFScrAll(date.time)
+                } else {
+                    DB.getDao().getFScrDistr(date.time, prefs.district)
+                }
             }
-            else -> DB.getDao().getFScrAll()
+            else -> {
+                if (prefs.district == 0) {
+                    DB.getDao().getFScrAllAll()
+                } else {
+                    DB.getDao().getFScrAllDistr(prefs.district)
+                }
+            }
         }
         Collections.sort(items) { object1, object2 ->
             object1.fScrS.compareTo(object2.fScrS)
@@ -349,13 +408,30 @@ class SearchFragment : MvpAppCompatFragment() {
             field1.length == 10 && field2.length == 10 -> {
                 val date1 = sdf.parse(field1)
                 val date2 = sdf.parse(field2)
-                DB.getDao().getScrRange(date1.time, date2.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getScrRangeAll(date1.time, date2.time)
+                } else {
+                    DB.getDao().getScrRangeDistr(
+                        date1.time, date2.time,
+                        prefs.district
+                    )
+                }
             }
             field1.length == 10 -> {
                 val date = sdf.parse(field1)
-                DB.getDao().getScr(date.time)
+                if (prefs.district == 0) {
+                    DB.getDao().getScrAll(date.time)
+                } else {
+                    DB.getDao().getScrDistr(date.time, prefs.district)
+                }
             }
-            else -> DB.getDao().getScrAll()
+            else -> {
+                if (prefs.district == 0) {
+                    DB.getDao().getScrAllAll()
+                } else {
+                    DB.getDao().getScrAllDistr(prefs.district)
+                }
+            }
         }
         if (search_switch.isChecked) {
             Collections.sort(items) { object1, object2 ->

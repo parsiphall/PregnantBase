@@ -26,7 +26,9 @@ class ListFragment : MvpAppCompatFragment() {
     private lateinit var adapter: ListViewAdapter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-        menu.findItem(R.id.menu_detail_add).isVisible = true
+        if (prefs.district != 0) {
+            menu.findItem(R.id.menu_detail_add).isVisible = true
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -62,7 +64,11 @@ class ListFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun getDataList() {
-        items = DB.getDao().getDataPregnant()
+        items = if (prefs.district == 0) {
+            DB.getDao().getDataPregnantAll()
+        } else {
+            DB.getDao().getDataPregnantDistr(prefs.district)
+        }
         sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
             list_tab_count.text = items.size.toString()

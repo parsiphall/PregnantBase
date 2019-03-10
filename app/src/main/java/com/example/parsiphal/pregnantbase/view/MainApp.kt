@@ -56,7 +56,7 @@ class MainApp : Application() {
 
         mDataBase = Room
             .databaseBuilder(applicationContext, db::class.java, DB_NAME)
-            .addMigrations(migration12, migration23)
+            .addMigrations(migration12, migration23, migration34)
             .build()
 
     }

@@ -1,19 +1,12 @@
 package com.example.parsiphal.pregnantbase.view
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatFragment
-
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import kotlinx.android.synthetic.main.fragment_maint.*
@@ -25,9 +18,10 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.channels.FileChannel
-import java.util.*
 
 class MaintFragment : MvpAppCompatFragment() {
+
+    private var items: List<DataModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +42,21 @@ class MaintFragment : MvpAppCompatFragment() {
                 importDB()
             }
         }
+
+        maint_district.setOnClickListener {
+            GlobalScope.launch {
+                setDistrict()
+            }
+        }
+    }
+
+    private suspend fun setDistrict() {
+        items = DB.getDao().getAllDataAll()
+        for (position in items) {
+            position.district = 1
+            DB.getDao().updateData(position)
+        }
+        MainScope().launch { Toast.makeText(context, "District set", Toast.LENGTH_LONG).show() }
     }
 
     private suspend fun exportDB() {

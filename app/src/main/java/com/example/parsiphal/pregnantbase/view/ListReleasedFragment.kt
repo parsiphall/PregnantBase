@@ -44,7 +44,11 @@ class ListReleasedFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun getDataList() {
-        items = DB.getDao().getDataReleased()
+        items = if (prefs.district == 0) {
+            DB.getDao().getDataReleasedAll()
+        } else {
+            DB.getDao().getDataReleasedDistr(prefs.district)
+        }
         sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
             list_tab_count.text = items.size.toString()

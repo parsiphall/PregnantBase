@@ -65,8 +65,10 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         val navBarTextView = nav_view.getHeaderView(0).findViewById<TextView>(R.id.navBar_textView)
         if (prefs.district != 0) {
             navBarTextView.text = district
+            nav_view.menu.findItem(R.id.add).isVisible = true
         } else {
             navBarTextView.text = resources.getString(R.string.nav_header_subtitle_all)
+            nav_view.menu.findItem(R.id.add).isVisible = false
         }
     }
 
