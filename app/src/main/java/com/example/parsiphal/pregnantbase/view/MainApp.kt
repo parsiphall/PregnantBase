@@ -46,6 +46,12 @@ class MainApp : Application() {
             }
         }
 
+        val migration34 = object : Migration(3,4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE DataModel ADD COLUMN district INTEGER DEFAULT 0 NOT NULL")
+            }
+        }
+
         prefs = Preferences(applicationContext)
 
         mDataBase = Room
@@ -56,7 +62,6 @@ class MainApp : Application() {
     }
 }
 
-//TODO не верный расчет срока
 //TODO 2 участка на 1м компе(разные БД)
 //TODO просмотр всех БД для УЗИ
 

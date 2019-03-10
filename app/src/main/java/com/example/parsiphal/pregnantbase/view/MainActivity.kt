@@ -12,11 +12,13 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.text.MessageFormat
 
 class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigationItemSelectedListener {
 
@@ -43,10 +45,8 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
         nav_view.setNavigationItemSelectedListener(this)
-        fragmentPlace(ListFragment())
-          if (Build.VERSION.SDK_INT >= 23) {
+        if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(
                     this,
@@ -55,6 +55,15 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
                 )
             }
         }
+
+        initGUI()
+    }
+
+    private fun initGUI() {
+        val district = MessageFormat.format(resources.getString(R.string.nav_header_subtitle), "1")
+        val navBarTextView = nav_view.getHeaderView(0).findViewById<TextView>(R.id.navBar_textView)
+        navBarTextView.text = district
+        fragmentPlace(ListFragment())
     }
 
     override fun onBackPressed() {
