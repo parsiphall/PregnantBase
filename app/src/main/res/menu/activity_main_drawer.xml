@@ -26,6 +26,11 @@
     </group>
     <group>
         <item
+            android:id="@+id/district"
+            android:icon="@drawable/ic_change"
+            android:title="@string/district_choose">
+        </item>
+        <item
             android:id="@+id/maintenance"
             android:icon="@drawable/ic_settings"
             android:title="@string/maintenance">
