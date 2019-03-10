@@ -17,6 +17,7 @@ import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
 import kotlinx.android.synthetic.main.fragment_details.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -26,6 +27,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+@ExperimentalCoroutinesApi
 class DetailsFragment : MvpAppCompatFragment() {
 
     private var newData = false
@@ -301,7 +303,6 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun saveToBase() {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
         dataModel.name = detail_fioEditText.text.toString()
         val cal = Calendar.getInstance()
         if (detail_birthdayEdit.text.isNotEmpty()) {
@@ -388,7 +389,6 @@ class DetailsFragment : MvpAppCompatFragment() {
     }
 
     private suspend fun corrData() {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
         dataModel.corr = true
         dataModel.fScrC = detail_fScrCheck.isChecked
         dataModel.sScrC = detail_sScrCheck.isChecked
