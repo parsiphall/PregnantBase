@@ -17,7 +17,7 @@ class SearchViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
         return SearchViewHolder(
-            LayoutInflater.from(context)
+            LayoutInflater.from(parent.context)
                 .inflate(R.layout.search_tab, parent, false)
         )
     }

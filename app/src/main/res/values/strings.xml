@@ -70,6 +70,9 @@
     <string name="reset">Сброс</string>
     <string name="search_switch_act">Сортировка по началу СКР</string>
     <string name="search_switch_Nact">Сортировка по концу СКР</string>
+    <string name="export_import_db">Export/Import DB</string>
+    <string name="export_db">Export</string>
+    <string name="import_db">Import</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

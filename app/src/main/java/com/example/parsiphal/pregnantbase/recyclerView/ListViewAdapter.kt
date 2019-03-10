@@ -30,32 +30,34 @@ class ListViewAdapter(
         val risk = items[position].riskText[0]
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         var screening = ""
-        if (!items[position].fScrC) {
-            screening =
-                "${context!!.resources.getString(R.string.detail_fScr)} ${sdf.format(items[position].fScrS)} - ${sdf.format(
-                    items[position].fScrE
-                )}"
-        } else if (!items[position].sScrC) {
-            screening =
-                "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrS)} - ${sdf.format(
-                    items[position].sScrE
-                )}"
-            if (items[position].corr) {
+        if (!items[position].release) {
+            if (!items[position].fScrC) {
                 screening =
-                    "${context.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrSC)} - ${sdf.format(
-                        items[position].sScrEC
+                    "${context!!.resources.getString(R.string.detail_fScr)} ${sdf.format(items[position].fScrS)} - ${sdf.format(
+                        items[position].fScrE
                     )}"
-            }
-        } else if (!items[position].tScrC) {
-            screening =
-                "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrS)} - ${sdf.format(
-                    items[position].tScrE
-                )}"
-            if (items[position].corr) {
+            } else if (!items[position].sScrC) {
                 screening =
-                    "${context.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrSC)} - ${sdf.format(
-                        items[position].tScrEC
+                    "${context!!.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrS)} - ${sdf.format(
+                        items[position].sScrE
                     )}"
+                if (items[position].corr) {
+                    screening =
+                        "${context.resources.getString(R.string.detail_sScr)} ${sdf.format(items[position].sScrSC)} - ${sdf.format(
+                            items[position].sScrEC
+                        )}"
+                }
+            } else if (!items[position].tScrC) {
+                screening =
+                    "${context!!.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrS)} - ${sdf.format(
+                        items[position].tScrE
+                    )}"
+                if (items[position].corr) {
+                    screening =
+                        "${context.resources.getString(R.string.detail_tScr)} ${sdf.format(items[position].tScrSC)} - ${sdf.format(
+                            items[position].tScrEC
+                        )}"
+                }
             }
         }
         holder.number.text = numberText
@@ -104,7 +106,7 @@ class ListViewAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         return ListViewHolder(
-            LayoutInflater.from(context)
+            LayoutInflater.from(parent.context)
                 .inflate(R.layout.list_tab, parent, false)
         )
     }

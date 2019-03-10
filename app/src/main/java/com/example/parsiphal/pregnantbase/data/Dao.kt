@@ -109,7 +109,11 @@ interface Dao {
     )
     fun getTScrRange(date1: Long, date2: Long): List<DataModel>
 
-    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 THEN (((:now - CAST(pm AS INTEGER))/604800000) = :weeks) ELSE (((:now - CAST(fScrDate AS INTEGER))/604800000) + fScrTimeWeeks + (CASE WHEN (((((:now - CAST(fScrDate AS INTEGER))/86400000)%7) + fScrTimeDays) > 6) THEN 1 ELSE 0 END) = :weeks) END AND `release` <> 1")
+    @Query("SELECT * FROM DataModel WHERE CASE WHEN corr = 0 " +
+            "THEN (((:now - CAST(pm AS INTEGER))/604800000) = :weeks) " +
+            "ELSE (((:now - CAST(fScrDate AS INTEGER))/604800000) + fScrTimeWeeks + " +
+            "(CASE WHEN (((((:now - CAST(fScrDate AS INTEGER))/86400000)%7) + fScrTimeDays) > 6) THEN 1 ELSE 0 END) = :weeks) END " +
+            "AND `release` <> 1")
     fun getWeeks(weeks: Int, now: Long): List<DataModel>
 
     @Update
