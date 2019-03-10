@@ -1,9 +1,7 @@
 package com.example.parsiphal.pregnantbase.view
 
-import android.Manifest
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.pdf.PdfDocument
 import android.os.Bundle
@@ -11,9 +9,7 @@ import android.util.DisplayMetrics
 import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import android.os.Environment
-import android.support.v4.app.ActivityCompat
 import android.view.*
-import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 
@@ -29,8 +25,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-
-const val DIALOG_DATE = 1
 
 class DetailsFragment : MvpAppCompatFragment() {
 

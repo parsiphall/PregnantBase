@@ -4,8 +4,6 @@ import android.app.Application
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.migration.Migration
-import android.content.Context
-import com.example.parsiphal.pregnantbase.data.DISTRICT
 import com.example.parsiphal.pregnantbase.data.Preferences
 import com.example.parsiphal.pregnantbase.data.db
 
