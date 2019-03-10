@@ -344,6 +344,10 @@ class DetailsFragment : MvpAppCompatFragment() {
                 cal.set(Calendar.YEAR, pmYear)
                 cal.set(Calendar.MONTH, pmMonth)
                 cal.set(Calendar.DAY_OF_MONTH, pmDay)
+                cal.set(Calendar.HOUR_OF_DAY, 0)
+                cal.set(Calendar.MINUTE, 0)
+                cal.set(Calendar.SECOND, 0)
+                cal.set(Calendar.MILLISECOND, 0)
                 dataModel.pm = cal.timeInMillis.toString()
                 cal.add(Calendar.DAY_OF_YEAR, 77)
                 dataModel.fScrS = cal.timeInMillis
@@ -402,6 +406,10 @@ class DetailsFragment : MvpAppCompatFragment() {
         cal.set(Calendar.YEAR, twYear)
         cal.set(Calendar.MONTH, twMonth)
         cal.set(Calendar.DAY_OF_MONTH, twDay)
+        cal.set(Calendar.HOUR_OF_DAY, 0)
+        cal.set(Calendar.MINUTE, 0)
+        cal.set(Calendar.SECOND, 0)
+        cal.set(Calendar.MILLISECOND, 0)
         dataModel.fScrDate = cal.timeInMillis.toString()
         val editWeeks = Integer.valueOf(detail_corrEditTextWeeks.text.toString())
         dataModel.fScrTimeWeeks = editWeeks.toString()
@@ -428,6 +436,10 @@ class DetailsFragment : MvpAppCompatFragment() {
 
     private fun todayTime(dataModel: DataModel) {
         val calNow = Calendar.getInstance()
+        calNow.set(Calendar.HOUR_OF_DAY, 0)
+        calNow.set(Calendar.MINUTE, 0)
+        calNow.set(Calendar.SECOND, 0)
+        calNow.set(Calendar.MILLISECOND, 0)
         val comp = if (dataModel.corr) {
             dataModel.fScrDate
         } else {
