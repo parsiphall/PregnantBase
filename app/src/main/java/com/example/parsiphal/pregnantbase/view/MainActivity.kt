@@ -57,13 +57,17 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
         }
 
         initGUI()
+        fragmentPlace(DistrictFragment())
     }
 
-    private fun initGUI() {
-        val district = MessageFormat.format(resources.getString(R.string.nav_header_subtitle), "1")
+    override fun initGUI() {
+        val district = MessageFormat.format(resources.getString(R.string.nav_header_subtitle), prefs.district)
         val navBarTextView = nav_view.getHeaderView(0).findViewById<TextView>(R.id.navBar_textView)
-        navBarTextView.text = district
-        fragmentPlace(ListFragment())
+        if (prefs.district != 0) {
+            navBarTextView.text = district
+        } else {
+            navBarTextView.text = resources.getString(R.string.nav_header_subtitle_all)
+        }
     }
 
     override fun onBackPressed() {

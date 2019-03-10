@@ -7,4 +7,5 @@ interface MainView: BaseView {
     fun fragmentPlace(fragment: Fragment)
     fun fragmentPlaceWithArgs(fragment: Fragment, args: Bundle)
     fun prevousFragment()
+    fun initGUI()
 }
