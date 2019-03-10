@@ -346,7 +346,6 @@ class DetailsFragment : MvpAppCompatFragment() {
                 val pmDay = Integer.valueOf("${pm[0]}${pm[1]}")
                 val pmMonth = Integer.valueOf("${pm[3]}${pm[4]}") - 1
                 val pmYear = Integer.valueOf("${pm[6]}${pm[7]}${pm[8]}${pm[9]}")
-                val cal = Calendar.getInstance()
                 cal.set(Calendar.YEAR, pmYear)
                 cal.set(Calendar.MONTH, pmMonth)
                 cal.set(Calendar.DAY_OF_MONTH, pmDay)

@@ -68,6 +68,8 @@
     <string name="incorrectBirthdayDate">ДР не верна</string>
     <string name="phoneHint">89991234567</string>
     <string name="reset">Сброс</string>
+    <string name="search_switch_act">Сортировка по началу СКР</string>
+    <string name="search_switch_Nact">Сортировка по концу СКР</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

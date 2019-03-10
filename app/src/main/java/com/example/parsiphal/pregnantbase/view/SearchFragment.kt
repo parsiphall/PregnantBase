@@ -35,6 +35,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class SearchFragment : MvpAppCompatFragment() {
+
     private var items: List<DataModel> = ArrayList()
     lateinit var callBackActivity: MainView
     private lateinit var adapter: SearchViewAdapter
@@ -56,7 +57,6 @@ class SearchFragment : MvpAppCompatFragment() {
         }
         return false
     }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -90,23 +90,44 @@ class SearchFragment : MvpAppCompatFragment() {
                     0 -> {
                         search_editText.visibility = View.VISIBLE
                         search_dates.visibility = View.GONE
+                        search_switch.visibility = View.GONE
                         search_editText.inputType = InputType.TYPE_CLASS_TEXT
                         search_editText.hint = getString(R.string.search_button)
+                    }
+                    1 -> {
+                        search_editText.visibility = View.GONE
+                        search_dates.visibility = View.VISIBLE
+                        search_switch.visibility = View.VISIBLE
+                        hideKeyboard(search_buttonGlobal)
                     }
                     5 -> {
                         search_editText.visibility = View.VISIBLE
                         search_dates.visibility = View.GONE
+                        search_switch.visibility = View.GONE
                         search_editText.inputType = InputType.TYPE_CLASS_NUMBER
                         search_editText.hint = getString(R.string.inputFormatWeeks)
                     }
                     else -> {
                         search_editText.visibility = View.GONE
                         search_dates.visibility = View.VISIBLE
+                        search_switch.visibility = View.GONE
                         hideKeyboard(search_buttonGlobal)
                     }
                 }
             }
         }
+
+        search_switch.setOnClickListener {
+            search_switch.text = if (search_switch.isChecked) {
+                getString(R.string.search_switch_act)
+            } else {
+                getString(R.string.search_switch_Nact)
+            }
+            GlobalScope.launch {
+                searchScr(sdf)
+            }
+        }
+
         search_buttonGlobal.setOnClickListener {
             animate(it)
             when (search_chooser.selectedItemPosition) {
@@ -204,7 +225,11 @@ class SearchFragment : MvpAppCompatFragment() {
 
     private suspend fun searchWeeks() {
         val cal = Calendar.getInstance().timeInMillis
-        val search = search_editText.text.toString().toInt()
+        val search = if (search_editText.text.toString().isNotEmpty()) {
+            search_editText.text.toString().toInt()
+        } else {
+            0
+        }
         items = DB.getDao().getWeeks(search, cal)
         MainScope().launch {
             adapter.dataChanged(items)
@@ -238,7 +263,6 @@ class SearchFragment : MvpAppCompatFragment() {
             else -> DB.getDao().getTScrAll()
         }
         Collections.sort(items) { object1, object2 ->
-
             val x1 = if (object1.corr) {
                 object1.tScrSC
             } else {
@@ -251,7 +275,6 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             x1.compareTo(x2)
         }
-
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -287,7 +310,6 @@ class SearchFragment : MvpAppCompatFragment() {
 
             x1.compareTo(x2)
         }
-
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -333,34 +355,66 @@ class SearchFragment : MvpAppCompatFragment() {
             }
             else -> DB.getDao().getScrAll()
         }
-        Collections.sort(items) { object1, object2 ->
-            var x1 = object1.fScrS
-            if (object1.fScrC) {
-                x1 = object1.sScrS
-                if (object1.corr) {
-                    x1 = object1.sScrSC
+        if (search_switch.isChecked) {
+            Collections.sort(items) { object1, object2 ->
+                var x1 = object1.fScrS
+                if (object1.fScrC) {
+                    x1 = object1.sScrS
+                    if (object1.corr) {
+                        x1 = object1.sScrSC
+                    }
                 }
-            }
-            if (object1.sScrC) {
-                x1 = object1.tScrS
-                if (object1.corr) {
-                    x1 = object1.tScrSC
+                if (object1.sScrC) {
+                    x1 = object1.tScrS
+                    if (object1.corr) {
+                        x1 = object1.tScrSC
+                    }
                 }
-            }
-            var x2 = object2.fScrS
-            if (object2.fScrC) {
-                x2 = object2.sScrS
-                if (object2.corr) {
-                    x2 = object2.sScrSC
+                var x2 = object2.fScrS
+                if (object2.fScrC) {
+                    x2 = object2.sScrS
+                    if (object2.corr) {
+                        x2 = object2.sScrSC
+                    }
                 }
-            }
-            if (object2.sScrC) {
-                x2 = object2.tScrS
-                if (object2.corr) {
-                    x2 = object2.tScrSC
+                if (object2.sScrC) {
+                    x2 = object2.tScrS
+                    if (object2.corr) {
+                        x2 = object2.tScrSC
+                    }
                 }
+                x1.compareTo(x2)
             }
-            x1.compareTo(x2)
+        } else {
+            Collections.sort(items) { object1, object2 ->
+                var x1 = object1.fScrE
+                if (object1.fScrC) {
+                    x1 = object1.sScrE
+                    if (object1.corr) {
+                        x1 = object1.sScrEC
+                    }
+                }
+                if (object1.sScrC) {
+                    x1 = object1.tScrE
+                    if (object1.corr) {
+                        x1 = object1.tScrEC
+                    }
+                }
+                var x2 = object2.fScrE
+                if (object2.fScrC) {
+                    x2 = object2.sScrE
+                    if (object2.corr) {
+                        x2 = object2.sScrEC
+                    }
+                }
+                if (object2.sScrC) {
+                    x2 = object2.tScrE
+                    if (object2.corr) {
+                        x2 = object2.tScrEC
+                    }
+                }
+                x1.compareTo(x2)
+            }
         }
         MainScope().launch {
             adapter.dataChanged(items)
