@@ -20,8 +20,9 @@ import com.daimajia.androidanimations.library.YoYo
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
-import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
-import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
+import com.example.parsiphal.pregnantbase.recyclerView.OnItemClickListener
+import com.example.parsiphal.pregnantbase.recyclerView.SearchViewAdapter
+import com.example.parsiphal.pregnantbase.recyclerView.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.coroutines.GlobalScope
@@ -182,7 +183,8 @@ class SearchFragment : MvpAppCompatFragment() {
         search_textView2.setOnClickListener {
             datePickerDialog(it as TextView)
         }
-        search_recyclerView.addOnItemClickListener(object : OnItemClickListener {
+        search_recyclerView.addOnItemClickListener(object :
+            OnItemClickListener {
             override fun onItemClicked(position: Int, view: View) {
                 val bundle = Bundle()
                 bundle.putSerializable("ITEM", items[position])

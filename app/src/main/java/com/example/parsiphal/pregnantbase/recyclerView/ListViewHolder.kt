@@ -1,4 +1,4 @@
-package com.example.parsiphal.pregnantbase.view
+package com.example.parsiphal.pregnantbase.recyclerView
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

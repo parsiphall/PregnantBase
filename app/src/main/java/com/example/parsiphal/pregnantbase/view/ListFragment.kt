@@ -9,8 +9,9 @@ import com.arellomobile.mvp.MvpAppCompatFragment
 import com.example.parsiphal.pregnantbase.R
 import com.example.parsiphal.pregnantbase.data.DataModel
 import com.example.parsiphal.pregnantbase.inteface.MainView
-import com.example.parsiphal.pregnantbase.inteface.OnItemClickListener
-import com.example.parsiphal.pregnantbase.inteface.addOnItemClickListener
+import com.example.parsiphal.pregnantbase.recyclerView.ListViewAdapter
+import com.example.parsiphal.pregnantbase.recyclerView.OnItemClickListener
+import com.example.parsiphal.pregnantbase.recyclerView.addOnItemClickListener
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import kotlinx.coroutines.*
