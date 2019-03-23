@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="Уч №" />
+                android:text="@string/dist_no" />
 
             <TextView
                 android:id="@+id/detail_district"
@@ -108,6 +108,12 @@
                 android:imeOptions="actionDone"
                 android:inputType="phone"
                 android:textColor="@drawable/edit_text_selector" />
+            <Button
+                android:id="@+id/detail_call"
+                android:background="@drawable/rounded_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_call_black"/>
         </LinearLayout>
 
         <LinearLayout

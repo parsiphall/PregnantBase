@@ -76,6 +76,7 @@
     <string name="import_db">Import</string>
     <string name="district_choose">Выбор участка</string>
     <string name="district_start">Начать</string>
+    <string name="dist_no">Уч №</string>
     <string-array name="risks">
         <item>-</item>
         <item>низкий</item>

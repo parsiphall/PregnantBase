@@ -56,6 +56,13 @@ class MainActivity : MvpAppCompatActivity(), MainView, NavigationView.OnNavigati
                     1
                 )
             }
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CALL_PHONE),
+                    1
+                )
+            }
         }
 
         initGUI()

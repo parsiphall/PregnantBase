@@ -2,8 +2,10 @@ package com.example.parsiphal.pregnantbase.view
 
 import android.app.DatePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.pdf.PdfDocument
+import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.inputmethod.InputMethodManager
@@ -210,6 +212,11 @@ class DetailsFragment : MvpAppCompatFragment() {
 
         detail_pmEdit.setOnClickListener {
             datePickerDialog(it as TextView)
+        }
+        detail_call.setOnClickListener {
+            val callIntent = Intent(Intent.ACTION_DIAL)
+            callIntent.data = Uri.parse("tel:${detail_phoneEditText.text}")
+            startActivity(callIntent)
         }
     }
 
