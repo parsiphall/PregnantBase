@@ -42,9 +42,11 @@ class SearchFragment : MvpAppCompatFragment() {
     private var items: List<DataModel> = ArrayList()
     lateinit var callBackActivity: MainView
     private lateinit var adapter: SearchViewAdapter
+    var size = 0
+    private var itemCounter = 1
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
-//        menu.findItem(R.id.menu_detail_pdf).isVisible = true
+        menu.findItem(R.id.menu_detail_pdf).isVisible = true
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -52,9 +54,8 @@ class SearchFragment : MvpAppCompatFragment() {
         when (item?.itemId) {
             R.id.menu_detail_pdf -> {
                 GlobalScope.launch {
-                    generatePDF()
+                    generatePDF(size)
                 }
-                search_recyclerView.layoutManager?.scrollToPosition(8)
                 return true
             }
         }
@@ -165,6 +166,7 @@ class SearchFragment : MvpAppCompatFragment() {
                     }
                 }
             }
+            itemCounter = 1
             hideKeyboard(it)
         }
         search_buttonReset.setOnClickListener {
@@ -239,6 +241,7 @@ class SearchFragment : MvpAppCompatFragment() {
         } else {
             DB.getDao().getWeeksDistr(search, cal, prefs.district)
         }
+        size = items.size
         MainScope().launch {
             adapter.dataChanged(items)
             list_tab_count.text = items.size.toString()
@@ -252,6 +255,7 @@ class SearchFragment : MvpAppCompatFragment() {
         } else {
             DB.getDao().getCurrentDataDistr(search, prefs.district)
         }
+        size = items.size
         Collections.sort(items) { object1, object2 -> object1.name.compareTo(object2.name) }
         MainScope().launch {
             adapter.dataChanged(items)
@@ -291,6 +295,7 @@ class SearchFragment : MvpAppCompatFragment() {
                 }
             }
         }
+        size = items.size
         Collections.sort(items) { object1, object2 ->
             val x1 = if (object1.corr) {
                 object1.tScrSC
@@ -342,6 +347,7 @@ class SearchFragment : MvpAppCompatFragment() {
                 }
             }
         }
+        size = items.size
         Collections.sort(items) { object1, object2 ->
             val x1 = if (object1.corr) {
                 object1.sScrSC
@@ -394,6 +400,7 @@ class SearchFragment : MvpAppCompatFragment() {
                 }
             }
         }
+        size = items.size
         Collections.sort(items) { object1, object2 ->
             object1.fScrS.compareTo(object2.fScrS)
         }
@@ -435,6 +442,7 @@ class SearchFragment : MvpAppCompatFragment() {
                 }
             }
         }
+        size = items.size
         if (search_switch.isChecked) {
             Collections.sort(items) { object1, object2 ->
                 var x1 = object1.fScrS
@@ -508,9 +516,17 @@ class SearchFragment : MvpAppCompatFragment() {
             InputMethodManager.HIDE_NOT_ALWAYS
         )
 
-    private suspend fun generatePDF() {
-//        val size = items.size
-//        var itemCounter = 0
+    private suspend fun generatePDF(size: Int) {
+        var position = (itemCounter + 1) * 12 - 1
+        if (size / 12 > itemCounter) {
+            itemCounter++
+        } else {
+            itemCounter++
+            position = size - 1
+        }
+        MainScope().launch {
+            search_recyclerView.layoutManager?.scrollToPosition(position)
+        }
         val displayMetrics = DisplayMetrics()
         activity!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
         val height = displayMetrics.heightPixels
@@ -518,22 +534,27 @@ class SearchFragment : MvpAppCompatFragment() {
         val document = PdfDocument()
         val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
         val page = document.startPage(pageInfo)
-        search_relative.draw(page.canvas)
+        search_relative_root.draw(page.canvas)
         document.finishPage(page)
         val dir = File(Environment.getExternalStorageDirectory().absolutePath + "/PregnantBase")
         if (!dir.exists()) {
             dir.mkdir()
         }
-        val targetPDF = "${dir.absolutePath}/list.pdf"
+        val targetPDF = "${dir.absolutePath}/${search_chooser.selectedItem}_${itemCounter - 1}.pdf"
         val filePath = File(targetPDF)
         try {
             val outputStream = FileOutputStream(filePath)
             document.writeTo(outputStream)
-            Toast.makeText(context, "Файл list.pdf сохранён", Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, "Файл сохранён", Toast.LENGTH_LONG).show()
+            }
         } catch (e: IOException) {
             e.printStackTrace()
-            Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show()
+            MainScope().launch {
+                Toast.makeText(context, "Ошибка", Toast.LENGTH_LONG).show()
+            }
+        } finally {
+            document.close()
         }
-        document.close()
     }
 }
