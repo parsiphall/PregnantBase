@@ -38,13 +38,5 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/maint_district"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/maint_DB_Import_Export"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Проставить участок"/>
-
 
 </RelativeLayout>

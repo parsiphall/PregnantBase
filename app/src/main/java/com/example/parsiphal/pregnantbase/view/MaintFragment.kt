@@ -44,21 +44,6 @@ class MaintFragment : MvpAppCompatFragment() {
                 importDB()
             }
         }
-
-        maint_district.setOnClickListener {
-            GlobalScope.launch {
-                setDistrict()
-            }
-        }
-    }
-
-    private suspend fun setDistrict() {
-        items = DB.getDao().getAllDataAll()
-        for (position in items) {
-            position.district = 1
-            DB.getDao().updateData(position)
-        }
-        MainScope().launch { Toast.makeText(context, "District set", Toast.LENGTH_LONG).show() }
     }
 
     private suspend fun exportDB() {

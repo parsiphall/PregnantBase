@@ -365,11 +365,12 @@ class DetailsFragment : MvpAppCompatFragment() {
                 cal.add(Calendar.DAY_OF_YEAR, 20)
                 dataModel.sScrE = cal.timeInMillis
                 cal.add(Calendar.DAY_OF_YEAR, 64)
+                dataModel.thirtyWeeks = cal.timeInMillis
+                cal.add(Calendar.DAY_OF_YEAR,14)
                 dataModel.tScrS = cal.timeInMillis
-                dataModel.thirtyWeeks = dataModel.tScrS
-                cal.add(Calendar.DAY_OF_YEAR, 28)
+                cal.add(Calendar.DAY_OF_YEAR, 20)
                 dataModel.tScrE = cal.timeInMillis
-                cal.add(Calendar.DAY_OF_YEAR, 42)
+                cal.add(Calendar.DAY_OF_YEAR, 36)
                 dataModel.fortyWeeks = cal.timeInMillis
                 dataModel.district = prefs.district
                 DB.getDao().addData(dataModel)
