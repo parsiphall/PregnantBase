@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import android.os.Environment
 import android.view.*
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 
@@ -134,6 +135,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 detail_releaseDateEdit.isEnabled = false
                 detail_babyWeightEditText.isEnabled = false
                 detail_babyHeightEditText.isEnabled = false
+                detail_todayTime.visibility = View.INVISIBLE
 
                 if (dataModel.releaseDate.length == 6) {
                     var rd = dataModel.releaseDate
@@ -172,14 +174,29 @@ class DetailsFragment : MvpAppCompatFragment() {
         detail_fScrS_TextView.text = sdf.format(dataModel.fScrS)
         detail_fScrF_TextView.text = sdf.format(dataModel.fScrE)
         detail_fScrCheck.isChecked = dataModel.fScrC
+        if (detail_fScrCheck.isChecked) {
+            if (dataModel.corr) {
+                detail_fScrCheck.text = sdf.format(dataModel.fScrDate.toLong())
+            } else {
+                detail_fScrCheck.text = dataModel.fScrDate
+            }
+        }
         detail_sScrS_TextView.text = sdf.format(dataModel.sScrS)
         detail_sScrF_TextView.text = sdf.format(dataModel.sScrE)
         detail_sScrCheck.isChecked = dataModel.sScrC
         detail_sScrCCheck.isChecked = detail_sScrCheck.isChecked
+        if (detail_sScrCheck.isChecked) {
+            detail_sScrCheck.text = dataModel.sScrDate
+            detail_sScrCCheck.text = dataModel.sScrDate
+        }
         detail_tScrS_TextView.text = sdf.format(dataModel.tScrS)
         detail_tScrF_TextView.text = sdf.format(dataModel.tScrE)
         detail_tScrCheck.isChecked = dataModel.tScrC
         detail_tScrCCheck.isChecked = detail_tScrCheck.isChecked
+        if (detail_tScrCheck.isChecked) {
+            detail_tScrCheck.text = dataModel.tScrDate
+            detail_tScrCCheck.text = dataModel.tScrDate
+        }
         detail_thirtyWeeksTextView.text = sdf.format(dataModel.thirtyWeeks)
         detail_fortyWeeksTextView.text = sdf.format(dataModel.fortyWeeks)
         detail_releaseCheckBox.isChecked = dataModel.release
@@ -194,33 +211,80 @@ class DetailsFragment : MvpAppCompatFragment() {
             detail_releaseCheckBox.setText(R.string.notRelease)
         }
 
-        detail_releaseCheckBox.setOnCheckedChangeListener { _, _ ->
-            detail_baby.visibility = View.VISIBLE
+        detail_releaseCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                detail_baby.visibility = View.GONE
+            } else if (isChecked) {
+                detail_baby.visibility = View.VISIBLE
+            }
+        }
+        if (!dataModel.corr) {
+            detail_fScrCheck.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked) {
+                    detail_fScrCheck.text = ""
+                } else if (isChecked) {
+                    datePickerDialog(detail_fScrCheck, "c")
+                }
+            }
+            detail_sScrCheck.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked) {
+                    detail_sScrCheck.text = ""
+                } else if (isChecked) {
+                    datePickerDialog(detail_sScrCheck, "c")
+                }
+            }
+            detail_tScrCheck.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked) {
+                    detail_tScrCheck.text = ""
+                } else if (isChecked) {
+                    datePickerDialog(detail_tScrCheck, "c")
+                }
+            }
+        } else {
+            detail_sScrCCheck.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked) {
+                    detail_sScrCheck.text = ""
+                    detail_sScrCCheck.text = ""
+                } else if (isChecked) {
+                    datePickerDialog(detail_sScrCCheck, "c")
+                    detail_sScrCheck.text = detail_sScrCCheck.text
+                }
+            }
+            detail_tScrCCheck.setOnCheckedChangeListener { _, isChecked ->
+                if (!isChecked) {
+                    detail_tScrCheck.text = ""
+                    detail_tScrCCheck.text = ""
+                } else if (isChecked) {
+                    datePickerDialog(detail_tScrCCheck, "c")
+                    detail_tScrCheck.text = detail_tScrCCheck.text
+                }
+            }
         }
 
         detail_birthdayEdit.setOnClickListener {
-            datePickerDialog(it as TextView)
+            datePickerDialog(it, "t")
         }
 
         detail_releaseDateEdit.setOnClickListener {
-            datePickerDialog(it as TextView)
+            datePickerDialog(it, "t")
         }
 
         detail_corrEdit.setOnClickListener {
-            datePickerDialog(it as TextView)
+            datePickerDialog(it, "t")
         }
 
         detail_pmEdit.setOnClickListener {
-            datePickerDialog(it as TextView)
+            datePickerDialog(it, "t")
         }
         detail_call.setOnClickListener {
             val callIntent = Intent(Intent.ACTION_DIAL)
             callIntent.data = Uri.parse("tel:${detail_phoneEditText.text}")
             startActivity(callIntent)
         }
+
     }
 
-    private fun dateListener(v: TextView): DatePickerDialog.OnDateSetListener =
+    private fun dateListener(v: View, t: String): DatePickerDialog.OnDateSetListener =
         DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             var myMonth = (month + 1).toString()
             var myDay = dayOfMonth.toString()
@@ -231,10 +295,14 @@ class DetailsFragment : MvpAppCompatFragment() {
                 myDay = "0$myDay"
             }
             val date = "$myDay/$myMonth/$year"
-            v.text = date
+            if (t == "t") {
+                (v as TextView).text = date
+            } else if (t == "c") {
+                (v as CheckBox).text = date
+            }
         }
 
-    private fun datePickerDialog(v: TextView) {
+    private fun datePickerDialog(v: View, t: String) {
         val cal = Calendar.getInstance()
         val year: Int
         val month: Int
@@ -250,7 +318,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         }
         DatePickerDialog(
             context!!,
-            dateListener(v),
+            dateListener(v, t),
             year,
             month,
             dayOfMonth
@@ -336,10 +404,15 @@ class DetailsFragment : MvpAppCompatFragment() {
             if (dataModel.corr) {
                 dataModel.sScrC = detail_sScrCCheck.isChecked
                 dataModel.tScrC = detail_tScrCCheck.isChecked
+                dataModel.sScrDate = detail_sScrCCheck.text.toString()
+                dataModel.tScrDate = detail_tScrCCheck.text.toString()
             } else {
                 dataModel.fScrC = detail_fScrCheck.isChecked
                 dataModel.sScrC = detail_sScrCheck.isChecked
                 dataModel.tScrC = detail_tScrCheck.isChecked
+                dataModel.fScrDate = detail_fScrCheck.text.toString()
+                dataModel.sScrDate = detail_sScrCheck.text.toString()
+                dataModel.tScrDate = detail_tScrCheck.text.toString()
             }
             DB.getDao().updateData(dataModel)
         } else {
@@ -366,7 +439,7 @@ class DetailsFragment : MvpAppCompatFragment() {
                 dataModel.sScrE = cal.timeInMillis
                 cal.add(Calendar.DAY_OF_YEAR, 64)
                 dataModel.thirtyWeeks = cal.timeInMillis
-                cal.add(Calendar.DAY_OF_YEAR,14)
+                cal.add(Calendar.DAY_OF_YEAR, 14)
                 dataModel.tScrS = cal.timeInMillis
                 cal.add(Calendar.DAY_OF_YEAR, 20)
                 dataModel.tScrE = cal.timeInMillis
@@ -481,7 +554,7 @@ class DetailsFragment : MvpAppCompatFragment() {
         )
 
     private fun calculateAge(dateOfBirth: String): String =
-        "~${((Calendar.getInstance().timeInMillis - dateOfBirth.toLong()) / 31536000000)}"
+        "${((Calendar.getInstance().timeInMillis - dateOfBirth.toLong()) / 31536000000)}"
 
 
 }

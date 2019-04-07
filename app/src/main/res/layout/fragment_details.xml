@@ -304,7 +304,7 @@
 
             <CheckBox
                 android:id="@+id/detail_fScrCheck"
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
         </LinearLayout>
@@ -347,7 +347,7 @@
 
             <CheckBox
                 android:id="@+id/detail_sScrCheck"
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
         </LinearLayout>
@@ -390,7 +390,7 @@
 
             <CheckBox
                 android:id="@+id/detail_tScrCheck"
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
         </LinearLayout>
@@ -585,7 +585,7 @@
                 android:textAlignment="center" />
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
@@ -629,7 +629,7 @@
 
             <CheckBox
                 android:id="@+id/detail_sScrCCheck"
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
         </LinearLayout>
@@ -673,7 +673,7 @@
 
             <CheckBox
                 android:id="@+id/detail_tScrCCheck"
-                android:layout_width="50dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
         </LinearLayout>
